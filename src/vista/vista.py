@@ -1,7 +1,9 @@
 from src.controlador.librerias import *
 from src.controlador.subMenu import Submenu
 from src.controlador.tabla import Tabla
+from src.controlador.c_parametros import ControladorParametros
 from src.modelo.lecturaFichero import FicheroCsv
+from src.vista.vistaParametros import VistaParametros
 
 
 class Vista(Frame):
@@ -16,6 +18,7 @@ class Vista(Frame):
         self.app.title("Aplicacion prueba")
         #self.attributes("-fullscreen", True)
         self.app['bg']='#333333'
+        self.app.minsize(670, 500)
         self.app.tk.call("source", "./src/vista/azure.tcl")
         self.app.tk.call("set_theme", "dark")
 
@@ -27,6 +30,10 @@ class Vista(Frame):
 
         # Submenu Ver 
         Submenu(self.barraMenu, "Ver", [("Modelos aviones", self.verModelosAviones), ("Vuelos", self.verVuelos), ("Planificacion", "")])
+
+        # Submenu Planificar 
+        Submenu(self.barraMenu, "Planificar", [("Parámetros", self.introParametros)])
+
 
         self.app.config(menu=self.barraMenu)
 
@@ -41,3 +48,12 @@ class Vista(Frame):
 
         fichero = FicheroCsv("./ACE.csv")
         Tabla(self, "Planificación vuelos", fichero, fichero.getFilas(), fichero.getColumnas(), self.winfo_height(), self.winfo_width())
+
+    
+    def introParametros(self):
+        
+        vista_parametros = VistaParametros(
+            self, "Selector de parámetros")
+
+        controlador = ControladorParametros(vista_parametros)
+        vista_parametros.set_controlador(controlador)
