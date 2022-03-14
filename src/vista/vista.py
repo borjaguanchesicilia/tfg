@@ -1,9 +1,9 @@
 from src.controlador.librerias import *
-from src.controlador.subMenu import Submenu
-from src.controlador.tabla import Tabla
+from src.vista.v_sub_menu import Submenu
+from src.vista.v_tabla import Tabla
 from src.controlador.c_parametros import ControladorParametros
-from src.modelo.lecturaFichero import FicheroCsv
-from src.vista.vistaParametros import VistaParametros
+from src.controlador.c_lectura_fichero import FicheroCsv
+from src.vista.v_parametros import VistaParametros
 
 
 class Vista(Frame):

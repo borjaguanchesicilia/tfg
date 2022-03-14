@@ -1,5 +1,5 @@
 from src.controlador.librerias import *
-from src.controlador.scroll import *
+from src.vista.v_scroll import *
  
  
 class Tabla:

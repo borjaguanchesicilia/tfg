@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(1, './')
 #sys.path.insert(1, '/home/borja/Desktop/tfg/proyecto')
-from src.modelo.lecturaFichero import *
+from src.controlador.c_lectura_fichero import *
 
 fichero = FicheroCsv("./ficheros/aviones.csv")
 
