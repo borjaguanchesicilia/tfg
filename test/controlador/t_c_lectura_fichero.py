@@ -6,21 +6,21 @@ from src.controlador.c_lectura_fichero import *
 fichero = FicheroCsv("./ficheros/aviones.csv")
 
 
-def testGetFilas():
+def test_get_filas():
 
-    assert fichero.getFilas() == 38
-
-
-def testGetColumnas():
-
-    assert fichero.getColumnas() == 3
+    assert fichero.get_filas() == 38
 
 
-def testGetCabecera():
+def test_get_columnas():
 
-    assert fichero.getCabecera(1) == 'asientos'
+    assert fichero.get_columnas() == 3
 
 
-def testGetElemento():
+def test_get_cabecera():
 
-    assert fichero.getElemento('asientos', 1) == 180
+    assert fichero.get_cabecera(1) == 'asientos'
+
+
+def test_get_elemento():
+
+    assert fichero.get_elemento('asientos', 1) == 180

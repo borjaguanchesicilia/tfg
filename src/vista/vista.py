@@ -23,31 +23,45 @@ class Vista(Frame):
         self.app.tk.call("set_theme", "dark")
 
         # Creación del menu
-        self.barraMenu = Menu(self)
+        self.barra_menu = Menu(self)
 
         # Submenu Archivo    
-        Submenu(self.barraMenu, "Archivo", [("Abrir", ""), ("Guardar como", ""), ("Minimizar", self.app.iconify), ("Salir", self.app.destroy)])
+        Submenu(
+            self.barra_menu, "Archivo", [("Abrir", ""),
+            ("Guardar como", ""), ("Minimizar", self.app.iconify),
+            ("Salir", self.app.destroy)])
 
         # Submenu Ver 
-        Submenu(self.barraMenu, "Ver", [("Modelos aviones", self.verModelosAviones), ("Vuelos", self.verVuelos), ("Planificacion", "")])
+        Submenu(
+            self.barra_menu, "Ver",
+            [("Modelos aviones", self.verModelosAviones),
+            ("Vuelos", self.verVuelos), ("Planificacion", "")])
 
         # Submenu Planificar 
-        Submenu(self.barraMenu, "Planificar", [("Parámetros", self.introParametros)])
+        Submenu(
+            self.barra_menu, "Planificar",
+            [("Parámetros", self.introParametros)])
 
 
-        self.app.config(menu=self.barraMenu)
+        self.app.config(menu= self.barra_menu)
 
 
     def verModelosAviones(self):
 
         fichero = FicheroCsv("./aviones.csv")
-        Tabla(self, "Modelos de aviones", fichero, fichero.getFilas(), fichero.getColumnas(), self.app.winfo_height(), self.app.winfo_width())
+        Tabla(
+            self, "Modelos de aviones", fichero, fichero.getFilas(),
+            fichero.getColumnas(), self.app.winfo_height(),
+            self.app.winfo_width())
 
     
     def verVuelos(self):
 
         fichero = FicheroCsv("./ACE.csv")
-        Tabla(self, "Planificación vuelos", fichero, fichero.getFilas(), fichero.getColumnas(), self.winfo_height(), self.winfo_width())
+        Tabla(
+            self, "Planificación vuelos", fichero, fichero.getFilas(),
+            fichero.getColumnas(), self.winfo_height(),
+            self.winfo_width())
 
     
     def introParametros(self):
