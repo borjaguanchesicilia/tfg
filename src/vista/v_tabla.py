@@ -87,12 +87,12 @@ class Tabla:
 
         for i in range(self.__filas):
             for j in range(self.__columnas):
-                cabecera = self.__fichero.getCabecera(j)
+                cabecera = self.__fichero.get_cabecera(j)
                 if i == 0:
                     self.__celdas[i][j].insert(0, cabecera)
                 else:
                     self.__celdas[i][j].insert(
-                        0, self.__fichero.getElemento(cabecera, i))
+                        0, self.__fichero.get_elemento(cabecera, i))
 
 
     def limpiar(self):

@@ -34,37 +34,37 @@ class Vista(Frame):
         # Submenu Ver 
         Submenu(
             self.barra_menu, "Ver",
-            [("Modelos aviones", self.verModelosAviones),
-            ("Vuelos", self.verVuelos), ("Planificacion", "")])
+            [("Modelos aviones", self.ver_modelos_aviones),
+            ("Vuelos", self.ver_vuelos), ("Planificacion", "")])
 
         # Submenu Planificar 
         Submenu(
             self.barra_menu, "Planificar",
-            [("Parámetros", self.introParametros)])
+            [("Parámetros", self.intro_parametros)])
 
 
         self.app.config(menu= self.barra_menu)
 
 
-    def verModelosAviones(self):
+    def ver_modelos_aviones(self):
 
-        fichero = FicheroCsv("./aviones.csv")
+        fichero = FicheroCsv("./ficheros/aviones.csv")
         Tabla(
-            self, "Modelos de aviones", fichero, fichero.getFilas(),
-            fichero.getColumnas(), self.app.winfo_height(),
+            self, "Modelos de aviones", fichero, fichero.get_filas(),
+            fichero.get_columnas(), self.app.winfo_height(),
             self.app.winfo_width())
 
     
-    def verVuelos(self):
+    def ver_vuelos(self):
 
         fichero = FicheroCsv("./ACE.csv")
         Tabla(
-            self, "Planificación vuelos", fichero, fichero.getFilas(),
-            fichero.getColumnas(), self.winfo_height(),
+            self, "Planificación vuelos", fichero, fichero.get_filas(),
+            fichero.get_columnas(), self.winfo_height(),
             self.winfo_width())
 
     
-    def introParametros(self):
+    def intro_parametros(self):
         
         vista_parametros = VistaParametros(
             self, "Selector de parámetros")
