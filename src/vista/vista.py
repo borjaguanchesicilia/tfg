@@ -57,7 +57,7 @@ class Vista(Frame):
     
     def ver_vuelos(self):
 
-        fichero = FicheroCsv("./ACE.csv")
+        fichero = FicheroCsv("./ficheros/ACE.csv")
         Tabla(
             self, "Planificación vuelos", fichero, fichero.get_filas(),
             fichero.get_columnas(), self.winfo_height(),
