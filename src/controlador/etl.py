@@ -1,3 +1,4 @@
+import numpy as np
 from src.controlador.librerias import *
 
 
@@ -15,7 +16,7 @@ class Etl:
 
     def separar_dias_semana(self):
 
-        self.__df_inicio = self.__df_inicio.assign(dia_sem_sep="a")
+        self.__df_inicio = self.__df_inicio.assign(dia_sem_sep="")
 
         for i in range(len(self.__df_inicio)):
             diasI = str(self.__df_inicio["Dia_semana"][i])
@@ -47,7 +48,7 @@ class Etl:
         self.df = self.df.assign(codigo="")
         self.df = self.df.assign(opera_desde="")
         self.df = self.df.assign(opera_hasta="")
-        self.df = self.df.assign(hora_Salida="")
+        self.df = self.df.assign(hora_salida="")
         self.df = self.df.assign(aeronave="")
         self.df = self.df.assign(pais="")
         self.df = self.df.assign(opera_desde="")
@@ -74,7 +75,7 @@ class Etl:
             ] = self.__df_inicio["Opera_hasta"][i]
 
             self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "hora_Salida"
+                (self.df.Num_vuelo == num_vuelo), "hora_salida"
             ] = self.__df_inicio["Hora_Salida"][i]
 
             self.df.loc[

@@ -30,22 +30,22 @@ class ControladorEtl:
             try:
                 etl.eliminacion_columnas()
             except:
-                print()
+                print("ERROR: Al eliminar columnas innecesarias")
             else:
                 try:
                     etl.separar_dias_semana()
                 except:
-                    print()
+                    print("ERROR: Al separar días de la semana")
                 else:
                     try:
                         etl.adicionar_columnas()
                     except:
-                        print()
+                        print("ERROR: Al adicionar nuevas columnas")
                     else:
                         try:
                             etl.cambiar_nombres_regiones()
                         except:
-                            print()
+                            print("ERROR: Al cambiar nombres de regiones")
                         else:
                             pass
 

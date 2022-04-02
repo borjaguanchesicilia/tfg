@@ -13,7 +13,7 @@ class VistaParametros:
 
         self.__ventana_planificar = Toplevel(app)
 
-        # Aspecto de la ventana 'Planificar'
+        # Aspecto de la ventana "Planificar"
         self.__ventana_planificar.title("Menú planificación")
         self.__ventana_planificar.geometry("1200x500")
         self.__ventana_planificar["bg"] = "#333333"
@@ -95,10 +95,10 @@ class VistaParametros:
             1,
         )
 
-        # Boton 'Introducir fichero'
+        # Boton "Introducir fichero"
         self.__b_fichero = Boton(
             self.__f_config,
-            "Introducir fichero",
+            "Introducir fichero GESLOT",
             self.introducir_fichero,
             7,
             0,

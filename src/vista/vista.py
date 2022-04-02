@@ -16,7 +16,7 @@ class Vista(Frame):
         # Aspecto de la aplicación
         self.app.geometry("1200x500")
         self.app.title("Planificación FRONTUR-CANARIAS")
-        # self.attributes('-fullscreen', True)
+        # self.attributes("-fullscreen", True)
         self.app["bg"] = "#333333"
         self.app.minsize(1070, 500)
 
@@ -48,43 +48,43 @@ class Vista(Frame):
             labelanchor="n",
         )
 
-        # Etiqueta 'Paso 1'
+        # Etiqueta "Paso 1"
         self.__etiqueta_paso_1 = Etiqueta(self.__f_menu, "Paso 1:", 0, 0)
 
-        # Botón 'Introducir parámetros'
+        # Botón "Introducir parámetros"
         self.__boton_parametros = Boton(
             self.__f_menu, "Introducir parámetros", self.vista_parametros, 0, 2
         )
 
-        # Etiqueta 'Paso 2'
+        # Etiqueta "Paso 2"
         self.__etiqueta_paso_2 = Etiqueta(self.__f_menu, "Paso 2:", 1, 0)
 
-        # Botón 'ETL'
+        # Botón "ETL"
         self.__boton_parametros = Boton(
             self.__f_menu, "ETL", self.vista_etl, 1, 2
         )
 
-        # Etiqueta 'Paso 3'
+        # Etiqueta "Paso 3"
         self.__etiqueta_paso_3 = Etiqueta(self.__f_menu, "Paso 3:", 2, 0)
 
-        # Botón 'Planificar'
+        # Botón "Planificar"
         self.__boton_parametros = Boton(
             self.__f_menu, "Planificar", self.vista_planificar, 2, 2
         )
 
         # Botones ocultos
 
-        # Botón 'Ver parámetros'
+        # Botón "Ver parámetros"
         self.__boton_ver_parametros = Boton(
             self.__f_menu, "Ver parámetros", self.vista_ver_parametros, 0, 4
         )
 
-        # Botón 'Ver fichero'
+        # Botón "Ver fichero"
         self.__boton_ver_dataframes = Boton(
             self.__f_menu, "Ver dataframes", self.vista_ver_dataframes, 1, 4
         )
 
-        # Botón 'Ver planificación'
+        # Botón "Ver planificación"
         self.__boton_ver_planificacion = Boton(
             self.__f_menu,
             "Ver planificación",
@@ -103,20 +103,20 @@ class Vista(Frame):
         self.__f_pie = Frame(self.app)
         self.__f_pie.config(bg="#333333")
 
-        # Botón 'Ayuda'
+        # Botón "Ayuda"
         self.__boton_ayuda = Button(
             self.__f_pie, text="Ayuda", command=self.ayuda
         )
 
-        # Botón 'Ayuda'
+        # Botón "Ayuda"
         self.__boton_resetear = Boton(self.__f_pie, "Ayuda", self.ayuda, 0, 0)
 
-        # Botón 'Ver planificaciones'
+        # Botón "Ver planificaciones"
         self.__boton_resetear = Boton(
             self.__f_pie, "Ver planificaciones", self.ver_planificaciones, 0, 2
         )
 
-        # Botón 'Resetear'
+        # Botón "Resetear"
         self.__boton_resetear = Boton(
             self.__f_pie, "Resetear", self.resetear, 0, 4
         )
