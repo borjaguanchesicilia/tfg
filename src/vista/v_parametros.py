@@ -1,4 +1,4 @@
-from src.controlador.c_etl import ControladorEtl
+from src.controlador.c_lectura_fichero import FicheroCsv
 from src.controlador.librerias import *
 from src.vista.componentes.boton import Boton
 from src.vista.componentes.etiqueta import Etiqueta
@@ -95,17 +95,31 @@ class VistaParametros:
             1,
         )
 
-        # Boton "Introducir fichero"
-        self.__b_fichero = Boton(
+        # Introducir fichero GESLOT
+        self.__e_fichero_vue = Etiqueta(self.__f_config, "", 8, 0)
+
+        self.__b_fichero_vue = Boton(
             self.__f_config,
             "Introducir fichero GESLOT",
-            self.introducir_fichero,
+            partial(self.introducir_fic_vue, self.__e_fichero_vue),
             7,
             0,
             15,
         )
 
-        self.__e_fichero = Etiqueta(self.__f_config, "Fichero:", 8, 0)
+        # Introducir fichero aviones
+        self.__e_fichero_avi = Etiqueta(self.__f_config, "", 10, 0)
+
+        self.__b_fichero_avi = Boton(
+            self.__f_config,
+            "Introducir fichero aviones",
+            partial(self.introducir_fic_avi, self.__e_fichero_avi),
+            9,
+            0,
+            15,
+        )
+
+        self.__e_dias = Etiqueta(self.__f_config, "", 11, 0, 8)
 
         self.__f_config.pack(padx=60, side=LEFT)
 
@@ -133,19 +147,31 @@ class VistaParametros:
             sticky=S + N + E + W,
         )
 
-        # Boton introducir parametros
-        self.__boton_ayuda = Boton(
+        # Boton introducir día
+        self.__boton__intro_dia = Boton(
             self.__f_calendario,
-            "Introducir parámetros",
-            self.introducir_parametros,
+            "Introducir día",
+            self.introducir_dia,
             1,
             0,
             20,
         )
 
+        self.__dias = []
+
         # Boton ayuda
         self.__boton_ayuda = Boton(
             self.__f_calendario, "Ayuda", self.ayuda, 2, 0
+        )
+
+        # Boton introducir parametros
+        self.__boton__intro_par = Boton(
+            self.__f_calendario,
+            "Introducir parámetros",
+            self.introducir_parametros,
+            3,
+            0,
+            20,
         )
 
         self.__f_calendario.pack(padx=20, side=LEFT)
@@ -155,43 +181,70 @@ class VistaParametros:
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
-    def introducir_fichero(self):
-        controlador = ControladorEtl(self)
-        self.set_controlador(controlador)
+    def introducir_fic_vue(self, etiqueta):
+        self.__fic_vue = FicheroCsv(self, etiqueta)
+
+    def introducir_fic_avi(self, etiqueta):
+        self.__fic_avi = FicheroCsv(self, etiqueta)
+
+    def introducir_dia(self):
+        fecha = str(self.__calendario.get_date()).split("-")
+        """fecha = datetime.combine(
+            date(
+                int(fecha[0]),
+                int(fecha[1]),
+                int(fecha[2]),  # Año  # Mes
+            ),  # Día
+            datetime.min.time(),
+        )"""
+        fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
+        if len(self.__dias) == 0:
+            self.__dias.append("Días:")
+
+        self.__dias.append(fecha)
+
+        if len(self.__dias) < 10:
+            self.__e_dias.set_texto(self.__dias)
+            self.__ventana_planificar.update()
+
+    def introducir_parametros(self):
+        if self.__controlador != None:
+            try:
+                test = self.get_fic_vue()
+            except:
+                showerror("ERROR", "Falta introducir el fichero GESLOT")
+            else:
+                try:
+                    test = self.get_fic_avi()
+                except:
+                    showerror(
+                        "ERROR", "Falta introducir el fichero de aviones"
+                    )
+                else:
+                    try:
+                        assert len(self.__dias) > 0
+                    except:
+                        showerror("ERROR", "Debe introducir al menos 1 día")
+                    else:
+                        self.__controlador.guardar_parametros(
+                            self.get_dias(),
+                            self.get_jornada_laboral(),
+                            self.get_descanso(),
+                            self.get_velocidad(),
+                            self.get_ocupacion(),
+                            self.get_exito(),
+                            self.get_fic_vue(),
+                            self.get_fic_avi(),
+                        )
+
+                        self.__ventana_planificar.destroy()
+                        del self
 
     def ayuda(self):
         pass
 
-    def introducir_parametros(self):
-        if self.__controlador != None:
-            self.__controlador.guardar_parametros(
-                self.get_semana(),
-                self.get_jornada_laboral(),
-                self.get_descanso(),
-                self.get_velocidad(),
-                self.get_ocupacion(),
-                self.get_exito(),
-            )
-
-    def get_semana(self):
-
-        semana = ""
-        fecha_ini = str(self.__calendario.get_date()).split("-")
-        fecha_ini = datetime.combine(
-            date(
-                int(fecha_ini[0]),
-                int(fecha_ini[1]),
-                int(fecha_ini[2]),  # Año  # Mes
-            ),  # Día
-            datetime.min.time(),
-        )
-
-        for i in range(0, 7):
-            fecha_aux = fecha_ini + timedelta(days=i)
-            fecha_formateada = fecha_aux.strftime("%d/%m/%Y")
-            semana += str(fecha_formateada) + " \n"
-
-        return semana[:-1]
+    def get_dias(self):
+        return self.__dias
 
     def get_jornada_laboral(self):
         return self.__jornada_laboral.get_valor_selector()
@@ -208,6 +261,12 @@ class VistaParametros:
     def get_exito(self):
         return self.__exito.get_valor_selector()
 
-    def set_etiqueta_fichero(self, nombre_fichero):
-        self.__e_fichero.set_texto(nombre_fichero)
+    def get_fic_vue(self):
+        return self.__fic_vue.get_nombre_fichero()
+
+    def get_fic_avi(self):
+        return self.__fic_avi.get_nombre_fichero()
+
+    def set_etiqueta_fichero(self, nombre_fichero, etiqueta):
+        etiqueta.set_texto("Fichero: " + nombre_fichero)
         self.__ventana_planificar.update()

@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from functools import partial
 import os
 import pandas as pd
 from tkinter import filedialog
