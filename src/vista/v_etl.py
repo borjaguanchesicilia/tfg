@@ -8,16 +8,16 @@ class VistaEtl:
 
         self.__controlador = None
 
-        ventana_etl = Toplevel(app)
+        self.__ventana_etl = Toplevel(app)
 
         # Aspecto de la ventana "Etl"
-        ventana_etl.title("Menú ETL")
-        ventana_etl.geometry("1200x500")
-        ventana_etl["bg"] = "#333333"
-        ventana_etl.minsize(1100, 500)
+        self.__ventana_etl.title("Menú ETL")
+        self.__ventana_etl.geometry("1200x500")
+        self.__ventana_etl["bg"] = "#333333"
+        self.__ventana_etl.minsize(1100, 500)
 
         # Etiqueta cabecera
-        cabecera = Frame(ventana_etl)
+        cabecera = Frame(self.__ventana_etl)
         cabecera.config(bg="#333333")
 
         titulo = Label(cabecera, text="Menú de ETL")
@@ -31,33 +31,35 @@ class VistaEtl:
         cabecera.pack(padx=10, pady=20)
 
         # Etiqueta cabecera
-        f_seleccion = Frame(ventana_etl)
+        f_seleccion = Frame(self.__ventana_etl)
         f_seleccion.config(bg="#333333")
 
-        e_f_seleccion = Label(
-            f_seleccion,
-            text="Seleccione sobre que aeropuerto o aeropuertos quiere planificar:",
-        )
-
-        e_f_seleccion.config(
-            font=("Adobe Caslon Pro", 15, "bold"), fg="#FFFFFF", bg="#333333"
-        )
-
-        e_f_seleccion.grid(
-            pady=5,
-            padx=5,
-            row=0,
-            column=0,
-            columnspan=2,
-            sticky=S + N + E + W,
-        )
-
-        self.__checklist_aer = ChecklistBox(f_seleccion)
-
-        self.__checklist_aer.grid(padx=5, pady=5, row=1, column=0)
-
         boton_planificar = Boton(
-            f_seleccion, "Aplicar ETL", self.aplicar_etl, 1, 1
+            f_seleccion, "Aplicar ETL", self.aplicar_etl, 0, 1
+        )
+
+        # Introducir fichero GESLOT
+        self.__e_fichero_vue = Etiqueta(f_seleccion, "", 1, 0)
+
+        self.__b_fichero_vue = Boton(
+            f_seleccion,
+            "Introducir fichero GESLOT",
+            partial(self.introducir_fic_vue, self.__e_fichero_vue),
+            7,
+            0,
+            15,
+        )
+
+        # Introducir fichero aviones
+        self.__e_fichero_avi = Etiqueta(f_seleccion, "", 3, 0)
+
+        self.__b_fichero_avi = Boton(
+            f_seleccion,
+            "Introducir fichero aviones",
+            partial(self.introducir_fic_avi, self.__e_fichero_avi),
+            9,
+            0,
+            15,
         )
 
         f_seleccion.pack(padx=10, pady=20)
@@ -65,10 +67,24 @@ class VistaEtl:
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
+    def introducir_fic_vue(self, etiqueta):
+        self.__fic_vue = FicheroCsv(self.__ventana_etl, etiqueta)
+
+    def introducir_fic_avi(self, etiqueta):
+        self.__fic_avi = FicheroCsv(self.__ventana_etl, etiqueta)
+
     def aplicar_etl(self):
         if self.__controlador != None:
-            lista_aeropuertos = self.__checklist_aer.get_aeropuertos()
-            if len(lista_aeropuertos) == 0:
-                showerror("ERROR", "Debe seleccionar al menos un aeropuerto")
+            try:
+                test = self.get_fic_vue()
+            except:
+                showerror("ERROR", "Falta introducir el fichero GESLOT", parent=self.__ventana_parametros)
             else:
-                self.__controlador.aplicar_etl(lista_aeropuertos)
+                try:
+                    test = self.get_fic_avi()
+                except:
+                    showerror(
+                        "ERROR", "Falta introducir el fichero de aviones", parent=self.__ventana_parametros
+                    )
+                else:
+                    self.__controlador.aplicar_etl()

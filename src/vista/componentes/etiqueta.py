@@ -15,7 +15,7 @@ class Etiqueta:
             padx=5,
             row=fila,
             column=columna,
-            columnspan=2,
+            columnspan=1,
             sticky=S + N + E + W,
         )
 

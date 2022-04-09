@@ -4,6 +4,7 @@ from src.vista.componentes.boton import Boton
 from src.vista.componentes.etiqueta import Etiqueta
 from src.vista.componentes.parametro import ParametroModelo
 from src.vista.v_parametros import *
+from src.vista.componentes.check_list import ChecklistBox
 
 
 class VistaParametros:
@@ -18,6 +19,7 @@ class VistaParametros:
         self.__ventana_parametros.geometry("1200x500")
         self.__ventana_parametros["bg"] = "#333333"
         self.__ventana_parametros.minsize(1100, 500)
+        self.__ventana_parametros.attributes("-topmost", 1)
 
         # Etiqueta cabecera
         cabecera = Frame(self.__ventana_parametros)
@@ -80,7 +82,7 @@ class VistaParametros:
         )
 
         self.__ocupacion = ParametroModelo(
-            self.__f_config, "Ocupación (en %):", 3, 0, 0.1, 1, 0.05, 3, 1
+            self.__f_config, "Ocupación (en %):", 3, 0, 10, 100, 5, 3, 1
         )
 
         self.__exito = ParametroModelo(
@@ -88,38 +90,20 @@ class VistaParametros:
             "Éxito (en %):",
             4,
             0,
-            0.1,
-            1,
-            0.05,
+            10,
+            100,
+            5,
             4,
             1,
         )
 
-        # Introducir fichero GESLOT
-        self.__e_fichero_vue = Etiqueta(self.__f_config, "", 8, 0)
+        self.__e_checklist = Etiqueta(self.__f_config, "Aerpuertos:", 5, 0)
 
-        self.__b_fichero_vue = Boton(
-            self.__f_config,
-            "Introducir fichero GESLOT",
-            partial(self.introducir_fic_vue, self.__e_fichero_vue),
-            7,
-            0,
-            15,
-        )
+        self.__checklist_aer = ChecklistBox(self.__f_config)
 
-        # Introducir fichero aviones
-        self.__e_fichero_avi = Etiqueta(self.__f_config, "", 10, 0)
+        self.__checklist_aer.grid(padx=5, pady=5, row=6, column=0)
 
-        self.__b_fichero_avi = Boton(
-            self.__f_config,
-            "Introducir fichero aviones",
-            partial(self.introducir_fic_avi, self.__e_fichero_avi),
-            9,
-            0,
-            15,
-        )
-
-        self.__e_dias = Etiqueta(self.__f_config, "", 11, 0, 8)
+        self.__e_dias = Etiqueta(self.__f_config, "", 7, 0, 8)
 
         self.__f_config.pack(padx=60, side=LEFT)
 
@@ -181,12 +165,6 @@ class VistaParametros:
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
-    def introducir_fic_vue(self, etiqueta):
-        self.__fic_vue = FicheroCsv(self.__ventana_parametros, etiqueta)
-
-    def introducir_fic_avi(self, etiqueta):
-        self.__fic_avi = FicheroCsv(self.__ventana_parametros, etiqueta)
-
     def introducir_dia(self):
         fecha = str(self.__calendario.get_date()).split("-")
         fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
@@ -202,36 +180,31 @@ class VistaParametros:
 
     def introducir_parametros(self):
         if self.__controlador != None:
+            
             try:
-                test = self.get_fic_vue()
+                assert len(self.__dias) > 0
             except:
-                showerror("ERROR", "Falta introducir el fichero GESLOT")
+                showerror("ERROR", "Debe introducir al menos 1 día", parent=self.__ventana_parametros)
             else:
                 try:
-                    test = self.get_fic_avi()
+                    lista_aeropuertos = self.__checklist_aer.get_aeropuertos()
+                    assert len(lista_aeropuertos) == 0
                 except:
-                    showerror(
-                        "ERROR", "Falta introducir el fichero de aviones"
-                    )
+                    showerror("ERROR", "Debe seleccionar al menos un aeropuerto", parent=self.__ventana_parametros)
                 else:
-                    try:
-                        assert len(self.__dias) > 0
-                    except:
-                        showerror("ERROR", "Debe introducir al menos 1 día")
-                    else:
-                        self.__controlador.guardar_parametros(
-                            self.get_dias(),
-                            self.get_jornada_laboral(),
-                            self.get_descanso(),
-                            self.get_velocidad(),
-                            self.get_ocupacion(),
-                            self.get_exito(),
-                            self.get_fic_vue(),
-                            self.get_fic_avi(),
-                        )
+                    self.__controlador.guardar_parametros(
+                        self.get_dias(),
+                        self.get_jornada_laboral(),
+                        self.get_descanso(),
+                        self.get_velocidad(),
+                        self.get_ocupacion(),
+                        self.get_exito(),
+                        self.get_fic_vue(),
+                        self.get_fic_avi(),
+                    )
 
-                        self.__ventana_parametros.destroy()
-                        del self
+                    self.__ventana_parametros.destroy()
+                    del self
 
     def ayuda(self):
         pass

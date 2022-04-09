@@ -6,12 +6,12 @@ class ChecklistBox(Frame):
         Frame.__init__(self, vista)
 
         aeropuertos = [
-            "Arrecife",
-            "Fuerteventura",
-            "Gran Canaria",
-            "Tenerife Norte",
-            "Tenerife Sur",
-            "La Palma",
+            "  Arrecife",
+            "  Fuerteventura",
+            "  Gran Canaria",
+            "  Tenerife Norte",
+            "  Tenerife Sur",
+            "  La Palma",
         ]
         self.__variables = []
 
@@ -26,10 +26,11 @@ class ChecklistBox(Frame):
                 offvalue="",
                 anchor="w",
                 width=20,
-                fg="#333333",
-                bg="#FFFFFF",
                 relief="flat",
                 highlightthickness=0,
+            )
+            check_box.config(
+            font=("Adobe Caslon Pro", 8, "bold"), fg="#FFFFFF", bg="#333333", selectcolor="#333333"
             )
             check_box.pack(side="top", fill="x", anchor="w")
 
@@ -38,6 +39,6 @@ class ChecklistBox(Frame):
         for variable in self.__variables:
             aeropuerto = variable.get()
             if aeropuerto != "":
-                aeropuertos.append(aeropuerto)
+                aeropuertos.append(aeropuerto.replace("  ", ""))
 
         return aeropuertos
