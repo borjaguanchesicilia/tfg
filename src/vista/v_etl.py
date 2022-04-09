@@ -1,5 +1,6 @@
 from src.controlador.librerias import *
 from src.vista.v_parametros import *
+from src.vista.componentes.check_list import ChecklistBox
 
 
 class VistaEtl:
@@ -29,58 +30,45 @@ class VistaEtl:
 
         cabecera.pack(padx=10, pady=20)
 
-        """# Texto informátivo
-        f_texto_info = Frame(ventana_etl)
-        f_texto_info.config(bg="#333333")
+        # Etiqueta cabecera
+        f_seleccion = Frame(ventana_etl)
+        f_seleccion.config(bg="#333333")
 
-        texto_info = Text(f_texto_info)
-
-        texto_info.insert(END, "Se espera que se "
-            "introduzca un fichero GESLOT proporcionado por AENA. "
-            "A dicho fichero se le aplicará un ETL (), y como "
-            "resultado se obtendrá un dataframe por cada aeropuerto "
-            "de manera que se podrá proceder a modificar algunos de "
-            "los datos o bien proceder a introducir los parámetros de "
-            "configuración para el modelo.")
-
-        texto_info.config(font=("Adobe Caslon Pro", 10), fg="#FFFFFF",
-            bg="#333333")
-
-        texto_info.pack()
-        
-        
-        f_texto_info.pack(padx=10, pady=20)"""
-
-        # Botón "Planificar"
-        frame_botones = Frame(ventana_etl)
-        frame_botones.config(bg="#333333")
-
-        boton_planificar = Button(
-            frame_botones, text="Introducir fichero de vuelos"
+        e_f_seleccion = Label(
+            f_seleccion,
+            text="Seleccione sobre que aeropuerto o aeropuertos quiere planificar:",
         )
 
-        boton_planificar.config(
-            font=("Adobe Caslon Pro", 15, "bold"),
-            fg="#FFFFFF",
-            bg="#333333",
-            command=self.aplicar_etl,
+        e_f_seleccion.config(
+            font=("Adobe Caslon Pro", 15, "bold"), fg="#FFFFFF", bg="#333333"
         )
 
-        boton_planificar.grid(
-            pady=30,
-            padx=10,
+        e_f_seleccion.grid(
+            pady=5,
+            padx=5,
             row=0,
             column=0,
             columnspan=2,
             sticky=S + N + E + W,
         )
 
-        frame_botones.pack(padx=10, pady=20)
+        self.__checklist_aer = ChecklistBox(f_seleccion)
+
+        self.__checklist_aer.grid(padx=5, pady=5, row=1, column=0)
+
+        boton_planificar = Boton(
+            f_seleccion, "Aplicar ETL", self.aplicar_etl, 1, 1
+        )
+
+        f_seleccion.pack(padx=10, pady=20)
 
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
     def aplicar_etl(self):
-        print("Aplicar ETL")
         if self.__controlador != None:
-            self.__controlador.etl()
+            lista_aeropuertos = self.__checklist_aer.get_aeropuertos()
+            if len(lista_aeropuertos) == 0:
+                showerror("ERROR", "Debe seleccionar al menos un aeropuerto")
+            else:
+                self.__controlador.aplicar_etl(lista_aeropuertos)

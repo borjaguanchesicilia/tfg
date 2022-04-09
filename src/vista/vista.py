@@ -125,11 +125,15 @@ class Vista(Frame):
 
     def vista_parametros(self):
         vista_parametros = VistaParametros(self.app)
-        controlador = ControladorParametros(vista_parametros)
-        vista_parametros.set_controlador(controlador)
+        self.controlador_parametros = ControladorParametros(vista_parametros)
+        vista_parametros.set_controlador(self.controlador_parametros)
 
     def vista_etl(self):
-        pass
+        vista_etl = VistaEtl(self.app)
+        controlador_etl = ControladorEtl(
+            vista_etl, self.controlador_parametros
+        )
+        vista_etl.set_controlador(controlador_etl)
 
     def vista_planificar(self):
         # Ejecutar modelo

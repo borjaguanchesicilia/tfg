@@ -11,16 +11,16 @@ class VistaParametros:
 
         self.__controlador = None
 
-        self.__ventana_planificar = Toplevel(app)
+        self.__ventana_parametros = Toplevel(app)
 
         # Aspecto de la ventana "Planificar"
-        self.__ventana_planificar.title("Menú planificación")
-        self.__ventana_planificar.geometry("1200x500")
-        self.__ventana_planificar["bg"] = "#333333"
-        self.__ventana_planificar.minsize(1100, 500)
+        self.__ventana_parametros.title("Menú planificación")
+        self.__ventana_parametros.geometry("1200x500")
+        self.__ventana_parametros["bg"] = "#333333"
+        self.__ventana_parametros.minsize(1100, 500)
 
         # Etiqueta cabecera
-        cabecera = Frame(self.__ventana_planificar)
+        cabecera = Frame(self.__ventana_parametros)
         cabecera.config(bg="#333333")
 
         titulo = Label(
@@ -36,7 +36,7 @@ class VistaParametros:
         cabecera.pack(padx=10, pady=20)
 
         # Parametros
-        self.__f_parametros = Frame(self.__ventana_planificar)
+        self.__f_parametros = Frame(self.__ventana_parametros)
         self.__f_parametros.config(bg="#333333")
 
         # Parametros de configuracion
@@ -182,22 +182,15 @@ class VistaParametros:
         self.__controlador = controlador
 
     def introducir_fic_vue(self, etiqueta):
-        self.__fic_vue = FicheroCsv(self, etiqueta)
+        self.__fic_vue = FicheroCsv(self.__ventana_parametros, etiqueta)
 
     def introducir_fic_avi(self, etiqueta):
-        self.__fic_avi = FicheroCsv(self, etiqueta)
+        self.__fic_avi = FicheroCsv(self.__ventana_parametros, etiqueta)
 
     def introducir_dia(self):
         fecha = str(self.__calendario.get_date()).split("-")
-        """fecha = datetime.combine(
-            date(
-                int(fecha[0]),
-                int(fecha[1]),
-                int(fecha[2]),  # Año  # Mes
-            ),  # Día
-            datetime.min.time(),
-        )"""
         fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
+
         if len(self.__dias) == 0:
             self.__dias.append("Días:")
 
@@ -205,7 +198,7 @@ class VistaParametros:
 
         if len(self.__dias) < 10:
             self.__e_dias.set_texto(self.__dias)
-            self.__ventana_planificar.update()
+            self.__ventana_parametros.update()
 
     def introducir_parametros(self):
         if self.__controlador != None:
@@ -237,7 +230,7 @@ class VistaParametros:
                             self.get_fic_avi(),
                         )
 
-                        self.__ventana_planificar.destroy()
+                        self.__ventana_parametros.destroy()
                         del self
 
     def ayuda(self):
@@ -262,11 +255,11 @@ class VistaParametros:
         return self.__exito.get_valor_selector()
 
     def get_fic_vue(self):
-        return self.__fic_vue.get_nombre_fichero()
+        return self.__fic_vue.get_df()
 
     def get_fic_avi(self):
-        return self.__fic_avi.get_nombre_fichero()
+        return self.__fic_avi.get_df()
 
     def set_etiqueta_fichero(self, nombre_fichero, etiqueta):
         etiqueta.set_texto("Fichero: " + nombre_fichero)
-        self.__ventana_planificar.update()
+        self.__ventana_parametros.update()

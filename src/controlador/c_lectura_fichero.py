@@ -32,6 +32,9 @@ class FicheroCsv:
     def get_nombre_fichero(self):
         return self.__nombre_fichero
 
+    def get_df(self):
+        return self.__df
+
     def get_filas(self):
         return self.__filas
 
