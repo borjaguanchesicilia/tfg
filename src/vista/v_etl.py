@@ -16,7 +16,7 @@ class VistaEtl(Toplevel):
         self.geometry("1200x500")
         self["bg"] = "#333333"
         self.minsize(1100, 500)
-        self.attributes('-topmost',True)
+        self.attributes("-topmost", True)
 
         # Etiqueta cabecera
         cabecera = Frame(self)
@@ -89,11 +89,19 @@ class VistaEtl(Toplevel):
             try:
                 test = self.get_fic_vue()
             except:
-                showerror("ERROR", "Falta introducir el fichero GESLOT", parent=self)
+                showerror(
+                    "ERROR", "Falta introducir el fichero GESLOT", parent=self
+                )
             else:
                 try:
                     test = self.get_fic_avi()
                 except:
-                    showerror("ERROR", "Falta introducir el fichero de aviones", parent=self)
+                    showerror(
+                        "ERROR",
+                        "Falta introducir el fichero de aviones",
+                        parent=self,
+                    )
                 else:
-                    self.__controlador.aplicar_etl(self.get_fic_vue(), self.get_fic_avi())
+                    self.__controlador.aplicar_etl(
+                        self.get_fic_vue(), self.get_fic_avi()
+                    )

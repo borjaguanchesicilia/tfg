@@ -30,7 +30,10 @@ class ChecklistBox(Frame):
                 highlightthickness=0,
             )
             check_box.config(
-            font=("Adobe Caslon Pro", 8, "bold"), fg="#FFFFFF", bg="#333333", selectcolor="#333333"
+                font=("Adobe Caslon Pro", 8, "bold"),
+                fg="#FFFFFF",
+                bg="#333333",
+                selectcolor="#333333",
             )
             check_box.pack(side="top", fill="x", anchor="w")
 

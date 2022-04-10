@@ -16,7 +16,7 @@ class VistaParametros(Toplevel):
 
         self.__controlador = None
 
-        #self = Toplevel(app)
+        # self = Toplevel(app)
 
         self.__vista_dias = VistaDias(self)
 
@@ -170,20 +170,25 @@ class VistaParametros(Toplevel):
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
-
     def introducir_parametros(self):
         if self.__controlador != None:
-            
+
             try:
                 assert len(self.get_dias()) > 0
             except:
-                showerror("ERROR", "Debe introducir al menos 1 día", parent=self)
+                showerror(
+                    "ERROR", "Debe introducir al menos 1 día", parent=self
+                )
             else:
                 try:
                     # No se ha seleccionado ningún aeropuerto
                     assert len(self.get_aeropuertos()) > 0
                 except:
-                    showerror("ERROR", "Debe seleccionar al menos un aeropuerto", parent=self)
+                    showerror(
+                        "ERROR",
+                        "Debe seleccionar al menos un aeropuerto",
+                        parent=self,
+                    )
                 else:
                     self.__controlador.guardar_parametros(
                         self.get_dias(),
@@ -192,7 +197,7 @@ class VistaParametros(Toplevel):
                         self.get_velocidad(),
                         self.get_ocupacion(),
                         self.get_exito(),
-                        self.get_aeropuertos()
+                        self.get_aeropuertos(),
                     )
 
                     self.destroy()

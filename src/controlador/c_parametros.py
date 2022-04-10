@@ -12,7 +12,14 @@ class ControladorParametros:
         self.__aeropuertos = []
 
     def guardar_parametros(
-        self, semana, jornada, descanso, velocidad, ocupacion, exito, aeropuertos
+        self,
+        semana,
+        jornada,
+        descanso,
+        velocidad,
+        ocupacion,
+        exito,
+        aeropuertos,
     ):
         self.__semana = semana[1:]
         self.__jornada = jornada

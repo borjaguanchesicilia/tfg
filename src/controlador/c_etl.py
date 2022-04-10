@@ -36,7 +36,9 @@ class ControladorEtl:
             "Tenerife Sur": "TFS",
             "La Palma": "SPC",
         }
-        lista_aeropuertos = [conversor_aeropuertos[aer] for aer in self.__aeropuertos]
+        lista_aeropuertos = [
+            conversor_aeropuertos[aer] for aer in self.__aeropuertos
+        ]
 
         try:
             etl.eliminacion_columnas()

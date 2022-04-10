@@ -16,7 +16,9 @@ class ParametroDia:
         self.__etiqueta = Etiqueta(self.frame, self.__dia, self.__fila, 0)
 
         # Atributo Boton
-        self.__boton = Boton(self.frame, "X", self.borrar_dia, self.__fila, 1, 5)
+        self.__boton = Boton(
+            self.frame, "X", self.borrar_dia, self.__fila, 1, 5
+        )
 
         self.frame.pack()
 

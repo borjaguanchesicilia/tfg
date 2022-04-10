@@ -2,7 +2,9 @@ from src.controlador.librerias import *
 
 
 class Boton:
-    def __init__(self, frame, texto, accion, fila, columna, pady=15, columnspan=2):
+    def __init__(
+        self, frame, texto, accion, fila, columna, pady=15, columnspan=2
+    ):
 
         self.__boton = Button(frame, text=texto, command=accion)
 
@@ -30,6 +32,11 @@ class Boton:
 
     def set_fila(self, fila):
         self.__boton.grid(
-            pady=5, padx=10, row=fila, column=1, columnspan=2, sticky=S + N + E + W
+            pady=5,
+            padx=10,
+            row=fila,
+            column=1,
+            columnspan=2,
+            sticky=S + N + E + W,
         )
         self.__fila = fila

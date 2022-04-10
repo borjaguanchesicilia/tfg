@@ -24,7 +24,7 @@ class VistaDias:
 
         # Configuración de la ventana "Días"
         self.__ventana_dias.protocol("WM_DELETE_WINDOW", self.descativar)
-        self.__ventana_dias.attributes('-topmost',True)
+        self.__ventana_dias.attributes("-topmost", True)
 
         self.__scroll_bar = ScrollBar(self.__ventana_dias)
         self.__scroll_bar.pack()
@@ -39,7 +39,9 @@ class VistaDias:
         fecha = self.__vista_parametros.obtener_dia()
         fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
         self.__lista_dias.append(
-            ParametroDia(self.get_scroll_bar(), self, fecha, self.get_tam_lista_dias())
+            ParametroDia(
+                self.get_scroll_bar(), self, fecha, self.get_tam_lista_dias()
+            )
         )
 
     def borrar_dia(self, objeto):
@@ -52,7 +54,12 @@ class VistaDias:
 
         lista_aux = self.__lista_dias
         self.__lista_dias = []
-        self.__lista_dias = [ParametroDia(self.get_scroll_bar(), self, i.get_dia(), i.get_fila()) for i in lista_aux]
+        self.__lista_dias = [
+            ParametroDia(
+                self.get_scroll_bar(), self, i.get_dia(), i.get_fila()
+            )
+            for i in lista_aux
+        ]
 
     def get_scroll_bar(self):
         return self.__scroll_bar.get_frame_scroll()

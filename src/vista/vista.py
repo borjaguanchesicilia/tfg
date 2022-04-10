@@ -60,9 +60,7 @@ class Vista(Frame):
         self.__etiqueta_paso_2 = Etiqueta(self.__f_menu, "Paso 2:", 1, 0)
 
         # Botón "ETL"
-        self.boton_etl = Boton(
-            self.__f_menu, "ETL", self.vista_etl, 1, 2
-        )
+        self.boton_etl = Boton(self.__f_menu, "ETL", self.vista_etl, 1, 2)
 
         # Etiqueta "Paso 3"
         self.__etiqueta_paso_3 = Etiqueta(self.__f_menu, "Paso 3:", 2, 0)
@@ -118,18 +116,20 @@ class Vista(Frame):
         self.boton_planificar.desactivar_boton()
         self.boton_ver_planificacion.desactivar_boton()
         self.boton_resetear.desactivar_boton()
-        
 
         self.__f_pie.pack(padx=10, pady=20)
 
     def vista_parametros(self):
         vista_parametros = VistaParametros(self.app)
-        self.controlador_parametros = ControladorParametros(self, vista_parametros)
+        self.controlador_parametros = ControladorParametros(
+            self, vista_parametros
+        )
         vista_parametros.set_controlador(self.controlador_parametros)
 
     def vista_etl(self):
         vista_etl = VistaEtl(self.app)
-        controlador_etl = ControladorEtl(self, vista_etl, self.controlador_parametros
+        controlador_etl = ControladorEtl(
+            self, vista_etl, self.controlador_parametros
         )
         vista_etl.set_controlador(controlador_etl)
 

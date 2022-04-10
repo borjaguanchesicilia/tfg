@@ -11,14 +11,20 @@ class FicheroCsv:
         ruta = str(os.path.dirname(os.path.abspath(__file__)))
         self.__ruta_fichero = str(
             filedialog.askopenfilename(
-                initialdir=ruta, title="Abrir fichero vuelos", parent=self.__v_parametros
+                initialdir=ruta,
+                title="Abrir fichero vuelos",
+                parent=self.__v_parametros,
             )
         )
 
         try:
-            assert self.__ruta_fichero != '()'
+            assert self.__ruta_fichero != "()"
         except:
-            showerror("ERROR", "Debe seleccionar un fichero", parent=self.__v_parametros)
+            showerror(
+                "ERROR",
+                "Debe seleccionar un fichero",
+                parent=self.__v_parametros,
+            )
         else:
             self.__nombre_fichero = obtener_nombre(self.__ruta_fichero)
 
@@ -26,7 +32,11 @@ class FicheroCsv:
                 if ".csv" not in self.__nombre_fichero:
                     raise NameError()
             except:
-                showerror("ERROR", "El fichero no es .csv", parent=self.__v_parametros)
+                showerror(
+                    "ERROR",
+                    "El fichero no es .csv",
+                    parent=self.__v_parametros,
+                )
             else:
                 self.__df = pd.read_csv(self.__ruta_fichero, sep=";")
                 self.cambiar_nombre_etiqueta()
