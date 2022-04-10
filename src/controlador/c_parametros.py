@@ -1,6 +1,7 @@
 class ControladorParametros:
-    def __init__(self, vista):
+    def __init__(self, vista, vista_parametros):
         self.__vista = vista
+        self.__vista_parametros = vista_parametros
 
         self.__semana = ""
         self.__jornada = 0
@@ -20,6 +21,10 @@ class ControladorParametros:
         self.__ocupacion = ocupacion
         self.__exito = exito
         self.__aeropuertos = aeropuertos
+
+        self.__vista.boton_parametros.desactivar_boton()
+        self.__vista.boton_ver_parametros.activar_boton()
+        self.__vista.boton_etl.activar_boton()
 
     def get_semana(self):
         return self.__semana

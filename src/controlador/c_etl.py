@@ -5,9 +5,10 @@ from src.controlador.funciones_aux import obtener_nombre
 
 
 class ControladorEtl:
-    def __init__(self, vista, controlador_parametros):
+    def __init__(self, vista, vista_parametros, controlador_parametros):
 
         self.__vista = vista
+        self.__vista_parametros = vista_parametros
 
         self.__semana = controlador_parametros.get_semana()
         self.__aeropuertos = controlador_parametros.get_aeropuertos()
@@ -21,9 +22,6 @@ class ControladorEtl:
         return self.__df_avi
 
     def aplicar_etl(self, df_vuelos, df_aviones):
-
-        """self.__df_vue = controlador_parametros.get_df_vuelos()
-        self.__df_avi = controlador_parametros.get_df_aviones()"""
 
         self.__df_vue = df_vuelos
         self.__df_avi = df_aviones
@@ -80,4 +78,7 @@ class ControladorEtl:
                                     except:
                                         print("ERROR: Al dividir")
                                     else:
-                                        pass
+                                        self.__vista_parametros.destroy()
+                                        self.__vista.boton_etl.desactivar_boton()
+                                        self.__vista.boton_ver_dataframes.activar_boton()
+                                        self.__vista.boton_planificar.activar_boton()

@@ -11,23 +11,28 @@ class FicheroCsv:
         ruta = str(os.path.dirname(os.path.abspath(__file__)))
         self.__ruta_fichero = str(
             filedialog.askopenfilename(
-                initialdir=ruta, title="Abrir fichero vuelos"
+                initialdir=ruta, title="Abrir fichero vuelos", parent=self.__v_parametros
             )
         )
 
-        self.__nombre_fichero = obtener_nombre(self.__ruta_fichero)
-
         try:
-            if ".csv" not in self.__nombre_fichero:
-                raise NameError()
+            assert self.__ruta_fichero != '()'
         except:
-            print(showerror("ERROR", "El fichero no es .csv"))
+            showerror("ERROR", "Debe seleccionar un fichero", parent=self.__v_parametros)
         else:
-            self.__df = pd.read_csv(self.__ruta_fichero, sep=";")
-            self.cambiar_nombre_etiqueta()
-            self.__filas = len(self.__df.axes[0])
-            self.__columnas = len(self.__df.axes[1])
-            self.__cabeceras = list(self.__df.columns)
+            self.__nombre_fichero = obtener_nombre(self.__ruta_fichero)
+
+            try:
+                if ".csv" not in self.__nombre_fichero:
+                    raise NameError()
+            except:
+                showerror("ERROR", "El fichero no es .csv", parent=self.__v_parametros)
+            else:
+                self.__df = pd.read_csv(self.__ruta_fichero, sep=";")
+                self.cambiar_nombre_etiqueta()
+                self.__filas = len(self.__df.axes[0])
+                self.__columnas = len(self.__df.axes[1])
+                self.__cabeceras = list(self.__df.columns)
 
     def get_nombre_fichero(self):
         return self.__nombre_fichero

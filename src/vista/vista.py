@@ -52,7 +52,7 @@ class Vista(Frame):
         self.__etiqueta_paso_1 = Etiqueta(self.__f_menu, "Paso 1:", 0, 0)
 
         # Botón "Introducir parámetros"
-        self.__boton_parametros = Boton(
+        self.boton_parametros = Boton(
             self.__f_menu, "Introducir parámetros", self.vista_parametros, 0, 2
         )
 
@@ -60,7 +60,7 @@ class Vista(Frame):
         self.__etiqueta_paso_2 = Etiqueta(self.__f_menu, "Paso 2:", 1, 0)
 
         # Botón "ETL"
-        self.__boton_parametros = Boton(
+        self.boton_etl = Boton(
             self.__f_menu, "ETL", self.vista_etl, 1, 2
         )
 
@@ -68,34 +68,30 @@ class Vista(Frame):
         self.__etiqueta_paso_3 = Etiqueta(self.__f_menu, "Paso 3:", 2, 0)
 
         # Botón "Planificar"
-        self.__boton_parametros = Boton(
+        self.boton_planificar = Boton(
             self.__f_menu, "Planificar", self.vista_planificar, 2, 2
         )
 
         # Botones ocultos
 
         # Botón "Ver parámetros"
-        self.__boton_ver_parametros = Boton(
+        self.boton_ver_parametros = Boton(
             self.__f_menu, "Ver parámetros", self.vista_ver_parametros, 0, 4
         )
 
         # Botón "Ver fichero"
-        self.__boton_ver_dataframes = Boton(
+        self.boton_ver_dataframes = Boton(
             self.__f_menu, "Ver dataframes", self.vista_ver_dataframes, 1, 4
         )
 
         # Botón "Ver planificación"
-        self.__boton_ver_planificacion = Boton(
+        self.boton_ver_planificacion = Boton(
             self.__f_menu,
             "Ver planificación",
             self.vista_ver_planificacion,
             2,
             4,
         )
-
-        self.__boton_ver_parametros.desactivar_boton()
-        self.__boton_ver_dataframes.desactivar_boton()
-        self.__boton_ver_planificacion.desactivar_boton()
 
         self.__f_menu.pack(padx=10, pady=20)
 
@@ -104,34 +100,36 @@ class Vista(Frame):
         self.__f_pie.config(bg="#333333")
 
         # Botón "Ayuda"
-        self.__boton_ayuda = Button(
-            self.__f_pie, text="Ayuda", command=self.ayuda
-        )
-
-        # Botón "Ayuda"
-        self.__boton_resetear = Boton(self.__f_pie, "Ayuda", self.ayuda, 0, 0)
+        self.boton_ayuda = Boton(self.__f_pie, "Ayuda", self.ayuda, 0, 0)
 
         # Botón "Ver planificaciones"
-        self.__boton_resetear = Boton(
+        self.boton_ver_planificaciones = Boton(
             self.__f_pie, "Ver planificaciones", self.ver_planificaciones, 0, 2
         )
 
         # Botón "Resetear"
-        self.__boton_resetear = Boton(
+        self.boton_resetear = Boton(
             self.__f_pie, "Resetear", self.resetear, 0, 4
         )
+
+        self.boton_ver_parametros.desactivar_boton()
+        self.boton_etl.desactivar_boton()
+        self.boton_ver_dataframes.desactivar_boton()
+        self.boton_planificar.desactivar_boton()
+        self.boton_ver_planificacion.desactivar_boton()
+        self.boton_resetear.desactivar_boton()
+        
 
         self.__f_pie.pack(padx=10, pady=20)
 
     def vista_parametros(self):
         vista_parametros = VistaParametros(self.app)
-        self.controlador_parametros = ControladorParametros(vista_parametros)
+        self.controlador_parametros = ControladorParametros(self, vista_parametros)
         vista_parametros.set_controlador(self.controlador_parametros)
 
     def vista_etl(self):
         vista_etl = VistaEtl(self.app)
-        controlador_etl = ControladorEtl(
-            vista_etl, self.controlador_parametros
+        controlador_etl = ControladorEtl(self, vista_etl, self.controlador_parametros
         )
         vista_etl.set_controlador(controlador_etl)
 
