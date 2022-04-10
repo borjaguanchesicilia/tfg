@@ -5,10 +5,10 @@ from src.controlador.funciones_aux import obtener_nombre
 
 
 class ControladorEtl:
-    def __init__(self, vista, vista_parametros, controlador_parametros):
+    def __init__(self, vista, vista_etl, controlador_parametros):
 
         self.__vista = vista
-        self.__vista_parametros = vista_parametros
+        self.__vista_etl = vista_etl
 
         self.__semana = controlador_parametros.get_semana()
         self.__aeropuertos = controlador_parametros.get_aeropuertos()
@@ -43,42 +43,72 @@ class ControladorEtl:
         try:
             etl.eliminacion_columnas()
         except:
-            print("ERROR: Al eliminar columnas innecesarias")
+            showerror(
+                "ERROR",
+                "Al eliminar columnas innecesarias",
+                parent=self.__vista_etl,
+            )
         else:
             try:
                 etl.cambio_formato_dias(self.__semana)
             except:
-                print("ERROR: Al cambiar formato días")
+                showerror(
+                    "ERROR", "Al cambiar formato días", parent=self.__vista_etl
+                )
             else:
                 try:
                     etl.separar_dias_semana()
                 except:
-                    print("ERROR: Al separar días de la semana")
+                    showerror(
+                        "ERROR",
+                        "Al separar días de la semana",
+                        parent=self.__vista_etl,
+                    )
                 else:
                     try:
                         etl.adicionar_columnas()
                     except:
-                        print("ERROR: Al adicionar nuevas columnas")
+                        showerror(
+                            "ERROR",
+                            "Al adicionar nuevas columnas",
+                            parent=self.__vista_etl,
+                        )
                     else:
                         try:
                             etl.cambiar_nombres_regiones()
                         except:
-                            print("ERROR: Al cambiar nombres de regiones")
+                            showerror(
+                                "ERROR",
+                                "Al cambiar nombres de regiones",
+                                parent=self.__vista_etl,
+                            )
                         else:
                             try:
                                 etl.cambiar_dias_num()
                             except:
-                                print("ERROR: Al cambiar de días a números")
+                                showerror(
+                                    "ERROR",
+                                    "Al cambiar de días a números",
+                                    parent=self.__vista_etl,
+                                )
                             else:
                                 try:
                                     etl.convertir_dias()
                                 except:
-                                    print("ERROR: Al contar los días")
+                                    showerror(
+                                        "ERROR",
+                                        "Al contar los días",
+                                        parent=self.__vista_etl,
+                                    )
                                 else:
                                     try:
                                         etl.dividir(lista_aeropuertos)
                                     except:
-                                        print("ERROR: Al dividir")
+                                        showerror(
+                                            "ERROR",
+                                            "Al dividir",
+                                            parent=self.__vista_etl,
+                                        )
                                     else:
                                         self.__vista_parametros.destroy()
                                         self.__vista.boton_etl.desactivar_boton()
