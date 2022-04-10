@@ -73,6 +73,16 @@ class VistaEtl:
     def introducir_fic_avi(self, etiqueta):
         self.__fic_avi = FicheroCsv(self.__ventana_etl, etiqueta)
 
+    def get_fic_vue(self):
+        return self.__fic_vue.get_df()
+
+    def get_fic_avi(self):
+        return self.__fic_avi.get_df()
+
+    def set_etiqueta_fichero(self, nombre_fichero, etiqueta):
+        etiqueta.set_texto("Fichero: " + nombre_fichero)
+        self.__ventana_parametros.update()
+
     def aplicar_etl(self):
         if self.__controlador != None:
             try:

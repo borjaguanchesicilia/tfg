@@ -10,26 +10,23 @@ class ControladorEtl:
         self.__vista = vista
 
         self.__semana = controlador_parametros.get_semana()
-        self.__jornada = controlador_parametros.get_jornada()
-        self.__descanso = controlador_parametros.get_descanso()
-        self.__velocidad = controlador_parametros.get_velocidad()
-        self.__ocupacion = controlador_parametros.get_ocupacion()
-        self.__exito = controlador_parametros.get_exito()
-        self.__df_vue = controlador_parametros.get_df_vuelos()
-        self.__df_avi = controlador_parametros.get_df_aviones()
+        self.__aeropuertos = controlador_parametros.get_aeropuertos()
+        self.__df_vue = None
+        self.__df_avi = None
 
-        print(
-            self.__semana,
-            self.__jornada,
-            self.__descanso,
-            self.__velocidad,
-            self.__ocupacion,
-            self.__exito,
-            self.__df_vue,
-            self.__df_avi,
-        )
+    def get_df_vuelos(self):
+        return self.__df_vue
 
-    def aplicar_etl(self, aeropuertos):
+    def get_df_aviones(self):
+        return self.__df_avi
+
+    def aplicar_etl(self, df_vuelos, df_aviones):
+
+        """self.__df_vue = controlador_parametros.get_df_vuelos()
+        self.__df_avi = controlador_parametros.get_df_aviones()"""
+
+        self.__df_vue = df_vuelos
+        self.__df_avi = df_aviones
 
         etl = Etl(self.__df_vue)
 
@@ -41,7 +38,7 @@ class ControladorEtl:
             "Tenerife Sur": "TFS",
             "La Palma": "SPC",
         }
-        lista_aeropuertos = [conversor_aeropuertos[aer] for aer in aeropuertos]
+        lista_aeropuertos = [conversor_aeropuertos[aer] for aer in self.__aeropuertos]
 
         try:
             etl.eliminacion_columnas()

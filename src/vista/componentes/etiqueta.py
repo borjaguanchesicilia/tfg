@@ -21,3 +21,14 @@ class Etiqueta:
 
     def set_texto(self, texto):
         self.__etiqueta.config(text=texto)
+
+    def set_fila(self, fila):
+        self.__etiqueta.grid(
+            pady=5,
+            padx=5,
+            row=fila,
+            column=0,
+            columnspan=1,
+            sticky=S + N + E + W,
+        )
+        self.__fila = fila

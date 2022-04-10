@@ -1,23 +1,27 @@
 from src.controlador.librerias import *
 
 
-class ScrollableFrame(ttk.Frame):
-    def __init__(self, container, alto, ancho):
-        super().__init__(container)
-        canvas = Canvas(self)
-        scrollbar = ttk.Scrollbar(
-            self, orient="vertical", command=canvas.yview
-        )
-        self.scrollable_frame = ttk.Frame(canvas)
+class ScrollBar(Frame):
+    def __init__(self, ventana):
+        super().__init__(ventana)
 
-        self.scrollable_frame.bind(
+        self.__canvas = Canvas(self)
+        self.__scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.__canvas.yview)
+        self.__frame_scroll = ttk.Frame(self.__canvas)
+
+        self.__frame_scroll.bind(
             "<Configure>",
-            lambda e: canvas.configure(scrollregion=canvas.bbox("all")),
+            lambda e: self.__canvas.configure(scrollregion=self.__canvas.bbox("all")),
         )
 
-        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.__canvas.create_window((0, 0), window=self.__frame_scroll, anchor="nw")
 
-        canvas.configure(yscrollcommand=scrollbar.set, height=alto - 10)
+        self.__canvas.configure(yscrollcommand=self.__scrollbar.set)
 
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
+        self.__canvas.pack(side="left", fill="both")
+
+        self.__scrollbar.pack(side="right", fill="y")
+
+
+    def get_frame_scroll(self):
+        return self.__frame_scroll

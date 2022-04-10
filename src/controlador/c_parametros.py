@@ -8,11 +8,10 @@ class ControladorParametros:
         self.__velocidad = 0
         self.__ocupacion = 0
         self.__exito = 0
-        self.__df_vue = ""
-        self.__df_avi = ""
+        self.__aeropuertos = []
 
     def guardar_parametros(
-        self, semana, jornada, descanso, velocidad, ocupacion, exito, vue, avi
+        self, semana, jornada, descanso, velocidad, ocupacion, exito, aeropuertos
     ):
         self.__semana = semana[1:]
         self.__jornada = jornada
@@ -20,8 +19,7 @@ class ControladorParametros:
         self.__velocidad = velocidad
         self.__ocupacion = ocupacion
         self.__exito = exito
-        self.__df_vue = vue
-        self.__df_avi = avi
+        self.__aeropuertos = aeropuertos
 
     def get_semana(self):
         return self.__semana
@@ -41,8 +39,5 @@ class ControladorParametros:
     def get_exito(self):
         return self.__exito
 
-    def get_df_vuelos(self):
-        return self.__df_vue
-
-    def get_df_aviones(self):
-        return self.__df_avi
+    def get_aeropuertos(self):
+        return self.__aeropuertos

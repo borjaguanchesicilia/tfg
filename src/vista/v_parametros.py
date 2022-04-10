@@ -5,24 +5,29 @@ from src.vista.componentes.etiqueta import Etiqueta
 from src.vista.componentes.parametro import ParametroModelo
 from src.vista.v_parametros import *
 from src.vista.componentes.check_list import ChecklistBox
+from src.vista.v_dias import VistaDias
 
 
-class VistaParametros:
+class VistaParametros(Toplevel):
     def __init__(self, app):
+        super().__init__(app)
+
+        self.app = app
 
         self.__controlador = None
 
-        self.__ventana_parametros = Toplevel(app)
+        #self = Toplevel(app)
+
+        self.__vista_dias = VistaDias(self)
 
         # Aspecto de la ventana "Planificar"
-        self.__ventana_parametros.title("Menú planificación")
-        self.__ventana_parametros.geometry("1200x500")
-        self.__ventana_parametros["bg"] = "#333333"
-        self.__ventana_parametros.minsize(1100, 500)
-        self.__ventana_parametros.attributes("-topmost", 1)
+        self.title("Menú planificación")
+        self.geometry("1200x500")
+        self["bg"] = "#333333"
+        self.minsize(1100, 500)
 
         # Etiqueta cabecera
-        cabecera = Frame(self.__ventana_parametros)
+        cabecera = Frame(self)
         cabecera.config(bg="#333333")
 
         titulo = Label(
@@ -38,7 +43,7 @@ class VistaParametros:
         cabecera.pack(padx=10, pady=20)
 
         # Parametros
-        self.__f_parametros = Frame(self.__ventana_parametros)
+        self.__f_parametros = Frame(self)
         self.__f_parametros.config(bg="#333333")
 
         # Parametros de configuracion
@@ -135,7 +140,7 @@ class VistaParametros:
         self.__boton__intro_dia = Boton(
             self.__f_calendario,
             "Introducir día",
-            self.introducir_dia,
+            self.__vista_dias.introducir_dia,
             1,
             0,
             20,
@@ -165,32 +170,20 @@ class VistaParametros:
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
-    def introducir_dia(self):
-        fecha = str(self.__calendario.get_date()).split("-")
-        fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
-
-        if len(self.__dias) == 0:
-            self.__dias.append("Días:")
-
-        self.__dias.append(fecha)
-
-        if len(self.__dias) < 10:
-            self.__e_dias.set_texto(self.__dias)
-            self.__ventana_parametros.update()
 
     def introducir_parametros(self):
         if self.__controlador != None:
             
             try:
-                assert len(self.__dias) > 0
+                assert len(self.get_dias()) > 0
             except:
-                showerror("ERROR", "Debe introducir al menos 1 día", parent=self.__ventana_parametros)
+                showerror("ERROR", "Debe introducir al menos 1 día", parent=self)
             else:
                 try:
-                    lista_aeropuertos = self.__checklist_aer.get_aeropuertos()
-                    assert len(lista_aeropuertos) == 0
+                    # No se ha seleccionado ningún aeropuerto
+                    assert len(self.get_aeropuertos()) > 0
                 except:
-                    showerror("ERROR", "Debe seleccionar al menos un aeropuerto", parent=self.__ventana_parametros)
+                    showerror("ERROR", "Debe seleccionar al menos un aeropuerto", parent=self)
                 else:
                     self.__controlador.guardar_parametros(
                         self.get_dias(),
@@ -199,17 +192,21 @@ class VistaParametros:
                         self.get_velocidad(),
                         self.get_ocupacion(),
                         self.get_exito(),
-                        self.get_fic_vue(),
-                        self.get_fic_avi(),
+                        self.get_aeropuertos()
                     )
 
-                    self.__ventana_parametros.destroy()
+                    self.destroy()
                     del self
+
+    def obtener_dia(self):
+        return str(self.__calendario.get_date()).split("-")
 
     def ayuda(self):
         pass
 
     def get_dias(self):
+        self.__dias = []
+        self.__dias = [dia.get_dia() for dia in self.__vista_dias.get_lista()]
         return self.__dias
 
     def get_jornada_laboral(self):
@@ -227,12 +224,5 @@ class VistaParametros:
     def get_exito(self):
         return self.__exito.get_valor_selector()
 
-    def get_fic_vue(self):
-        return self.__fic_vue.get_df()
-
-    def get_fic_avi(self):
-        return self.__fic_avi.get_df()
-
-    def set_etiqueta_fichero(self, nombre_fichero, etiqueta):
-        etiqueta.set_texto("Fichero: " + nombre_fichero)
-        self.__ventana_parametros.update()
+    def get_aeropuertos(self):
+        return self.__checklist_aer.get_aeropuertos()
