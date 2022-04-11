@@ -1,4 +1,3 @@
-from src.controlador.c_lectura_fichero import FicheroCsv
 from src.controlador.librerias import *
 from src.vista.componentes.boton import Boton
 from src.vista.componentes.etiqueta import Etiqueta

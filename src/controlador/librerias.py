@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from functools import partial
 import os
+import numpy as np
 import pandas as pd
 from tkinter import filedialog
 from tkinter.messagebox import showerror

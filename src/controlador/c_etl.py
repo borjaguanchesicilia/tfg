@@ -1,4 +1,3 @@
-import sys
 from src.controlador.librerias import *
 from src.controlador.etl import *
 from src.controlador.funciones_aux import obtener_nombre

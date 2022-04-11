@@ -1,5 +1,3 @@
-from enum import Flag
-import numpy as np
 from src.controlador.librerias import *
 
 
