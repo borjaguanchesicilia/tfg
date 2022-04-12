@@ -5,7 +5,7 @@ class ScrollBar(Frame):
     def __init__(self, ventana):
         super().__init__(ventana)
 
-        self.__canvas = Canvas(self)
+        self.__canvas = Canvas(self, height=200, width=190)
         self.__scrollbar = ttk.Scrollbar(
             self, orient="vertical", command=self.__canvas.yview
         )

@@ -4,7 +4,8 @@ from src.vista.componentes.etiqueta import Etiqueta
 from src.vista.componentes.parametro import ParametroModelo
 from src.vista.v_parametros import *
 from src.vista.componentes.check_list import ChecklistBox
-from src.vista.v_dias import VistaDias
+from src.vista.componentes.scroll import ScrollBar
+from src.vista.componentes.parametro_dia import ParametroDia
 
 
 class VistaParametros(Toplevel):
@@ -16,8 +17,6 @@ class VistaParametros(Toplevel):
         self.__controlador = None
 
         # self = Toplevel(app)
-
-        self.__vista_dias = VistaDias(self)
 
         # Aspecto de la ventana "Planificar"
         self.title("Menú planificación")
@@ -107,7 +106,7 @@ class VistaParametros(Toplevel):
 
         self.__checklist_aer.grid(padx=5, pady=5, row=6, column=0)
 
-        self.__e_dias = Etiqueta(self.__f_config, "", 7, 0, 8)
+        self.__dias = []
 
         self.__f_config.pack(padx=60, side=LEFT)
 
@@ -139,13 +138,11 @@ class VistaParametros(Toplevel):
         self.__boton__intro_dia = Boton(
             self.__f_calendario,
             "Introducir día",
-            self.__vista_dias.introducir_dia,
+            self.introducir_dia,
             1,
             0,
             20,
         )
-
-        self.__dias = []
 
         # Boton ayuda
         self.__boton_ayuda = Boton(
@@ -202,15 +199,52 @@ class VistaParametros(Toplevel):
                     self.destroy()
                     del self
 
+    def set_frame_dias(self):
+        self.__f_dias = Frame(self.__f_config)
+        self.__f_dias.grid(padx=5, pady=5, row=6, column=1)
+        self.__scroll_bar = ScrollBar(self.__f_dias)
+        self.__scroll_bar.pack()
+
+    def get_scroll_bar(self):
+        return self.__scroll_bar.get_frame_scroll()
+
     def obtener_dia(self):
         return str(self.__calendario.get_date()).split("-")
+
+    def introducir_dia(self):
+        if len(self.get_dias()) == 0:
+            self.set_frame_dias()
+        fecha = self.obtener_dia()
+        fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
+        self.__dias.append(
+            ParametroDia(
+                self.get_scroll_bar(), self, fecha, len(self.__dias)
+            )
+        )
+
+    def borrar_dia(self, objeto):
+        self.__dias.remove(objeto)
+
+        [i.actualizar_fila() for i in self.__dias]
+
+        self.__f_dias.destroy()
+
+        if self.__dias != []:
+            self.set_frame_dias()
+
+            lista_aux = self.__dias
+            self.__dias = []
+            self.__dias = [
+                ParametroDia(
+                    self.get_scroll_bar(), self, i.get_dia(), i.get_fila()
+                )
+                for i in lista_aux
+            ]
 
     def ayuda(self):
         pass
 
     def get_dias(self):
-        self.__dias = []
-        self.__dias = [dia.get_dia() for dia in self.__vista_dias.get_lista()]
         return self.__dias
 
     def get_jornada_laboral(self):

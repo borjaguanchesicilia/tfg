@@ -4,12 +4,12 @@ from src.vista.componentes.etiqueta import Etiqueta
 
 
 class ParametroDia:
-    def __init__(self, vista, ventana_dias, dia, fila):
+    def __init__(self, scroll_frame, vista_parametros, dia, fila):
 
-        self.frame = Frame(vista)
+        self.frame = Frame(scroll_frame)
 
         self.__dia = dia
-        self.__ventana_dias = ventana_dias
+        self.__vista_parametros = vista_parametros
         self.__fila = fila
 
         # Atributo etiqueta
@@ -35,4 +35,4 @@ class ParametroDia:
         return self.__fila
 
     def borrar_dia(self):
-        self.__ventana_dias.borrar_dia(self)
+        self.__vista_parametros.borrar_dia(self)
