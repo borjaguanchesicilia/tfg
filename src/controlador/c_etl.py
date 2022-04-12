@@ -109,7 +109,7 @@ class ControladorEtl:
                                             parent=self.__vista_etl,
                                         )
                                     else:
-                                        self.__vista_parametros.destroy()
+                                        self.__vista_etl.destroy()
                                         self.__vista.boton_etl.desactivar_boton()
                                         self.__vista.boton_ver_dataframes.activar_boton()
                                         self.__vista.boton_planificar.activar_boton()
