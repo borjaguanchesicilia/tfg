@@ -215,9 +215,7 @@ class VistaParametros(Toplevel):
         fecha = self.obtener_dia()
         fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
         self.__dias.append(
-            ParametroDia(
-                self.get_scroll_bar(), self, fecha, len(self.__dias)
-            )
+            ParametroDia(self.get_scroll_bar(), self, fecha, len(self.__dias))
         )
 
     def borrar_dia(self, objeto):
