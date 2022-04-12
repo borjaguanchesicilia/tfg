@@ -16,8 +16,6 @@ class VistaParametros(Toplevel):
 
         self.__controlador = None
 
-        # self = Toplevel(app)
-
         # Aspecto de la ventana "Planificar"
         self.title("Menú planificación")
         self.geometry("1200x500")
@@ -170,7 +168,7 @@ class VistaParametros(Toplevel):
         if self.__controlador != None:
 
             try:
-                assert len(self.get_dias()) > 0
+                assert self.get_len_dias() > 0
             except:
                 showerror(
                     "ERROR", "Debe introducir al menos 1 día", parent=self
@@ -212,7 +210,7 @@ class VistaParametros(Toplevel):
         return str(self.__calendario.get_date()).split("-")
 
     def introducir_dia(self):
-        if len(self.get_dias()) == 0:
+        if self.get_len_dias() == 0:
             self.set_frame_dias()
         fecha = self.obtener_dia()
         fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
@@ -245,7 +243,11 @@ class VistaParametros(Toplevel):
         pass
 
     def get_dias(self):
-        return self.__dias
+        lista_dias = [dia.get_dia() for dia in self.__dias]
+        return lista_dias
+
+    def get_len_dias(self):
+        return len(self.__dias)
 
     def get_jornada_laboral(self):
         return self.__jornada_laboral.get_valor_selector()

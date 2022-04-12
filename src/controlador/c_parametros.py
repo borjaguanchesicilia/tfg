@@ -13,7 +13,7 @@ class ControladorParametros:
 
     def guardar_parametros(
         self,
-        semana,
+        dias,
         jornada,
         descanso,
         velocidad,
@@ -21,7 +21,7 @@ class ControladorParametros:
         exito,
         aeropuertos,
     ):
-        self.__semana = semana[1:]
+        self.__dias = dias
         self.__jornada = jornada
         self.__descanso = descanso
         self.__velocidad = velocidad
@@ -33,8 +33,8 @@ class ControladorParametros:
         self.__vista.boton_ver_parametros.activar_boton()
         self.__vista.boton_etl.activar_boton()
 
-    def get_semana(self):
-        return self.__semana
+    def get_dias(self):
+        return self.__dias
 
     def get_jornada(self):
         return self.__jornada

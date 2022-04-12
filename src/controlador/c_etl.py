@@ -9,7 +9,7 @@ class ControladorEtl:
         self.__vista = vista
         self.__vista_etl = vista_etl
 
-        self.__semana = controlador_parametros.get_semana()
+        self.__dias = controlador_parametros.get_dias()
         self.__aeropuertos = controlador_parametros.get_aeropuertos()
         self.__df_vue = None
         self.__df_avi = None
@@ -49,7 +49,7 @@ class ControladorEtl:
             )
         else:
             try:
-                etl.cambio_formato_dias(self.__semana)
+                etl.cambio_formato_dias(self.__dias)
             except:
                 showerror(
                     "ERROR", "Al cambiar formato días", parent=self.__vista_etl
