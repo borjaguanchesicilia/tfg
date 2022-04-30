@@ -71,7 +71,21 @@ class VistaEtl(Toplevel):
         self.__controlador = controlador
 
     def introducir_fic_vue(self, etiqueta):
-        cabeceras = ["Unnamed: 0", "Unnamed: 1", "Destino", "Codigo", "Dia_semana", "Opera_desde", "Opera_hasta", "Hora_Salida", "Aeronave", "Num_vuelo", "Pais", "Escala", "Origen"]
+        cabeceras = [
+            "Unnamed: 0",
+            "Unnamed: 1",
+            "Destino",
+            "Codigo",
+            "Dia_semana",
+            "Opera_desde",
+            "Opera_hasta",
+            "Hora_Salida",
+            "Aeronave",
+            "Num_vuelo",
+            "Pais",
+            "Escala",
+            "Origen",
+        ]
         self.__fic_vue = FicheroCsv(self, etiqueta, cabeceras)
 
     def introducir_fic_avi(self, etiqueta):

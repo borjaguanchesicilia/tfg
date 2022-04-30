@@ -40,7 +40,9 @@ class FicheroCsv:
             else:
                 self.__df = pd.read_csv(self.__ruta_fichero, sep=";")
                 try:
-                    cabeceras_aux = [cabecera for cabecera in self.__df.columns]
+                    cabeceras_aux = [
+                        cabecera for cabecera in self.__df.columns
+                    ]
                     assert cabeceras == cabeceras_aux
                 except:
                     showerror(
