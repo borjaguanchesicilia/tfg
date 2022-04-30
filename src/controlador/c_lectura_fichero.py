@@ -3,7 +3,7 @@ from src.controlador.funciones_aux import obtener_nombre
 
 
 class FicheroCsv:
-    def __init__(self, vista, etiqueta):
+    def __init__(self, vista, etiqueta, cabeceras):
 
         self.__v_parametros = vista
         self.__etiqueta = etiqueta
@@ -39,10 +39,20 @@ class FicheroCsv:
                 )
             else:
                 self.__df = pd.read_csv(self.__ruta_fichero, sep=";")
-                self.cambiar_nombre_etiqueta()
-                self.__filas = len(self.__df.axes[0])
-                self.__columnas = len(self.__df.axes[1])
-                self.__cabeceras = list(self.__df.columns)
+                try:
+                    cabeceras_aux = [cabecera for cabecera in self.__df.columns]
+                    assert cabeceras == cabeceras_aux
+                except:
+                    showerror(
+                        "ERROR",
+                        "El fichero no tiene las cabeceras correctas",
+                        parent=self.__v_parametros,
+                    )
+                else:
+                    self.cambiar_nombre_etiqueta()
+                    self.__filas = len(self.__df.axes[0])
+                    self.__columnas = len(self.__df.axes[1])
+                    self.__cabeceras = list(self.__df.columns)
 
     def get_nombre_fichero(self):
         return self.__nombre_fichero

@@ -71,10 +71,12 @@ class VistaEtl(Toplevel):
         self.__controlador = controlador
 
     def introducir_fic_vue(self, etiqueta):
-        self.__fic_vue = FicheroCsv(self, etiqueta)
+        cabeceras = ["Unnamed: 0", "Unnamed: 1", "Destino", "Codigo", "Dia_semana", "Opera_desde", "Opera_hasta", "Hora_Salida", "Aeronave", "Num_vuelo", "Pais", "Escala", "Origen"]
+        self.__fic_vue = FicheroCsv(self, etiqueta, cabeceras)
 
     def introducir_fic_avi(self, etiqueta):
-        self.__fic_avi = FicheroCsv(self, etiqueta)
+        cabeceras = ["codigo_IATA", "asientos", "modelo"]
+        self.__fic_avi = FicheroCsv(self, etiqueta, cabeceras)
 
     def get_fic_vue(self):
         return self.__fic_vue.get_df()
