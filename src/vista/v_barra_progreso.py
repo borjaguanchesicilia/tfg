@@ -15,7 +15,7 @@ class VistaBarraProgreso(Toplevel):
         self["bg"] = "#333333"
         self.minsize(500, 300)
         self.attributes("-topmost", True)
-        self.attributes('-type', 'splash')
+        self.attributes("-type", "splash")
 
         self.__titulo = Label(self, text="Aplicando ETL...")
         self.__titulo.config(
@@ -24,9 +24,17 @@ class VistaBarraProgreso(Toplevel):
         self.__titulo.pack()
 
         self.__estilo_barra = ttk.Style()
-        self.__estilo_barra.configure("estilo.Horizontal.TProgressbar", background='#38EA60')
+        self.__estilo_barra.configure(
+            "estilo.Horizontal.TProgressbar", background="#38EA60"
+        )
 
-        self.__barra_progreso = ttk.Progressbar(self, orient=HORIZONTAL, length=100, mode='determinate', style="estilo.Horizontal.TProgressbar")
+        self.__barra_progreso = ttk.Progressbar(
+            self,
+            orient=HORIZONTAL,
+            length=100,
+            mode="determinate",
+            style="estilo.Horizontal.TProgressbar",
+        )
         self.__barra_progreso.pack(fill=X, expand=1)
         self.__etiqueta = Label(self, text="")
         self.__etiqueta.config(
@@ -38,7 +46,7 @@ class VistaBarraProgreso(Toplevel):
         self.__controlador = controlador
 
     def set_valor_barra(self):
-        self.__barra_progreso['value'] += 12.4
+        self.__barra_progreso["value"] += 12.4
 
     def set_paso_barra(self, operacion):
         self.__etiqueta.config(text=operacion)

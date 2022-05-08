@@ -49,7 +49,9 @@ class ControladorEtl:
 
         try:
             etl.eliminacion_columnas()
-            controlador_barra_progreso.aumentar_progreso("12.5%: Eliminación columnas")
+            controlador_barra_progreso.aumentar_progreso(
+                "12.5%: Eliminación columnas"
+            )
         except:
             showerror(
                 "ERROR",
@@ -59,7 +61,9 @@ class ControladorEtl:
         else:
             try:
                 etl.cambio_formato_dias(self.__dias)
-                controlador_barra_progreso.aumentar_progreso("25%: Cambio formato días")
+                controlador_barra_progreso.aumentar_progreso(
+                    "25%: Cambio formato días"
+                )
             except:
                 showerror(
                     "ERROR", "Al cambiar formato días", parent=self.__vista_etl
@@ -67,7 +71,9 @@ class ControladorEtl:
             else:
                 try:
                     etl.separar_dias_semana()
-                    controlador_barra_progreso.aumentar_progreso("37.5%: Separación días semanas")
+                    controlador_barra_progreso.aumentar_progreso(
+                        "37.5%: Separación días semanas"
+                    )
                 except:
                     showerror(
                         "ERROR",
@@ -77,7 +83,9 @@ class ControladorEtl:
                 else:
                     try:
                         etl.adicionar_columnas()
-                        controlador_barra_progreso.aumentar_progreso("50%: Adicionar columnas")
+                        controlador_barra_progreso.aumentar_progreso(
+                            "50%: Adicionar columnas"
+                        )
                     except:
                         showerror(
                             "ERROR",
@@ -87,7 +95,9 @@ class ControladorEtl:
                     else:
                         try:
                             etl.cambiar_nombres_regiones()
-                            controlador_barra_progreso.aumentar_progreso("62.5%: Cambio nombres regiones")
+                            controlador_barra_progreso.aumentar_progreso(
+                                "62.5%: Cambio nombres regiones"
+                            )
                         except:
                             showerror(
                                 "ERROR",
@@ -97,7 +107,9 @@ class ControladorEtl:
                         else:
                             try:
                                 etl.cambiar_dias_num()
-                                controlador_barra_progreso.aumentar_progreso("75%: Cambio Días a números")
+                                controlador_barra_progreso.aumentar_progreso(
+                                    "75%: Cambio Días a números"
+                                )
                             except:
                                 showerror(
                                     "ERROR",
@@ -107,7 +119,9 @@ class ControladorEtl:
                             else:
                                 try:
                                     etl.convertir_dias()
-                                    controlador_barra_progreso.aumentar_progreso("87.5%: Conversión días")
+                                    controlador_barra_progreso.aumentar_progreso(
+                                        "87.5%: Conversión días"
+                                    )
                                 except:
                                     showerror(
                                         "ERROR",
@@ -117,7 +131,9 @@ class ControladorEtl:
                                 else:
                                     try:
                                         etl.dividir(lista_aeropuertos)
-                                        controlador_barra_progreso.aumentar_progreso("100%: División")
+                                        controlador_barra_progreso.aumentar_progreso(
+                                            "100%: División"
+                                        )
                                     except:
                                         showerror(
                                             "ERROR",
