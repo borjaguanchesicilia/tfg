@@ -1,4 +1,4 @@
-from src.controlador.librerias import *
+from src.librerias import *
 
 
 class Etiqueta:

@@ -1,4 +1,4 @@
-from src.controlador.librerias import *
+from src.librerias import *
 from src.vista.componentes_vistas.boton import *
 from src.vista.componentes_vistas.etiqueta import Etiqueta
 

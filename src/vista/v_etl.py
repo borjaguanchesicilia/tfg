@@ -1,4 +1,4 @@
-from src.controlador.librerias import *
+from src.librerias import *
 from src.controlador.controladores_aux.c_lectura_fichero import FicheroCsv
 from src.vista.v_parametros import *
 from src.vista.componentes_vistas.check_list import ChecklistBox

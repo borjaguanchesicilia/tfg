@@ -1,5 +1,5 @@
-from src.controlador.librerias import *
-from src.vista.componentes.scroll import *
+from src.librerias import *
+from src.vista.componentes_vistas.scroll import *
 
 
 class Tabla:
@@ -42,7 +42,7 @@ class Tabla:
 
         self.__botones.pack(padx=5, pady=5, side=TOP)
 
-        self.__middle = ScrollableFrame(self.__frame, alto, ancho)
+        self.__middle = ScrollBar(self.__frame, alto, ancho)
 
         self.__filas = filas
         self.__columnas = columnas
