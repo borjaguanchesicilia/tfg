@@ -1,11 +1,11 @@
 from src.controlador.librerias import *
-from src.vista.componentes.boton import Boton
-from src.vista.componentes.etiqueta import Etiqueta
-from src.vista.componentes.parametro import ParametroModelo
+from src.vista.componentes_vistas.boton import Boton
+from src.vista.componentes_vistas.etiqueta import Etiqueta
+from src.vista.componentes_vistas.parametro import ParametroModelo
 from src.vista.v_parametros import *
-from src.vista.componentes.check_list import ChecklistBox
-from src.vista.componentes.scroll import ScrollBar
-from src.vista.componentes.parametro_dia import ParametroDia
+from src.vista.componentes_vistas.check_list import ChecklistBox
+from src.vista.componentes_vistas.scroll import ScrollBar
+from src.vista.componentes_vistas.parametro_dia import ParametroDia
 
 
 class VistaParametros(Toplevel):

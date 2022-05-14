@@ -1,6 +1,6 @@
 from src.controlador.librerias import *
-from src.vista.componentes.boton import *
-from src.vista.componentes.etiqueta import Etiqueta
+from src.vista.componentes_vistas.boton import *
+from src.vista.componentes_vistas.etiqueta import Etiqueta
 
 
 class ParametroDia:
