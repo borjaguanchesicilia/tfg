@@ -1,3 +1,4 @@
+from src.controlador.c_general import ControladorGeneral
 from src.controlador.librerias import *
 from src.vista.vista import Vista
 
@@ -8,6 +9,8 @@ class Aplicacion(Tk):
         super().__init__()
 
         vista = Vista(self)
+        self.controlador_general = ControladorGeneral(vista)
+        vista.set_controlador(self.controlador_general)
         vista.pack()
 
 

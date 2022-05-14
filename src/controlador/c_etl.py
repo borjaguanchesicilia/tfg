@@ -6,10 +6,10 @@ from src.vista.v_barra_progreso import VistaBarraProgreso
 
 
 class ControladorEtl:
-    def __init__(self, vista, vista_etl, controlador_parametros):
+    def __init__(self, vista_etl, controlador_parametros, controlador_general):
 
-        self.__vista = vista
         self.__vista_etl = vista_etl
+        self.__controlador_general = controlador_general
 
         self.__dias = controlador_parametros.get_dias()
         self.__aeropuertos = controlador_parametros.get_aeropuertos()
@@ -143,6 +143,4 @@ class ControladorEtl:
                                     else:
                                         self.__v_barra_progreso.destroy()
                                         self.__vista_etl.destroy()
-                                        self.__vista.boton_etl.desactivar_boton()
-                                        self.__vista.boton_ver_dataframes.activar_boton()
-                                        self.__vista.boton_planificar.activar_boton()
+                                        self.__controlador_general.etl_realizado()

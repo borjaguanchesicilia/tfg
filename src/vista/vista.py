@@ -12,6 +12,7 @@ class Vista(Frame):
         super().__init__(app)
 
         self.app = app
+        self.__controlador = None
 
         # Aspecto de la aplicación
         self.app.geometry("1200x500")
@@ -26,9 +27,7 @@ class Vista(Frame):
 
         self.__titulo = Label(
             self.__cabecera,
-            text=(
-                "Planificador de encuestas FRONTUR-CANARIAS"
-            ),
+            text=("Planificador de encuestas FRONTUR-CANARIAS"),
             fg="#FFFFFF",
             bg="#333333",
         )
@@ -90,45 +89,25 @@ class Vista(Frame):
             4,
         )
 
+        # Botón "Ayuda"
+        self.boton_ayuda = Boton(
+            self.__f_menu, "Ayuda", self.ayuda, 3, 2, columnspan=4
+        )
+
         self.__f_menu.pack(padx=10, pady=20)
 
-        # Botones pie de App
-        self.__f_pie = Frame(self.app)
-        self.__f_pie.config(bg="#333333")
-
-        # Botón "Ayuda"
-        self.boton_ayuda = Boton(self.__f_pie, "Ayuda", self.ayuda, 0, 0)
-
-        # Botón "Ver planificaciones"
-        self.boton_ver_planificaciones = Boton(
-            self.__f_pie, "Ver planificaciones", self.ver_planificaciones, 0, 2
-        )
-
-        # Botón "Resetear"
-        self.boton_resetear = Boton(
-            self.__f_pie, "Resetear", self.resetear, 0, 4
-        )
-
-        self.boton_ver_parametros.desactivar_boton()
-        self.boton_etl.desactivar_boton()
-        self.boton_ver_dataframes.desactivar_boton()
-        self.boton_planificar.desactivar_boton()
-        self.boton_ver_planificacion.desactivar_boton()
-        self.boton_resetear.desactivar_boton()
-
-        self.__f_pie.pack(padx=10, pady=20)
+    def set_controlador(self, controlador):
+        self.__controlador = controlador
 
     def vista_parametros(self):
         vista_parametros = VistaParametros(self.app)
-        self.controlador_parametros = ControladorParametros(
-            self, vista_parametros
-        )
+        self.controlador_parametros = ControladorParametros(vista_parametros, self.__controlador)
         vista_parametros.set_controlador(self.controlador_parametros)
 
     def vista_etl(self):
         vista_etl = VistaEtl(self.app)
         controlador_etl = ControladorEtl(
-            self, vista_etl, self.controlador_parametros
+            vista_etl, self.controlador_parametros, self.__controlador
         )
         vista_etl.set_controlador(controlador_etl)
 
@@ -146,10 +125,4 @@ class Vista(Frame):
         pass
 
     def ayuda(self):
-        pass
-
-    def ver_planificaciones(self):
-        pass
-
-    def resetear(self):
         pass
