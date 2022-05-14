@@ -1,8 +1,8 @@
-from src.controlador.c_barra_progreso import BarraProgreso
+from src.controlador.controladores_aux.c_barra_progreso import BarraProgreso
 from src.controlador.librerias import *
 from src.controlador.etl import *
 from src.controlador.funciones_aux import obtener_nombre
-from src.vista.v_barra_progreso import VistaBarraProgreso
+from src.vista.vistas_aux.v_barra_progreso import VistaBarraProgreso
 
 
 class ControladorEtl:

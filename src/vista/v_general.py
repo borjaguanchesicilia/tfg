@@ -1,8 +1,8 @@
 from src.controlador.librerias import *
 from src.controlador.c_parametros import ControladorParametros
 from src.controlador.c_etl import ControladorEtl
-from src.vista.componentes.boton import Boton
-from src.vista.componentes.etiqueta import Etiqueta
+from src.vista.componentes_vistas.boton import Boton
+from src.vista.componentes_vistas.etiqueta import Etiqueta
 from src.vista.v_etl import VistaEtl
 from src.vista.v_parametros import VistaParametros
 

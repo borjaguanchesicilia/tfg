@@ -1,6 +1,6 @@
 from src.controlador.c_general import ControladorGeneral
 from src.controlador.librerias import *
-from src.vista.vista import Vista
+from src.vista.v_general import Vista
 
 
 class Aplicacion(Tk):
