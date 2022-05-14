@@ -27,8 +27,7 @@ class Vista(Frame):
         self.__titulo = Label(
             self.__cabecera,
             text=(
-                "Aplicación para "
-                "la planificación de encuestas FRONTUR-CANARIAS"
+                "Planificador de encuestas FRONTUR-CANARIAS"
             ),
             fg="#FFFFFF",
             bg="#333333",
@@ -40,7 +39,7 @@ class Vista(Frame):
         self.__cabecera.pack(padx=10, pady=20)
 
         # Menu central
-        self.__f_menu = LabelFrame(self.app, text="PLANIFICADOR")
+        self.__f_menu = LabelFrame(self.app)
         self.__f_menu.config(
             font=("Adobe Caslon Pro", 15, "bold"),
             fg="#FFFFFF",
