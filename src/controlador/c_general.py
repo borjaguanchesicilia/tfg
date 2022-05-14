@@ -7,7 +7,7 @@ class ControladorGeneral:
             self.__vista.boton_ver_parametros,
             self.__vista.boton_etl,
             self.__vista.boton_ver_dataframes,
-            self.__vista.boton_planificar,
+            #self.__vista.boton_planificar,
             self.__vista.boton_ver_planificacion,
         ]:
             boton.desactivar_boton()

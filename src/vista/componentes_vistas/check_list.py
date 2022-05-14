@@ -2,27 +2,19 @@ from src.librerias import *
 
 
 class ChecklistBox(Frame):
-    def __init__(self, vista):
+    def __init__(self, vista, parametros):
         Frame.__init__(self, vista)
 
-        aeropuertos = [
-            "  Arrecife",
-            "  Fuerteventura",
-            "  Gran Canaria",
-            "  Tenerife Norte",
-            "  Tenerife Sur",
-            "  La Palma",
-        ]
         self.__variables = []
 
-        for aeropuerto in aeropuertos:
-            variables = StringVar(value=aeropuerto)
+        for parametro in parametros:
+            variables = StringVar(value=parametro)
             self.__variables.append(variables)
             check_box = Checkbutton(
                 self,
                 var=variables,
-                text=aeropuerto,
-                onvalue=aeropuerto,
+                text=parametro,
+                onvalue=parametro,
                 offvalue="",
                 anchor="w",
                 width=20,

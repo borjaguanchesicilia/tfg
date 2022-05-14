@@ -99,8 +99,15 @@ class VistaParametros(Toplevel):
         )
 
         self.__e_checklist = Etiqueta(self.__f_config, "Aerpuertos:", 5, 0)
-
-        self.__checklist_aer = ChecklistBox(self.__f_config)
+        aeropuertos = aeropuertos = [
+            "  Arrecife",
+            "  Fuerteventura",
+            "  Gran Canaria",
+            "  Tenerife Norte",
+            "  Tenerife Sur",
+            "  La Palma",
+        ]
+        self.__checklist_aer = ChecklistBox(self.__f_config, aeropuertos)
 
         self.__checklist_aer.grid(padx=5, pady=5, row=6, column=0)
 

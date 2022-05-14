@@ -1,3 +1,4 @@
+from src.controlador.c_planificar import ControladorPlanificar
 from src.librerias import *
 from src.controlador.c_parametros import ControladorParametros
 from src.controlador.c_etl import ControladorEtl
@@ -5,6 +6,7 @@ from src.vista.componentes_vistas.boton import Boton
 from src.vista.componentes_vistas.etiqueta import Etiqueta
 from src.vista.v_etl import VistaEtl
 from src.vista.v_parametros import VistaParametros
+from src.vista.v_planificar import VistaPlanificar
 
 
 class Vista(Frame):
@@ -112,8 +114,9 @@ class Vista(Frame):
         vista_etl.set_controlador(controlador_etl)
 
     def vista_planificar(self):
-        # Ejecutar modelo
-        pass
+        vista_planificar = VistaPlanificar(self.app)
+        controlador_planificar = ControladorPlanificar(vista_planificar, self.__controlador)
+        vista_planificar.set_controlador(controlador_planificar)
 
     def vista_ver_parametros(self):
         pass
