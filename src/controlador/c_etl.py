@@ -27,8 +27,6 @@ class ControladorEtl:
         self.__df_vue = df_vuelos
         self.__df_avi = df_aviones
 
-        etl = Etl(self.__df_vue)
-
         conversor_aeropuertos = {
             "Arrecife": "ACE",
             "Fuerteventura": "FUE",
@@ -41,6 +39,8 @@ class ControladorEtl:
             conversor_aeropuertos[aer] for aer in self.__aeropuertos
         ]
 
+        etl = Etl(self.__df_vue, lista_aeropuertos)
+
         self.__vista_etl.attributes("-topmost", False)
 
         self.__v_barra_progreso = VistaBarraProgreso(self.__vista_etl)
@@ -50,7 +50,7 @@ class ControladorEtl:
         try:
             etl.eliminacion_columnas()
             controlador_barra_progreso.aumentar_progreso(
-                "12.5%: Eliminación columnas"
+                "16%: Eliminación columnas"
             )
         except:
             showerror(
@@ -60,87 +60,63 @@ class ControladorEtl:
             )
         else:
             try:
-                etl.cambio_formato_dias(self.__dias)
+                etl.extraer_semana(self.__dias)
                 controlador_barra_progreso.aumentar_progreso(
-                    "25%: Cambio formato días"
+                    "32%: Extracción de días"
                 )
             except:
                 showerror(
-                    "ERROR", "Al cambiar formato días", parent=self.__vista_etl
+                    "ERROR", "Al realizar la extracción de días", parent=self.__vista_etl
                 )
             else:
                 try:
-                    etl.separar_dias_semana()
+                    etl.cambiar_nombres_regiones()
                     controlador_barra_progreso.aumentar_progreso(
-                        "37.5%: Separación días semanas"
+                        "48%: Cambio nombres regiones"
                     )
                 except:
                     showerror(
                         "ERROR",
-                        "Al separar días de la semana",
+                        "Al cambiar nombres de regiones",
                         parent=self.__vista_etl,
                     )
                 else:
                     try:
-                        etl.adicionar_columnas()
+                        etl.dias_operacion()
                         controlador_barra_progreso.aumentar_progreso(
-                            "50%: Adicionar columnas"
+                            "64%: Separación días semanas"
                         )
                     except:
                         showerror(
                             "ERROR",
-                            "Al adicionar nuevas columnas",
+                            "Al separar días de la semana",
                             parent=self.__vista_etl,
                         )
                     else:
                         try:
-                            etl.cambiar_nombres_regiones()
+                            etl.convertir_dias()
                             controlador_barra_progreso.aumentar_progreso(
-                                "62.5%: Cambio nombres regiones"
+                                "84%: Conversión días"
                             )
                         except:
                             showerror(
                                 "ERROR",
-                                "Al cambiar nombres de regiones",
+                                "Al contar los días",
                                 parent=self.__vista_etl,
                             )
                         else:
                             try:
-                                etl.cambiar_dias_num()
+                                etl.dividir()
                                 controlador_barra_progreso.aumentar_progreso(
-                                    "75%: Cambio Días a números"
+                                    "100%: División"
                                 )
                             except:
                                 showerror(
                                     "ERROR",
-                                    "Al cambiar de días a números",
+                                    "Al dividir",
                                     parent=self.__vista_etl,
                                 )
                             else:
-                                try:
-                                    etl.convertir_dias()
-                                    controlador_barra_progreso.aumentar_progreso(
-                                        "87.5%: Conversión días"
-                                    )
-                                except:
-                                    showerror(
-                                        "ERROR",
-                                        "Al contar los días",
-                                        parent=self.__vista_etl,
-                                    )
-                                else:
-                                    try:
-                                        etl.dividir(lista_aeropuertos)
-                                        controlador_barra_progreso.aumentar_progreso(
-                                            "100%: División"
-                                        )
-                                    except:
-                                        showerror(
-                                            "ERROR",
-                                            "Al dividir",
-                                            parent=self.__vista_etl,
-                                        )
-                                    else:
-                                        self.__v_barra_progreso.destroy()
-                                        self.__vista_etl.destroy()
-                                        self.__controlador_general.etl_realizado()
+                                self.__v_barra_progreso.destroy()
+                                self.__vista_etl.destroy()
+                                self.__controlador_general.etl_realizado()

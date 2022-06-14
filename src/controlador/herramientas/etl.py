@@ -2,147 +2,45 @@ from src.librerias import *
 
 
 class Etl:
-    def __init__(self, df):
 
-        self.__df_inicio = df
+    def __init__(self, df, aeropuertos):
+
+        self.__df_inicio_aux = df
+        self.__aeropuertos = aeropuertos
+
 
     def eliminacion_columnas(self):
 
-        self.__df_inicio = self.__df_inicio.drop(["Escala"], axis=1)
-        self.__df_inicio = self.__df_inicio.drop(
-            self.__df_inicio.columns[[0, 1]], axis="columns"
+        self.__df_inicio_aux = self.__df_inicio_aux.drop(["Escala"], axis=1)
+        self.__df_inicio_aux = self.__df_inicio_aux.drop(
+            self.__df_inicio_aux.columns[[0, 1]], axis="columns"
         )
 
-    def separar_dias_semana(self):
+        self.__df_inicio = pd.DataFrame()
 
-        self.__df_inicio = self.__df_inicio.assign(dia_sem="")
+        for aer in self.__aeropuertos:
+            self.__df_inicio = pd.concat([self.__df_inicio, self.__df_inicio_aux.drop(self.__df_inicio_aux[self.__df_inicio_aux['Origen'] != aer].index)])
 
-        combinaciones_dias = np.unique(
-            np.array(list(self.__df_inicio["Dia_semana"]))
-        )
 
-        indices = []
+    def extraer_semana(self, semana):
 
-        for combinacion in combinaciones_dias:
-            indices.append(
-                (
-                    self.__df_inicio[
-                        self.__df_inicio["Dia_semana"] == combinacion
-                    ].index.values
-                )[0]
-            )
-
-        for i in indices:
-            diasI = str(self.__df_inicio["Dia_semana"][i])
-            aux = self.__df_inicio["Dia_semana"][i]
-            diasI = diasI.replace(" ", "-")
-            dias = ""
-            for i in range(7):
-                dias += diasI[i] + "|"
-
-            dias = dias[:-1]
-
-            self.__df_inicio.loc[
-                (self.__df_inicio.Dia_semana == aux), "dia_sem"
-            ] = dias
-
-        self.df = pd.DataFrame(
-            self.__df_inicio.dia_sem.str.split("|").tolist(),
-            index=self.__df_inicio.Num_vuelo,
-        ).stack()
-
-        self.df = self.df.reset_index([0, "Num_vuelo"])
-        self.df.columns = ["Num_vuelo", "dia_sem"]
-
-        self.df = self.df.drop(self.df[self.df["dia_sem"] == "-"].index)
-
-    def adicionar_columnas(self):
-
-        # Adición de nuevas columnas
-        self.df = self.df.assign(destino="")
-        self.df = self.df.assign(codigo="")
-        self.df = self.df.assign(opera_desde="")
-        self.df = self.df.assign(opera_hasta="")
-        self.df = self.df.assign(hora_salida="")
-        self.df = self.df.assign(aeronave="")
-        self.df = self.df.assign(pais="")
-        self.df = self.df.assign(opera_desde="")
-        self.df = self.df.assign(origen="")
-
-        indices = (self.__df_inicio.index).tolist()
-
-        # Completar las nuevas columnas con los datos correspondientes
-        for i in indices:
-            num_vuelo = self.__df_inicio["Num_vuelo"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "destino"
-            ] = self.__df_inicio["Destino"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "codigo"
-            ] = self.__df_inicio["Codigo"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "opera_desde"
-            ] = self.__df_inicio["Opera_desde"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "opera_hasta"
-            ] = self.__df_inicio["Opera_hasta"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "hora_salida"
-            ] = self.__df_inicio["Hora_Salida"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "aeronave"
-            ] = self.__df_inicio["Aeronave"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "pais"
-            ] = self.__df_inicio["Pais"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "opera_desde"
-            ] = self.__df_inicio["Opera_desde"][i]
-
-            self.df.loc[
-                (self.df.Num_vuelo == num_vuelo), "origen"
-            ] = self.__df_inicio["Origen"][i]
-
-    def cambiar_nombres_regiones(self):
-
-        self.df.loc[(self.df.pais == "ESPANIA"), "pais"] = self.df["destino"]
-
-        self.df.loc[(self.df.pais == "REINO UNIDO"), "pais"] = "REINO-UNIDO"
-
-        self.df.loc[
-            (self.df.pais == "FEDERACION RUSA"), "pais"
-        ] = "FEDERACION-RUSA"
-
-        self.df.loc[
-            (self.df.pais == "REPUBLICA CHECA"), "pais"
-        ] = "REPUBLICA-CHECA"
-
-        for aer in ["LPA", "ACE", "FUE", "SPC", "TFN", "TFS", "VDE", "GMZ"]:
-            self.df.loc[(self.df.destino == aer), "pais"] = "CANARIAS"
-
-    def cambio_formato_dias(self, semana):
         self.__dias = []
 
         for dia in semana:
             dia = dia.split("/")
             self.__dias.append(
-                datetime.combine(
-                    date(
+                dt_module.datetime.combine(
+                   dt_module.date(
                         int(dia[2]),
                         int(dia[1]),
                         int(dia[0]),
                     ),
-                    datetime.min.time(),
+                    dt_module.datetime.min.time(),
                 )
             )
+
+        primer_dia = min(self.__dias)
+        ultimo_dia = max(self.__dias)
 
         self.__df_inicio["Opera_hasta"] = pd.to_datetime(
             self.__df_inicio["Opera_hasta"], dayfirst=True
@@ -161,20 +59,54 @@ class Etl:
         sub_df_fin = sub_df_ini.loc[fin_operaciones]
         sub_df_fin.head()
         self.__df_inicio = sub_df_fin
+        
 
-    def cambiar_dias_num(self):
-        conversor = [
-            ("L", 1),
-            ("M", 2),
-            ("X", 3),
-            ("J", 4),
-            ("V", 5),
-            ("S", 6),
-            ("D", 7),
-        ]
+    def cambiar_nombres_regiones(self):
 
-        for dia in conversor:
-            self.df.loc[(self.df.dia_sem == dia[0]), "dia_sem"] = dia[1]
+        self.__df_inicio.loc[((self.__df_inicio.Pais == "ESPAÑA") | (self.__df_inicio.Pais == "ESPAﾑA")), "Pais"] = 'ESPANIA'
+        
+        self.__df_inicio.loc[(self.__df_inicio.Pais == "REINO UNIDO"), "Pais"] = "REINO-UNIDO"
+
+        self.__df_inicio.loc[
+            (self.__df_inicio.Pais == "FEDERACION RUSA"), "Pais"
+        ] = "FEDERACION-RUSA"
+
+        self.__df_inicio.loc[
+            (self.__df_inicio.Pais == "REPUBLICA CHECA"), "Pais"
+        ] = "REPUBLICA-CHECA"
+
+        for aer in ["LPA", "ACE", "FUE", "SPC", "TFN", "TFS", "VDE", "GMZ"]:
+            self.__df_inicio.loc[(self.__df_inicio.Destino == aer), "Pais"] = "CANARIAS"
+
+
+    def dias_operacion(self):
+        for operacion in [(" ", ""), ("L", "1"), ("M", "2"), ("X", "3"), ("J", "4"), ("V", "5"), ("S", "6"), ("D", "7")]:
+            self.__df_inicio['Dia_semana'] = self.__df_inicio['Dia_semana'].apply(lambda x: x.replace(operacion[0], operacion[1]))
+
+        self.__df_inicio['Dia_semana'] = self.__df_inicio['Dia_semana'].apply(lambda x: int(x))
+        self.__df_varios_dias = self.__df_inicio.drop(self.__df_inicio[self.__df_inicio['Dia_semana'] <= 7].index)
+        self.__df_dias_sueltos = self.__df_inicio.drop(self.__df_inicio[self.__df_inicio['Dia_semana'] > 7].index)
+
+        self.__df_varios_dias['Dia_semana'] = self.__df_varios_dias['Dia_semana'].apply(lambda x: list(map(int, str(x))))
+
+        self.__df_varios_dias = self.__df_varios_dias.reset_index()
+
+        df_aux = pd.DataFrame(columns=['destino', 'codigo', 'dia_sem', 'opera_desde', 'opera_hasta', 'hora_salida', 'aeronave',  'num_vuelo', 'pais', 'origen'])
+
+        for i in range(len(self.__df_varios_dias)):
+            fila = self.__df_varios_dias.iloc[i]
+            dias = fila['Dia_semana']
+            while len(dias) != 0:
+                df_aux = df_aux.append({'destino': fila['Destino'], 'codigo': fila['Codigo'], 'dia_sem': dias[-1],'opera_desde': fila['Opera_desde'], 'opera_hasta': fila['Opera_hasta'], 'hora_salida': fila['Hora_Salida'], 'aeronave': fila['Aeronave'],  'num_vuelo': fila['Num_vuelo'], 'pais': fila['Pais'], 'origen': fila['Origen']}, ignore_index=True)
+                dias.pop()
+
+        self.__df_dias_sueltos = self.__df_dias_sueltos.reset_index(drop=True)
+        self.__df_dias_sueltos.columns = ['destino', 'codigo', 'dia_sem', 'opera_desde', 'opera_hasta', 'hora_salida', 'aeronave',  'num_vuelo', 'pais', 'origen']
+
+        self.df = self.__df_dias_sueltos.append(df_aux, ignore_index=True)
+        self.df = self.df[['num_vuelo', 'dia_sem', 'destino', 'codigo', 'opera_desde', 'opera_hasta', 'hora_salida', 'aeronave', 'pais', 'origen']]
+        self.df = self.df.reset_index(drop=True)
+
 
     def convertir_dias(self):
 
@@ -183,29 +115,29 @@ class Etl:
 
         while cont_dias <= max(self.__dias):
             # Lunes
-            if datetime.weekday(cont_dias) == 0:
+            if dt_module.datetime.weekday(cont_dias) == 0:
                 self.df.loc[(self.df.dia_sem == 1), "dia_sem"] = cont_dias
             # Martes
-            elif datetime.weekday(cont_dias) == 1:
+            elif dt_module.datetime.weekday(cont_dias) == 1:
                 self.df.loc[(self.df.dia_sem == 2), "dia_sem"] = cont_dias
             # Miércoles
-            elif datetime.weekday(cont_dias) == 2:
+            elif dt_module.datetime.weekday(cont_dias) == 2:
                 self.df.loc[(self.df.dia_sem == 3), "dia_sem"] = cont_dias
             # Juevas
-            elif datetime.weekday(cont_dias) == 3:
+            elif dt_module.datetime.weekday(cont_dias) == 3:
                 self.df.loc[(self.df.dia_sem == 4), "dia_sem"] = cont_dias
             # Viernes
-            elif datetime.weekday(cont_dias) == 4:
+            elif dt_module.datetime.weekday(cont_dias) == 4:
                 self.df.loc[(self.df.dia_sem == 5), "dia_sem"] = cont_dias
             # Sábado
-            elif datetime.weekday(cont_dias) == 5:
+            elif dt_module.datetime.weekday(cont_dias) == 5:
                 self.df.loc[(self.df.dia_sem == 6), "dia_sem"] = cont_dias
             # Domingo
-            elif datetime.weekday(cont_dias) == 6:
+            elif dt_module.datetime.weekday(cont_dias) == 6:
                 self.df.loc[(self.df.dia_sem == 7), "dia_sem"] = cont_dias
 
             cont_dias = pd.to_datetime(
-                cont_dias + timedelta(days=1), dayfirst=True
+                cont_dias + dt_module.timedelta(days=1), dayfirst=True
             )
 
         # Borrado de días sueltos
@@ -213,14 +145,13 @@ class Etl:
             self.df["dia_sem"].apply(lambda x: not isinstance(x, int))
         ]
 
-    def dividir(self, aeropuertos):
+
+    def dividir(self):
 
         self.df.to_csv(f"salida.csv", sep=";", columns=None, index=False)
-
         self.df = self.df.drop(["opera_desde", "opera_hasta"], axis=1)
-
         self.df["dia_sem"] = pd.to_datetime(self.df["dia_sem"], dayfirst=True)
 
-        for aeropuerto in aeropuertos:
+        for aeropuerto in self.__aeropuertos:
             df2 = self.df[self.df["origen"] == aeropuerto]
             df2.to_csv(f"{aeropuerto}.csv", sep=";", columns=None, index=False)

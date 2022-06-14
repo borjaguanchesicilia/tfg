@@ -17,7 +17,7 @@ class ChecklistBox(Frame):
                 onvalue=parametro,
                 offvalue="",
                 anchor="w",
-                width=20,
+                width=40,
                 relief="flat",
                 highlightthickness=0,
             )
