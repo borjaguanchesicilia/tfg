@@ -18,22 +18,27 @@ class VistaPlanificar(Toplevel):
         self.minsize(1100, 500)
         self.attributes("-topmost", True)
 
- 
         self.__menu = LabelFrame(self, text=("Planificador:"))
         self.__menu.config(
-            font=("Adobe Caslon Pro", 20, "bold"), fg="#FFFFFF", bg="#333333", labelanchor='n'
+            font=("Adobe Caslon Pro", 20, "bold"),
+            fg="#FFFFFF",
+            bg="#333333",
+            labelanchor="n",
         )
 
         # Selector función objetivo
         self.__e_fo = Etiqueta(self.__menu, "Función objetivo:", 0, 0)
-        funcion_objetivo = ['Neutral', 'Priorizar empleo de varios encuestadores', 'Penalizar empleo de un encuestador']
+        funcion_objetivo = [
+            "Neutral",
+            "Priorizar empleo de varios encuestadores",
+            "Penalizar empleo de un encuestador",
+        ]
         self.__checklist_fo = ChecklistBox(self.__menu, funcion_objetivo)
         self.__checklist_fo.grid(padx=15, pady=5, row=0, column=1)
 
-
         # Selector solver
         self.__e_solver = Etiqueta(self.__menu, "Solver:", 1, 0)
-        solver = ['CBC', 'GUROBI']
+        solver = ["CBC", "GUROBI"]
         self.__checklist_solver = ChecklistBox(self.__menu, solver)
         self.__checklist_solver.grid(padx=15, pady=5, row=1, column=1)
 
@@ -44,20 +49,16 @@ class VistaPlanificar(Toplevel):
 
         self.__menu.pack(padx=20, pady=20)
 
-
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
-
     def get_funcion_objetivo(self):
-        #print(self.__checklist_fo)
+        # print(self.__checklist_fo)
         return self.__checklist_fo
 
-
     def get_solver(self):
-        #print(self.__checklist_solver)
+        # print(self.__checklist_solver)
         return self.__checklist_solver
-
 
     def invocar_planificador(self):
         self.__controlador.planificar()

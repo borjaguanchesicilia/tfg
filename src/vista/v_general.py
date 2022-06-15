@@ -103,7 +103,9 @@ class Vista(Frame):
 
     def vista_parametros(self):
         vista_parametros = VistaParametros(self.app)
-        self.__controlador_parametros = ControladorParametros(vista_parametros, self.__controlador)
+        self.__controlador_parametros = ControladorParametros(
+            vista_parametros, self.__controlador
+        )
         vista_parametros.set_controlador(self.__controlador_parametros)
 
     def vista_etl(self):
@@ -115,7 +117,12 @@ class Vista(Frame):
 
     def vista_planificar(self):
         vista_planificar = VistaPlanificar(self.app)
-        controlador_planificar = ControladorPlanificar(vista_planificar, self.__controlador, self.__controlador_parametros, self.__controlador_etl)
+        controlador_planificar = ControladorPlanificar(
+            vista_planificar,
+            self.__controlador,
+            self.__controlador_parametros,
+            self.__controlador_etl,
+        )
         vista_planificar.set_controlador(controlador_planificar)
 
     def vista_ver_parametros(self):

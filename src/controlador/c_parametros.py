@@ -1,6 +1,6 @@
 class ControladorParametros:
     def __init__(self, vista_parametros, controlador_general):
-        
+
         self.__vista_parametros = vista_parametros
         self.__controlador_general = controlador_general
 
@@ -26,8 +26,8 @@ class ControladorParametros:
         self.__jornada = int(jornada)
         self.__descanso = int(descanso)
         self.__velocidad = float(velocidad)
-        self.__ocupacion = float(ocupacion/100)
-        self.__exito = float(exito/100)
+        self.__ocupacion = float(ocupacion / 100)
+        self.__exito = float(exito / 100)
         self.__aeropuertos = aeropuertos
 
         self.__controlador_general.parametros_guardados()

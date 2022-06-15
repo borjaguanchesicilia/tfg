@@ -43,7 +43,9 @@ class ControladorEtl:
 
         self.__vista_etl.attributes("-topmost", False)
 
-        self.__v_barra_progreso = VistaBarraProgreso(self.__vista_etl, "Progreso ETL", "Aplicando ETL...")
+        self.__v_barra_progreso = VistaBarraProgreso(
+            self.__vista_etl, "Progreso ETL", "Aplicando ETL..."
+        )
         controlador_barra_progreso = BarraProgreso(self.__v_barra_progreso)
         self.__v_barra_progreso.set_controlador(controlador_barra_progreso)
 
@@ -66,7 +68,9 @@ class ControladorEtl:
                 )
             except:
                 showerror(
-                    "ERROR", "Al realizar la extracción de días", parent=self.__vista_etl
+                    "ERROR",
+                    "Al realizar la extracción de días",
+                    parent=self.__vista_etl,
                 )
             else:
                 try:

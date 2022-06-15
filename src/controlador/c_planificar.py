@@ -5,8 +5,14 @@ from src.controlador.herramientas.modelo import Modelo
 
 
 class ControladorPlanificar:
-    def __init__(self, vista_planificar, controlador_general, controlador_parametros, controlador_etl):
-        
+    def __init__(
+        self,
+        vista_planificar,
+        controlador_general,
+        controlador_parametros,
+        controlador_etl,
+    ):
+
         self.__v_planificar = vista_planificar
         self.__controlador_general = controlador_general
         self.__controlador_parametros = controlador_parametros
@@ -14,7 +20,6 @@ class ControladorPlanificar:
         self.__f_o = -1
         self.__solver = -1
 
-    
     def comprobar_funcion_objetivo(self):
         f_objetivo = self.__v_planificar.get_funcion_objetivo().get_valores()
         if len(f_objetivo) != 1:
@@ -24,14 +29,15 @@ class ControladorPlanificar:
                 parent=self.__v_planificar,
             )
         else:
-            if len(f_objetivo[0]) == 7: # Neutral
+            if len(f_objetivo[0]) == 7:  # Neutral
                 self.__f_o = 0
-            elif len(f_objetivo[0]) == 40: # Priorizar empleo de varios encuestadores
+            elif (
+                len(f_objetivo[0]) == 40
+            ):  # Priorizar empleo de varios encuestadores
                 self.__f_o = 1
-            else: # Penalizar empleo de un encuestador
+            else:  # Penalizar empleo de un encuestador
                 self.__f_o = 2
 
-        
     def comprobar_solver(self):
         solver = self.__v_planificar.get_solver().get_valores()
         if len(solver) != 1:
@@ -41,11 +47,10 @@ class ControladorPlanificar:
                 parent=self.__v_planificar,
             )
         else:
-            if len(solver[0]) == 3: # CBC
+            if len(solver[0]) == 3:  # CBC
                 self.__solver = 0
-            else: # Gurobi
+            else:  # Gurobi
                 self.__solver = 1
-
 
     def planificar(self):
         self.comprobar_funcion_objetivo()
@@ -62,14 +67,15 @@ class ControladorPlanificar:
                 }
 
                 origenes = [
-                    conversor_aeropuertos[aer] for aer in self.__controlador_parametros.get_aeropuertos()
+                    conversor_aeropuertos[aer]
+                    for aer in self.__controlador_parametros.get_aeropuertos()
                 ]
 
                 df_solucion = pd.DataFrame()
 
                 for aer in origenes:
-                    
-                    df = pd.read_csv(aer+'.csv', sep=";")
+
+                    df = pd.read_csv(aer + ".csv", sep=";")
                     aviones = self.__controlador_etl.get_df_aviones()
                     jornada = self.__controlador_parametros.get_jornada()
                     entrevistadores = 2
@@ -78,13 +84,33 @@ class ControladorPlanificar:
                     ocupacion = self.__controlador_parametros.get_ocupacion()
                     exito = self.__controlador_parametros.get_exito()
 
-                    modelo = Modelo(aer, df, aviones, jornada, entrevistadores, descanso, velocidad, ocupacion, exito, self.__f_o, self.__solver)
+                    modelo = Modelo(
+                        aer,
+                        df,
+                        aviones,
+                        jornada,
+                        entrevistadores,
+                        descanso,
+                        velocidad,
+                        ocupacion,
+                        exito,
+                        self.__f_o,
+                        self.__solver,
+                    )
 
                     self.__v_planificar.attributes("-topmost", False)
 
-                    self.__v_barra_progreso = VistaBarraProgreso(self.__v_planificar, "Progreso SOL", f"Resolviendo para {aer}...")
-                    controlador_barra_progreso = BarraProgreso(self.__v_barra_progreso)
-                    self.__v_barra_progreso.set_controlador(controlador_barra_progreso)
+                    self.__v_barra_progreso = VistaBarraProgreso(
+                        self.__v_planificar,
+                        "Progreso SOL",
+                        f"Resolviendo para {aer}...",
+                    )
+                    controlador_barra_progreso = BarraProgreso(
+                        self.__v_barra_progreso
+                    )
+                    self.__v_barra_progreso.set_controlador(
+                        controlador_barra_progreso
+                    )
 
                     try:
                         controlador_barra_progreso.aumentar_progreso(
@@ -129,7 +155,9 @@ class ControladorPlanificar:
                                     modelo.calculos_destinos()
                                 except:
                                     showerror(
-                                        "ERROR", "Al calcular los destinos", parent=self.__v_planificar
+                                        "ERROR",
+                                        "Al calcular los destinos",
+                                        parent=self.__v_planificar,
                                     )
                                 else:
                                     try:
@@ -156,7 +184,12 @@ class ControladorPlanificar:
                                                 parent=self.__v_planificar,
                                             )
                                         else:
-                                            df_solucion = pd.concat([df_solucion, modelo.get_solucion()])
+                                            df_solucion = pd.concat(
+                                                [
+                                                    df_solucion,
+                                                    modelo.get_solucion(),
+                                                ]
+                                            )
                                             self.__v_barra_progreso.destroy()
 
                 df_solucion.to_csv("./solucion.csv", sep=";", index=False)
