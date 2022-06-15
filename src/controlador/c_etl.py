@@ -1,7 +1,10 @@
 from src.controlador.controladores_aux.c_barra_progreso import BarraProgreso
 from src.librerias import *
 from src.controlador.herramientas.etl import *
-from src.controlador.herramientas.funciones_aux import obtener_nombre
+from src.controlador.herramientas.funciones_aux import (
+    conversor_aeropueros,
+    obtener_nombre,
+)
 from src.vista.vistas_aux.v_barra_progreso import VistaBarraProgreso
 
 
@@ -27,17 +30,7 @@ class ControladorEtl:
         self.__df_vue = df_vuelos
         self.__df_avi = df_aviones
 
-        conversor_aeropuertos = {
-            "Arrecife": "ACE",
-            "Fuerteventura": "FUE",
-            "Gran Canaria": "LPA",
-            "Tenerife Norte": "TFN",
-            "Tenerife Sur": "TFS",
-            "La Palma": "SPC",
-        }
-        lista_aeropuertos = [
-            conversor_aeropuertos[aer] for aer in self.__aeropuertos
-        ]
+        lista_aeropuertos = conversor_aeropueros(self.__aeropuertos)
 
         etl = Etl(self.__df_vue, lista_aeropuertos)
 

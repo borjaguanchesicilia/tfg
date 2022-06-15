@@ -1,3 +1,4 @@
+from src.controlador.herramientas.funciones_aux import conversor_aeropueros
 from src.librerias import *
 from src.vista.vistas_aux.v_barra_progreso import VistaBarraProgreso
 from src.controlador.controladores_aux.c_barra_progreso import BarraProgreso
@@ -57,20 +58,9 @@ class ControladorPlanificar:
         if self.__f_o != -1:
             self.comprobar_solver()
             if self.__solver != -1:
-                conversor_aeropuertos = {
-                    "Arrecife": "ACE",
-                    "Fuerteventura": "FUE",
-                    "Gran Canaria": "LPA",
-                    "Tenerife Norte": "TFN",
-                    "Tenerife Sur": "TFS",
-                    "La Palma": "SPC",
-                }
-
-                origenes = [
-                    conversor_aeropuertos[aer]
-                    for aer in self.__controlador_parametros.get_aeropuertos()
-                ]
-
+                origenes = conversor_aeropueros(
+                    self.__controlador_parametros.get_aeropuertos()
+                )
                 df_solucion = pd.DataFrame()
 
                 for aer in origenes:
