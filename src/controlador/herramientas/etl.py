@@ -230,7 +230,7 @@ class Etl:
 
     def dividir(self):
 
-        self.df.to_csv(f"salida.csv", sep=";", columns=None, index=False)
+        self.df.to_csv(f"geslot_etl.csv", sep=";", columns=None, index=False)
         self.df = self.df.drop(["opera_desde", "opera_hasta"], axis=1)
         self.df["dia_sem"] = pd.to_datetime(self.df["dia_sem"], dayfirst=True)
 
