@@ -30,8 +30,8 @@ class Modelo:
         self.__P = [p for p in range(self.__numero_de_paises)]
    
         # Parámetros a calcular
-        self.__numero_minimo = []
-        self.__numero_maximo = []
+        self.__encuestas_minimas = []
+        self.__maximo_pasajeros = []
         self.__encuestas_maximas = []
         self.__destinos = []
         self.__i_p = []
@@ -70,27 +70,27 @@ class Modelo:
 
         for pais in self.__P:
             if df_estimacion_pasajeros[pais] < 60:
-                self.__numero_minimo.append(20)
+                self.__encuestas_minimas.append(20)
             elif df_estimacion_pasajeros[pais] >= 60 and df_estimacion_pasajeros[pais] <= 999:
-                self.__numero_minimo.append(80)
+                self.__encuestas_minimas.append(80)
             elif df_estimacion_pasajeros[pais] >= 1000 and df_estimacion_pasajeros[pais] <= 9999:
-                self.__numero_minimo.append(200)
+                self.__encuestas_minimas.append(200)
             elif df_estimacion_pasajeros[pais] >= 10000 and df_estimacion_pasajeros[pais] <= 24999:
-                self.__numero_minimo.append(400)
+                self.__encuestas_minimas.append(400)
             elif df_estimacion_pasajeros[pais] >= 25000 and df_estimacion_pasajeros[pais] <= 39999:
-                self.__numero_minimo.append(500)
+                self.__encuestas_minimas.append(500)
             elif df_estimacion_pasajeros[pais] >= 40000 and df_estimacion_pasajeros[pais] <= 59999:
-                self.__numero_minimo.append(600)
+                self.__encuestas_minimas.append(600)
             elif df_estimacion_pasajeros[pais] >= 60000:
-                self.__numero_minimo.append(700)
+                self.__encuestas_minimas.append(700)
         
         self.__df_aux = df_estimacion_pasajeros.to_frame()
         
         #Calculamos cuál sería el número máximo de encuestas que se podría obtener de cada región para ver si podría satisfacerse el mínimo necesario.
-        self.__numero_maximo = [df_estimacion_pasajeros[p] for p in self.__P]
+        self.__maximo_pasajeros = [df_estimacion_pasajeros[p] for p in self.__P]
         self.__encuestas_maximas = [ceil(self.__df_aux['ocupacion'][p] * self.__ocupacion * self.__exito) for p in self.__P]
         
-        self.__df_aux.insert(loc=1, column='numero_minimo', value=self.__numero_minimo)
+        self.__df_aux.insert(loc=1, column='encuestas_minimas', value=self.__encuestas_minimas)
         self.__df_aux.insert(loc=2, column='encuestas_maximas', value=self.__encuestas_maximas)
 
 
@@ -137,11 +137,11 @@ class Modelo:
         solver = LpProblem(f"Problema_FRONTUR_{self.__origen}", LpMaximize)
 
         if self.__f_o == 0:
-            solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + self.__y2[i]) for i in self.__I) - 100000 * lpSum(self.__numero_maximo[p] * self.__z[p] for p in self.__P)
+            solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + self.__y2[i]) for i in self.__I) - 100000 * lpSum(self.__maximo_pasajeros[p] * self.__z[p] for p in self.__P)
         elif self.__f_o == 1:
-            solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + 5 * self.__y2[i]) for i in self.__I) - 100000 * lpSum(self.__numero_maximo[p] * self.__z[p] for p in self.__P)
+            solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + 5 * self.__y2[i]) for i in self.__I) - 100000 * lpSum(self.__maximo_pasajeros[p] * self.__z[p] for p in self.__P)
         else:
-            solver += lpSum(self.__df['total_encuestas'][i] * (-1 * self.__y1[i] + self.__y2[i]) for i in self.__I) - 100000 * lpSum(self.__numero_maximo[p] * self.__z[p] for p in self.__P)
+            solver += lpSum(self.__df['total_encuestas'][i] * (-1 * self.__y1[i] + self.__y2[i]) for i in self.__I) - 100000 * lpSum(self.__maximo_pasajeros[p] * self.__z[p] for p in self.__P)
 
 
         # RESTRICCIONES
@@ -152,9 +152,9 @@ class Modelo:
             solver += lpSum(self.__x[i,k] for k in self.__K) == self.__y1[i] + 2 * self.__y2[i]
 
         for p in self.__P:
-            if self.__encuestas_maximas[p] >= self.__numero_minimo[p]: # Se puede cumplir con el mínimo de encuestas
-                solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + self.__y2[i]) for i in self.__i_p[p]) >= self.__numero_minimo[p] * (1 - self.__z[p])
-            elif self.__encuestas_maximas[p] < self.__numero_minimo[p]: # No se puede cumplir con el mínimo de encuestas  
+            if self.__encuestas_maximas[p] >= self.__encuestas_minimas[p]: # Se puede cumplir con el mínimo de encuestas
+                solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + self.__y2[i]) for i in self.__i_p[p]) >= self.__encuestas_minimas[p] * (1 - self.__z[p])
+            elif self.__encuestas_maximas[p] < self.__encuestas_minimas[p]: # No se puede cumplir con el mínimo de encuestas  
                 solver += lpSum(self.__df['total_encuestas'][i] * (self.__y1[i] + self.__y2[i]) for i in self.__i_p[p]) >= self.__encuestas_maximas[p] * (1 - self.__z[p])
 
         for i in self.__I:
@@ -234,11 +234,11 @@ class Modelo:
             l_vuelos_encuestador_1.append(vuelos_encuestador_1); l_vuelos_encuestador_2.append(vuelos_encuestador_2); num_vuelos_encuestados.append(vuelos_encuestador_1+vuelos_encuestador_2)
             num_vuelos_total.append(len(self.__i_p[p]))
             pasajeros_total.append(self.__df_aux['ocupacion'][self.__destinos[p]])
-            encuestas_minimas.append(self.__df_aux['numero_minimo'][self.__destinos[p]])
+            encuestas_minimas.append(self.__df_aux['encuestas_minimas'][self.__destinos[p]])
             encuestas_maximas.append(self.__df_aux['encuestas_maximas'][self.__destinos[p]])
             
-            if pasajeros_encuestados[-1] < self.__df_aux['numero_minimo'][self.__destinos[p]]: 
-                donaciones.append(self.__df_aux['numero_minimo'][self.__destinos[p]] - pasajeros_encuestados[-1])
+            if pasajeros_encuestados[-1] < self.__df_aux['encuestas_minimas'][self.__destinos[p]]: 
+                donaciones.append(self.__df_aux['encuestas_minimas'][self.__destinos[p]] - pasajeros_encuestados[-1])
             else:
                 donaciones.append(0)
 
