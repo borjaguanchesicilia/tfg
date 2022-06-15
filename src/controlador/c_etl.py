@@ -43,10 +43,10 @@ class ControladorEtl:
         self.__v_barra_progreso.set_controlador(controlador_barra_progreso)
 
         try:
-            etl.eliminacion_columnas()
             controlador_barra_progreso.aumentar_progreso(
                 "16%: Eliminación columnas"
             )
+            etl.eliminacion_columnas()
         except:
             showerror(
                 "ERROR",
@@ -55,10 +55,10 @@ class ControladorEtl:
             )
         else:
             try:
-                etl.extraer_semana(self.__dias)
                 controlador_barra_progreso.aumentar_progreso(
                     "32%: Extracción de días"
                 )
+                etl.extraer_semana(self.__dias)
             except:
                 showerror(
                     "ERROR",
@@ -67,10 +67,10 @@ class ControladorEtl:
                 )
             else:
                 try:
-                    etl.cambiar_nombres_regiones()
                     controlador_barra_progreso.aumentar_progreso(
                         "48%: Cambio nombres regiones"
                     )
+                    etl.cambiar_nombres_regiones()
                 except:
                     showerror(
                         "ERROR",
@@ -79,10 +79,10 @@ class ControladorEtl:
                     )
                 else:
                     try:
-                        etl.dias_operacion()
                         controlador_barra_progreso.aumentar_progreso(
                             "64%: Separación días semanas"
                         )
+                        etl.dias_operacion()
                     except:
                         showerror(
                             "ERROR",
@@ -91,10 +91,10 @@ class ControladorEtl:
                         )
                     else:
                         try:
-                            etl.convertir_dias()
                             controlador_barra_progreso.aumentar_progreso(
                                 "84%: Conversión días"
                             )
+                            etl.convertir_dias()
                         except:
                             showerror(
                                 "ERROR",
@@ -103,10 +103,10 @@ class ControladorEtl:
                             )
                         else:
                             try:
-                                etl.dividir()
                                 controlador_barra_progreso.aumentar_progreso(
                                     "100%: División"
                                 )
+                                etl.dividir()
                             except:
                                 showerror(
                                     "ERROR",
