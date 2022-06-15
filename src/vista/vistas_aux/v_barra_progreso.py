@@ -11,17 +11,20 @@ class VistaBarraProgreso(Toplevel):
 
         # Aspecto de la ventana "Barra de progreso"
         self.title(titulo)
-        self.geometry("300x300")
+        self.geometry("300x100")
         self["bg"] = "#333333"
-        self.minsize(500, 300)
+        self.minsize(500, 100)
         self.attributes("-topmost", True)
         self.attributes("-type", "splash")
 
-        self.__titulo = Label(self, text=texto)
-        self.__titulo.config(
-            font=("Adobe Caslon Pro", 20, "bold"), fg="#FFFFFF", bg="#333333"
+        self.__f_principal = LabelFrame(self, text=texto)
+        self.__f_principal.config(
+            font=("Adobe Caslon Pro", 12, "bold"),
+            fg="#FFFFFF",
+            bg="#333333",
+            labelanchor="n",
+            borderwidth=2,
         )
-        self.__titulo.pack()
 
         self.__estilo_barra = ttk.Style()
         self.__estilo_barra.configure(
@@ -29,18 +32,20 @@ class VistaBarraProgreso(Toplevel):
         )
 
         self.__barra_progreso = ttk.Progressbar(
-            self,
+            self.__f_principal,
             orient=HORIZONTAL,
             length=100,
             mode="determinate",
             style="estilo.Horizontal.TProgressbar",
         )
         self.__barra_progreso.pack(fill=X, expand=1)
-        self.__etiqueta = Label(self, text="")
+        self.__etiqueta = Label(self.__f_principal, text="")
         self.__etiqueta.config(
-            font=("Adobe Caslon Pro", 15, "bold"), fg="#FFFFFF", bg="#333333"
+            font=("Adobe Caslon Pro", 8, "bold"), fg="#FFFFFF", bg="#333333"
         )
         self.__etiqueta.pack()
+
+        self.__f_principal.pack(fill=BOTH)
 
     def set_controlador(self, controlador):
         self.__controlador = controlador
