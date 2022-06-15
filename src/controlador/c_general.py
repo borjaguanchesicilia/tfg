@@ -7,7 +7,7 @@ class ControladorGeneral:
             self.__vista.boton_ver_parametros,
             self.__vista.boton_etl,
             self.__vista.boton_ver_dataframes,
-            #self.__vista.boton_planificar,
+            self.__vista.boton_planificar,
             self.__vista.boton_ver_planificacion,
         ]:
             boton.desactivar_boton()
@@ -21,3 +21,7 @@ class ControladorGeneral:
         self.__vista.boton_etl.desactivar_boton()
         self.__vista.boton_ver_dataframes.activar_boton()
         self.__vista.boton_planificar.activar_boton()
+
+    def planificaion_realizada(self):
+        self.__vista.boton_planificar.desactivar_boton()
+        self.__vista.boton_ver_planificacion.activar_boton()

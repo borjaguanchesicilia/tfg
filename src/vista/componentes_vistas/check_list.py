@@ -29,11 +29,11 @@ class ChecklistBox(Frame):
             )
             check_box.pack(side="top", fill="x", anchor="w")
 
-    def get_aeropuertos(self):
-        aeropuertos = []
+    def get_valores(self):
+        valores = []
         for variable in self.__variables:
-            aeropuerto = variable.get()
-            if aeropuerto != "":
-                aeropuertos.append(aeropuerto.replace("  ", ""))
+            valor_aux = variable.get()
+            if valor_aux != "":
+                valores.append(valor_aux.replace("  ", ""))
 
-        return aeropuertos
+        return valores

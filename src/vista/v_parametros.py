@@ -270,4 +270,4 @@ class VistaParametros(Toplevel):
         return self.__exito.get_valor_selector()
 
     def get_aeropuertos(self):
-        return self.__checklist_aer.get_aeropuertos()
+        return self.__checklist_aer.get_valores()

@@ -23,11 +23,11 @@ class ControladorParametros:
         aeropuertos,
     ):
         self.__dias = dias
-        self.__jornada = jornada
-        self.__descanso = descanso
-        self.__velocidad = velocidad
-        self.__ocupacion = ocupacion
-        self.__exito = exito
+        self.__jornada = int(jornada)
+        self.__descanso = int(descanso)
+        self.__velocidad = float(velocidad)
+        self.__ocupacion = float(ocupacion/100)
+        self.__exito = float(exito/100)
         self.__aeropuertos = aeropuertos
 
         self.__controlador_general.parametros_guardados()

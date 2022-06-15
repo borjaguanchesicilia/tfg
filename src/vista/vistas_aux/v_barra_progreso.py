@@ -2,7 +2,7 @@ from src.librerias import *
 
 
 class VistaBarraProgreso(Toplevel):
-    def __init__(self, app):
+    def __init__(self, app, titulo, texto):
         super().__init__(app)
 
         self.app = app
@@ -10,14 +10,14 @@ class VistaBarraProgreso(Toplevel):
         self.__controlador = None
 
         # Aspecto de la ventana "Barra de progreso"
-        self.title("Progreso ETL")
+        self.title(titulo)
         self.geometry("300x300")
         self["bg"] = "#333333"
         self.minsize(500, 300)
         self.attributes("-topmost", True)
         self.attributes("-type", "splash")
 
-        self.__titulo = Label(self, text="Aplicando ETL...")
+        self.__titulo = Label(self, text=texto)
         self.__titulo.config(
             font=("Adobe Caslon Pro", 20, "bold"), fg="#FFFFFF", bg="#333333"
         )

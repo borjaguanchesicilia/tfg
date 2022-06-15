@@ -50,10 +50,12 @@ class VistaPlanificar(Toplevel):
 
 
     def get_funcion_objetivo(self):
+        #print(self.__checklist_fo)
         return self.__checklist_fo
 
 
     def get_solver(self):
+        #print(self.__checklist_solver)
         return self.__checklist_solver
 
 
