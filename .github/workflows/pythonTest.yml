@@ -39,4 +39,5 @@ jobs:
         exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
         export DISPLAY=:1
         python3.6 -m coverage run -m pytest ./pruebas/controlador/t_c_parametros.py
+        rm coverage.svg
         coverage-badge -o coverage.svg
