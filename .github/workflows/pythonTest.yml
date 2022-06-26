@@ -23,8 +23,9 @@ jobs:
         pip install pandas pytest
         pip install tkcalendar
         pip install pulp
-        export DISPLAY=:0.0
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
+      env:
+        DISPLAY: ":0.0"
       run: |
         python3.6 -m pytest ./testeo/controlador/t_c_parametros.py
