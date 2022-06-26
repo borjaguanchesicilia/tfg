@@ -28,14 +28,11 @@ jobs:
         pip install pandas pytest
         pip install tkcalendar
         pip install pulp
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Display
+    - name: Test prueba
       run: |
         disp=:1
         screen=0
         geom=640x480x24
         exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
         export DISPLAY=:1
-    - name: Test prueba
-      run: |
         python3.6 -m pytest ./testeo/controlador/t_c_parametros.py
