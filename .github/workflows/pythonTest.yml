@@ -28,6 +28,9 @@ jobs:
         pip install pandas pytest
         pip install tkcalendar
         pip install pulp
+        pip install pytest
+        pip install coverage
+        pip install coverage-badge
     - name: Test prueba
       run: |
         disp=:1
