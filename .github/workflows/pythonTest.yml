@@ -26,6 +26,6 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
       env:
-        DISPLAY: :10
+        DISPLAY: 10
       run: |
         python3.6 -m pytest ./testeo/controlador/t_c_parametros.py
