@@ -24,4 +24,4 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
       run: |
-        pytest ./test/controlador/testLecturaFichero.py
+        pytest ./testeo/controlador/t_c_parametros.py
