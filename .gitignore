@@ -1,4 +1,6 @@
 .pytest_cache
 __pycache__
-.vscode
+.vscode/*
 pyproject.toml
+.coverage
+.gitignore
