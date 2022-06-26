@@ -1,4 +1,4 @@
-from testeo.configuracion_test import *
+from pruebas.configuracion_test import *
 
 
 def test_get_dias():
