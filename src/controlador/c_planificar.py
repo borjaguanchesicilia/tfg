@@ -1,8 +1,8 @@
-from src.controlador.herramientas.funciones_aux import conversor_aeropueros
+from src.modelo.funciones_aux import conversor_aeropueros
 from src.librerias import *
-from src.vista.vistas_aux.v_barra_progreso import VistaBarraProgreso
-from src.controlador.controladores_aux.c_barra_progreso import BarraProgreso
-from src.controlador.herramientas.modelo import Modelo
+from src.vista.v_barra_progreso import VistaBarraProgreso
+from src.controlador.c_barra_progreso import BarraProgreso
+from src.modelo.modelo_matematico import Modelo
 
 
 class ControladorPlanificar:

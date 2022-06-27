@@ -1,11 +1,11 @@
-from src.controlador.controladores_aux.c_barra_progreso import BarraProgreso
+from src.controlador.c_barra_progreso import BarraProgreso
 from src.librerias import *
-from src.controlador.herramientas.etl import *
-from src.controlador.herramientas.funciones_aux import (
+from src.modelo.etl import *
+from src.modelo.funciones_aux import (
     conversor_aeropueros,
     obtener_nombre,
 )
-from src.vista.vistas_aux.v_barra_progreso import VistaBarraProgreso
+from src.vista.v_barra_progreso import VistaBarraProgreso
 
 
 class ControladorEtl:
