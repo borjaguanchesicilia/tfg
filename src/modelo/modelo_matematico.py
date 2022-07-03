@@ -1,4 +1,3 @@
-from src.modelo.funciones_aux import HiloDeTiempo, tiempo_maximo
 from src.librerias import *
 
 
