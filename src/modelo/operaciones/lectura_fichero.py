@@ -1,5 +1,5 @@
 from src.librerias import *
-from src.modelo.funciones_aux import obtener_nombre
+from src.funciones_aux import obtener_nombre
 
 
 class FicheroCsv:

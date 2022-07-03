@@ -1,4 +1,4 @@
-from src.modelo.funciones_aux import conversor_aeropueros
+from src.funciones_aux import conversor_aeropueros
 from src.librerias import *
 from src.vista.v_barra_progreso import VistaBarraProgreso
 from src.controlador.c_barra_progreso import BarraProgreso

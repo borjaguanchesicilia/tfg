@@ -1,4 +1,4 @@
-from src.modelo.funciones_aux import conversor_aeropueros
+from src.funciones_aux import conversor_aeropueros
 
 
 class ModeloParametros:

@@ -1,5 +1,5 @@
 from src.librerias import *
-from src.modelo.funciones_aux import conversor_aeropueros
+from src.funciones_aux import conversor_aeropueros
 from src.controlador.c_parametros import ControladorParametros
 
 

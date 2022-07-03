@@ -2,7 +2,7 @@ from src.modelo.m_etl import ModeloEtl
 from src.controlador.c_barra_progreso import BarraProgreso
 from src.librerias import *
 from src.modelo.operaciones.proceso_etl import *
-from src.modelo.funciones_aux import (
+from src.funciones_aux import (
     conversor_aeropueros,
     obtener_nombre,
 )
