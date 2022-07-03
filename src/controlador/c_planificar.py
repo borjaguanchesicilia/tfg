@@ -20,6 +20,7 @@ class ControladorPlanificar:
         self.__controlador_etl = controlador_etl
         self.__f_o = -1
         self.__solver = -1
+        self.__tiempos = pd.DataFrame()
 
     def comprobar_funcion_objetivo(self):
         f_objetivo = self.__v_planificar.get_funcion_objetivo().get_valores()
@@ -150,6 +151,7 @@ class ControladorPlanificar:
                                         parent=self.__v_planificar,
                                     )
                                 else:
+                                    #iniciar_crono = time()
                                     try:
                                         controlador_barra_progreso.aumentar_progreso(
                                             "84%: Resolviendo problema"
@@ -162,6 +164,13 @@ class ControladorPlanificar:
                                             parent=self.__v_planificar,
                                         )
                                     else:
+                                        
+                                        self.__tiempos = pd.concat([self.__tiempos, pd.DataFrame(
+                                            {
+                                                "origen": aer,
+                                                "tiempo": modelo._computo_total
+                                            }, index=[0]
+                                        )])
                                         try:
                                             controlador_barra_progreso.aumentar_progreso(
                                                 "100%: Formateando solución"
@@ -185,3 +194,4 @@ class ControladorPlanificar:
                 df_solucion.to_csv("./solucion.csv", sep=";", index=False)
                 self.__v_planificar.destroy()
                 self.__controlador_general.planificaion_realizada()
+                self.__tiempos.to_csv("./tiempos_computo.csv", sep=";", index=False)

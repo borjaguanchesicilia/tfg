@@ -1,3 +1,4 @@
+from src.modelo.funciones_aux import HiloDeTiempo, tiempo_maximo
 from src.librerias import *
 
 
@@ -14,7 +15,7 @@ class Modelo:
         ocupacion,
         exito,
         f_o,
-        solver,
+        solucionador,
     ):
         self.__origen = origen
         self.__df = df
@@ -27,7 +28,9 @@ class Modelo:
         self.__ocupacion = ocupacion
         self.__exito = exito
         self.__f_o = f_o
-        self.__solver = solver
+        self.__solucionador = solucionador
+        self.__solver = None
+        self._computo_total = 0
 
         # Parámetros calculados
         self.__numero_de_vuelos = len(self.__df)
@@ -188,17 +191,17 @@ class Modelo:
             self.__z[p] = LpVariable("z(" + str(p) + ")", 0, 1, LpBinary)
 
         # FUNCION OBJETIVO
-        solver = LpProblem(f"Problema_FRONTUR_{self.__origen}", LpMaximize)
+        self.__solver = LpProblem(f"Problema_FRONTUR_{self.__origen}", LpMaximize)
 
         if self.__f_o == 0:
-            solver += lpSum(
+            self.__solver += lpSum(
                 self.__df["total_encuestas"][i] * (self.__y1[i] + self.__y2[i])
                 for i in self.__I
             ) - 100000 * lpSum(
                 self.__maximo_pasajeros[p] * self.__z[p] for p in self.__P
             )
         elif self.__f_o == 1:
-            solver += lpSum(
+            self.__solver += lpSum(
                 self.__df["total_encuestas"][i]
                 * (self.__y1[i] + 5 * self.__y2[i])
                 for i in self.__I
@@ -206,7 +209,7 @@ class Modelo:
                 self.__maximo_pasajeros[p] * self.__z[p] for p in self.__P
             )
         else:
-            solver += lpSum(
+            self.__solver += lpSum(
                 self.__df["total_encuestas"][i]
                 * (-1 * self.__y1[i] + self.__y2[i])
                 for i in self.__I
@@ -216,10 +219,10 @@ class Modelo:
 
         # RESTRICCIONES
         for i in self.__I:
-            solver += self.__y1[i] + self.__y2[i] <= 1
+            self.__solver += self.__y1[i] + self.__y2[i] <= 1
 
         for i in self.__I:
-            solver += (
+            self.__solver += (
                 lpSum(self.__x[i, k] for k in self.__K)
                 == self.__y1[i] + 2 * self.__y2[i]
             )
@@ -228,7 +231,7 @@ class Modelo:
             if (
                 self.__encuestas_maximas[p] >= self.__encuestas_minimas[p]
             ):  # Se puede cumplir con el mínimo de encuestas
-                solver += lpSum(
+                self.__solver += lpSum(
                     self.__df["total_encuestas"][i]
                     * (self.__y1[i] + self.__y2[i])
                     for i in self.__i_p[p]
@@ -236,7 +239,7 @@ class Modelo:
             elif (
                 self.__encuestas_maximas[p] < self.__encuestas_minimas[p]
             ):  # No se puede cumplir con el mínimo de encuestas
-                solver += lpSum(
+                self.__solver += lpSum(
                     self.__df["total_encuestas"][i]
                     * (self.__y1[i] + self.__y2[i])
                     for i in self.__i_p[p]
@@ -292,10 +295,10 @@ class Modelo:
                             or hora_i - (consumo_i / 2) < hora_j - jorn
                         ):
                             # or hora_i - (consumo_i / 2) - desc + jorn < hora_j):
-                            solver += self.__x[i, k] + self.__x[j, k] <= 1
+                            self.__solver += self.__x[i, k] + self.__x[j, k] <= 1
 
                         elif hora_i > hora_j - consumo_j - desc:
-                            solver += self.__x[i, k] + self.__x[
+                            self.__solver += self.__x[i, k] + self.__x[
                                 j, k
                             ] <= 1 + lpSum(
                                 self.__x[j, l] for l in self.__K if l != k
@@ -303,17 +306,21 @@ class Modelo:
                         elif hora_i - consumo_i < hora_j - jorn:
                             # elif hora_i - consumo_i + jorn < hora_j:
                             # elif hora_i - consumo_i - desc + jorn < hora_j:
-                            solver += self.__x[i, k] + self.__x[
+                            self.__solver += self.__x[i, k] + self.__x[
                                 j, k
                             ] <= 1 + lpSum(
                                 self.__x[i, l] for l in self.__K if l != k
                             )
 
-        if self.__solver == 1:
-            solver.solve(GUROBI())
+        if self.__solucionador == 1:
+            self.__solver.solve(GUROBI(msg=False))
+            self._computo_total = self.__solver.solutionTime
         else:
-            solver.solve()
+            self.__solver.solve()
+        
+        self._computo_total = self.__solver.solutionTime
 
+        
     def formatear_solucion(self):
 
         origen = []
