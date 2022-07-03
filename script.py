@@ -10,5 +10,9 @@ os.system(
     "python3.6 -m coverage run -m pytest ./pruebas/controlador/t_c_etl.py"
 )
 
+os.system(
+    "python3.6 -m coverage run -m pytest ./pruebas/modelo/t_lectura_fichero.py"
+)
+
 os.system(f"rm {badget}")
 os.system("coverage-badge -o coverage.svg")
