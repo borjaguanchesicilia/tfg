@@ -7,7 +7,7 @@ class FicheroCsv:
 
         self.__v_parametros = vista
         self.__etiqueta = etiqueta
-        
+
         if fichero != None:
             self.__ruta_fichero = fichero
         else:
