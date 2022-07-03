@@ -1,3 +1,4 @@
+from src.modelo.m_planificar import ModeloPlanificar
 from src.funciones_aux import conversor_aeropueros
 from src.librerias import *
 from src.vista.v_barra_progreso import VistaBarraProgreso
@@ -18,6 +19,7 @@ class ControladorPlanificar:
         self.__controlador_general = controlador_general
         self.__controlador_parametros = controlador_parametros
         self.__controlador_etl = controlador_etl
+        self.__modelo_planificar = ModeloPlanificar()
         self.__f_o = -1
         self.__solver = -1
         self.__tiempos = pd.DataFrame()
@@ -62,8 +64,6 @@ class ControladorPlanificar:
                 origenes = (
                     self.__controlador_etl.get_modelo_etl().get_aeropuertos()
                 )
-
-                df_solucion = pd.DataFrame()
 
                 for aer in origenes:
 
@@ -178,17 +178,8 @@ class ControladorPlanificar:
                                         )
                                     else:
 
-                                        self.__tiempos = pd.concat(
-                                            [
-                                                self.__tiempos,
-                                                pd.DataFrame(
-                                                    {
-                                                        "origen": aer,
-                                                        "tiempo": modelo._computo_total,
-                                                    },
-                                                    index=[0],
-                                                ),
-                                            ]
+                                        self.__modelo_planificar.set_tiempos(
+                                            aer, modelo
                                         )
                                         try:
                                             controlador_barra_progreso.aumentar_progreso(
@@ -202,17 +193,12 @@ class ControladorPlanificar:
                                                 parent=self.__v_planificar,
                                             )
                                         else:
-                                            df_solucion = pd.concat(
-                                                [
-                                                    df_solucion,
-                                                    modelo.get_solucion(),
-                                                ]
+                                            self.__modelo_planificar.set_solucion(
+                                                modelo
                                             )
                                             self.__v_barra_progreso.destroy()
 
-                df_solucion.to_csv("./solucion.csv", sep=";", index=False)
                 self.__v_planificar.destroy()
                 self.__controlador_general.planificaion_realizada()
-                self.__tiempos.to_csv(
-                    "./tiempos_computo.csv", sep=";", index=False
-                )
+                self.__modelo_planificar.generar_fichero_solucion()
+                self.__modelo_planificar.generar_fichero_tiempos()
