@@ -1,6 +1,7 @@
+from src.modelo.etl import ModeloEtl
 from src.controlador.c_barra_progreso import BarraProgreso
 from src.librerias import *
-from src.modelo.etl import *
+from src.modelo.proceso_etl import *
 from src.modelo.funciones_aux import (
     conversor_aeropueros,
     obtener_nombre,
@@ -13,26 +14,17 @@ class ControladorEtl:
 
         self.__vista_etl = vista_etl
         self.__controlador_general = controlador_general
+        self.__modelo_etl = ModeloEtl(controlador_parametros)
 
-        self.__dias = controlador_parametros.get_dias()
-        self.__aeropuertos = controlador_parametros.get_aeropuertos()
-        self.__df_vue = None
-        self.__df_avi = None
-
-    def get_df_vuelos(self):
-        return self.__df_vue
-
-    def get_df_aviones(self):
-        return self.__df_avi
+    def get_modelo_etl(self):
+        return self.__modelo_etl
 
     def aplicar_etl(self, df_vuelos, df_aviones):
 
-        self.__df_vue = df_vuelos
-        self.__df_avi = df_aviones
-
-        lista_aeropuertos = conversor_aeropueros(self.__aeropuertos)
-
-        etl = Etl(self.__df_vue, lista_aeropuertos)
+        self.__modelo_etl.set_df_vuelos(df_vuelos)
+        self.__modelo_etl.set_df_aviones(df_aviones)
+ 
+        etl = Etl(self.__modelo_etl.get_df_vuelos(), self.__modelo_etl.get_aeropuertos(), self.__modelo_etl.get_dias())
 
         self.__vista_etl.attributes("-topmost", False)
 
@@ -58,7 +50,7 @@ class ControladorEtl:
                 controlador_barra_progreso.aumentar_progreso(
                     "32%: Extracción de días"
                 )
-                etl.extraer_semana(self.__dias)
+                etl.extraer_semana()
             except:
                 showerror(
                     "ERROR",
