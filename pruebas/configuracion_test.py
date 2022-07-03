@@ -18,5 +18,5 @@ controlador_parametros.guardar_parametros(
     0.5,
     80,
     60,
-    ["SPC", "TFN", "TFS"],
+    ["La Palma", "Tenerife Norte", "Tenerife Sur"],
 )
