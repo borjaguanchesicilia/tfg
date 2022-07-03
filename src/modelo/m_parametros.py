@@ -2,7 +2,6 @@ from src.modelo.funciones_aux import conversor_aeropueros
 
 
 class ModeloParametros:
-
     def __init__(self):
 
         self.__semana = ""

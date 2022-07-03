@@ -55,7 +55,9 @@ class Etl:
             self.__df_inicio["Opera_desde"], dayfirst=True
         )
 
-        inicio_operaciones = self.__df_inicio.loc[:, "Opera_desde"] <= ultimo_dia
+        inicio_operaciones = (
+            self.__df_inicio.loc[:, "Opera_desde"] <= ultimo_dia
+        )
         sub_df_ini = self.__df_inicio.loc[inicio_operaciones]
         sub_df_ini.head()
 

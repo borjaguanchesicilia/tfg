@@ -1,8 +1,10 @@
 import os
 
-badget = 'coverage.svg'
+badget = "coverage.svg"
 
-os.system('python3.6 -m coverage run -m pytest ./pruebas/controlador/t_c_parametros.py')
+os.system(
+    "python3.6 -m coverage run -m pytest ./pruebas/controlador/t_c_parametros.py"
+)
 
-os.system(f'rm {badget}')
-os.system('coverage-badge -o coverage.svg')
+os.system(f"rm {badget}")
+os.system("coverage-badge -o coverage.svg")

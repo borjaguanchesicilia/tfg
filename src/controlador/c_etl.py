@@ -23,8 +23,12 @@ class ControladorEtl:
 
         self.__modelo_etl.set_df_vuelos(df_vuelos)
         self.__modelo_etl.set_df_aviones(df_aviones)
- 
-        etl = Etl(self.__modelo_etl.get_df_vuelos(), self.__modelo_etl.get_aeropuertos(), self.__modelo_etl.get_dias())
+
+        etl = Etl(
+            self.__modelo_etl.get_df_vuelos(),
+            self.__modelo_etl.get_aeropuertos(),
+            self.__modelo_etl.get_dias(),
+        )
 
         self.__vista_etl.attributes("-topmost", False)
 

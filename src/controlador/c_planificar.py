@@ -59,20 +59,34 @@ class ControladorPlanificar:
         if self.__f_o != -1:
             self.comprobar_solver()
             if self.__solver != -1:
-                origenes = self.__controlador_etl.get_modelo_etl().get_aeropuertos()
-                
+                origenes = (
+                    self.__controlador_etl.get_modelo_etl().get_aeropuertos()
+                )
+
                 df_solucion = pd.DataFrame()
 
                 for aer in origenes:
 
                     df = pd.read_csv(aer + ".csv", sep=";")
-                    aviones = self.__controlador_etl.get_modelo_etl().get_df_aviones()
-                    jornada = self.__controlador_parametros.get_modelo_parametros().get_jornada()
+                    aviones = (
+                        self.__controlador_etl.get_modelo_etl().get_df_aviones()
+                    )
+                    jornada = (
+                        self.__controlador_parametros.get_modelo_parametros().get_jornada()
+                    )
                     entrevistadores = 2
-                    descanso = self.__controlador_parametros.get_modelo_parametros().get_descanso()
-                    velocidad = self.__controlador_parametros.get_modelo_parametros().get_velocidad()
-                    ocupacion = self.__controlador_parametros.get_modelo_parametros().get_ocupacion()
-                    exito = self.__controlador_parametros.get_modelo_parametros().get_exito()
+                    descanso = (
+                        self.__controlador_parametros.get_modelo_parametros().get_descanso()
+                    )
+                    velocidad = (
+                        self.__controlador_parametros.get_modelo_parametros().get_velocidad()
+                    )
+                    ocupacion = (
+                        self.__controlador_parametros.get_modelo_parametros().get_ocupacion()
+                    )
+                    exito = (
+                        self.__controlador_parametros.get_modelo_parametros().get_exito()
+                    )
 
                     modelo = Modelo(
                         aer,
