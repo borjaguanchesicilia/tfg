@@ -83,3 +83,9 @@ class VistaEtl(Toplevel):
 
     def set_etiqueta_fichero(self, nombre_fichero, etiqueta):
         etiqueta.set_texto("Fichero: " + nombre_fichero)
+
+    def get_etiqueta_fichero_vuelos(self):
+        return self.__e_fichero_vue
+
+    def get_etiqueta_fichero_aviones(self):
+        return self.__e_fichero_avi

@@ -19,7 +19,7 @@ class ControladorEtl:
         self.__df_aviones = pd.DataFrame()
         self.__modelo_etl = ModeloEtl(controlador_parametros)
 
-    def set_fichero_vuelos(self, etiqueta):
+    def set_fichero_vuelos(self, etiqueta, fichero=None):
         cabeceras = [
             "Unnamed: 0",
             "Unnamed: 1",
@@ -36,13 +36,13 @@ class ControladorEtl:
             "Origen",
         ]
         self.__df_vuelos = FicheroCsv(
-            self.__vista_etl, etiqueta, cabeceras
+            self.__vista_etl, etiqueta, cabeceras, fichero
         ).get_df()
 
-    def set_fichero_aviones(self, etiqueta):
+    def set_fichero_aviones(self, etiqueta, fichero=None):
         cabeceras = ["codigo_IATA", "asientos", "modelo"]
         self.__df_aviones = FicheroCsv(
-            self.__vista_etl, etiqueta, cabeceras
+            self.__vista_etl, etiqueta, cabeceras, fichero
         ).get_df()
 
     def get_fichero_vuelos(self):

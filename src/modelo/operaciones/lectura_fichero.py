@@ -3,19 +3,22 @@ from src.funciones_aux import obtener_nombre
 
 
 class FicheroCsv:
-    def __init__(self, vista, etiqueta, cabeceras):
+    def __init__(self, vista, etiqueta, cabeceras, fichero=None):
 
         self.__v_parametros = vista
         self.__etiqueta = etiqueta
-
-        ruta = str(os.path.dirname(os.path.abspath(__file__)))
-        self.__ruta_fichero = str(
-            filedialog.askopenfilename(
-                initialdir=ruta,
-                title="Abrir fichero vuelos",
-                parent=self.__v_parametros,
+        
+        if fichero != None:
+            self.__ruta_fichero = fichero
+        else:
+            ruta = str(os.path.dirname(os.path.abspath(__file__)))
+            self.__ruta_fichero = str(
+                filedialog.askopenfilename(
+                    initialdir=ruta,
+                    title="Abrir fichero vuelos",
+                    parent=self.__v_parametros,
+                )
             )
-        )
 
         try:
             assert self.__ruta_fichero != "()"

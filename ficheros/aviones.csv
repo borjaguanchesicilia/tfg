@@ -1,24 +1,24 @@
 codigo_IATA;asientos;modelo
-223;160;Airbus A220-300
-290;100;Embraer E190-E2
-295;132;Embraer E195-E2
+223;200;Airbus A220-300
+290;200;Embraer E190-E2
+295;200;Embraer E195-E2
 319;141;Airbus A319
 320;180;Airbus A320-100/200
 321;200;Airbus A321-100/200
-32A;186;Airbus A320(sharklets)
-32B;236;Airbus A321(sharklets)
-32Q;230;Airbus A321neo | LR | XLR
-32N;186;Airbus A320neo
+32A;220;Airbus A320(sharklets)
+32B;220;Airbus A321(sharklets)
+32Q;220;Airbus A321neo | LR | XLR
+32N;220;Airbus A320neo
 32S;220;Airbus A318/319/320/321
-332;268;Airbus A330-200
-333;335;Airbus A330-300
+332;288;Airbus A330-200
+333;295;Airbus A330-300
 343;295;Airbus A340-300
-717;134;Boeing 717
-735;132;Boeing 737-500
-73C;132;Boeing 737-300 Winglets
-73G;149;Boeing 737-700 | 737-700ER
+717;106;Boeing 717
+735;106;Boeing 737-500
+73C;189;Boeing 737-300 Winglets
+73G;189;Boeing 737-700 | 737-700ER
 73H;189;Boeing 737-800 Winglets
-73J;220;Boeing 737-900 Winglets
+73J;189;Boeing 737-900 Winglets
 73W;189;Boeing 737-700 Winglets
 738;189;Boeing 737-800
 7S8;189;Boeing ??
