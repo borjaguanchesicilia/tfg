@@ -18,11 +18,15 @@ def test_get_descanso():
 
 
 def test_get_velocidad():
-    assert controlador_parametros.get_modelo_parametros().get_velocidad() == 0.5
+    assert (
+        controlador_parametros.get_modelo_parametros().get_velocidad() == 0.5
+    )
 
 
 def test_get_ocupacion():
-    assert controlador_parametros.get_modelo_parametros().get_ocupacion() == 0.80
+    assert (
+        controlador_parametros.get_modelo_parametros().get_ocupacion() == 0.80
+    )
 
 
 def test_get_exito():
@@ -30,4 +34,7 @@ def test_get_exito():
 
 
 def test_get_aeropuertos():
-    assert controlador_parametros.get_modelo_parametros().get_aeropuertos() == ["SPC", "TFN", "TFS"]
+    assert (
+        controlador_parametros.get_modelo_parametros().get_aeropuertos()
+        == ["SPC", "TFN", "TFS"]
+    )
