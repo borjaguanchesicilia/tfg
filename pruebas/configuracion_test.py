@@ -11,6 +11,7 @@ vista_parametros = VistaParametros(app)
 controlador_parametros = ControladorParametros(
     vista_parametros, controlador_general
 )
+
 controlador_parametros.guardar_parametros(
     ["01/03/2022", "02/03/2022", "03/03/2022"],
     8,
@@ -19,4 +20,9 @@ controlador_parametros.guardar_parametros(
     80,
     60,
     ["La Palma", "Tenerife Norte", "Tenerife Sur"],
+)
+
+vista_etl = VistaEtl(app)
+controlador_etl = ControladorEtl(
+    vista_etl, controlador_parametros, controlador_general
 )

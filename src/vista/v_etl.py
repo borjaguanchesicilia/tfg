@@ -34,91 +34,52 @@ class VistaEtl(Toplevel):
         cabecera.pack(padx=10, pady=20)
 
         # Etiqueta cabecera
-        f_seleccion = Frame(self)
-        f_seleccion.config(bg="#333333")
+        self.__f_seleccion = Frame(self)
+        self.__f_seleccion.config(bg="#333333")
 
         # Introducir fichero GESLOT
-        self.__e_fichero_vue = Etiqueta(f_seleccion, "Fichero:", 2, 2)
+        self.__e_fichero_vue = Etiqueta(self.__f_seleccion, "Fichero:", 2, 2)
 
+        # Introducir fichero aviones
+        self.__e_fichero_avi = Etiqueta(self.__f_seleccion, "Fichero:", 3, 2)
+
+        self.__f_seleccion.pack(padx=10, pady=20)
+
+    def set_controlador(self, controlador):
+        self.__controlador = controlador
+
+    def set_botones(self):
         self.__b_fichero_vue = Boton(
-            f_seleccion,
+            self.__f_seleccion,
             "Introducir fichero GESLOT",
-            partial(self.introducir_fic_vue, self.__e_fichero_vue),
+            partial(
+                self.__controlador.set_fichero_vuelos, self.__e_fichero_vue
+            ),
             2,
             0,
             15,
         )
 
-        # Introducir fichero aviones
-        self.__e_fichero_avi = Etiqueta(f_seleccion, "Fichero:", 3, 2)
-
         self.__b_fichero_avi = Boton(
-            f_seleccion,
+            self.__f_seleccion,
             "Introducir fichero aviones",
-            partial(self.introducir_fic_avi, self.__e_fichero_avi),
+            partial(
+                self.__controlador.set_fichero_aviones, self.__e_fichero_avi
+            ),
             3,
             0,
             15,
         )
 
         self.boton_etl = Boton(
-            f_seleccion, "Aplicar ETL", self.aplicar_etl, 4, 0, 15, 2
+            self.__f_seleccion,
+            "Aplicar ETL",
+            self.__controlador.comprobar_etl,
+            4,
+            0,
+            15,
+            2,
         )
-
-        f_seleccion.pack(padx=10, pady=20)
-
-    def set_controlador(self, controlador):
-        self.__controlador = controlador
-
-    def introducir_fic_vue(self, etiqueta):
-        cabeceras = [
-            "Unnamed: 0",
-            "Unnamed: 1",
-            "Destino",
-            "Codigo",
-            "Dia_semana",
-            "Opera_desde",
-            "Opera_hasta",
-            "Hora_Salida",
-            "Aeronave",
-            "Num_vuelo",
-            "Pais",
-            "Escala",
-            "Origen",
-        ]
-        self.__fic_vue = FicheroCsv(self, etiqueta, cabeceras)
-
-    def introducir_fic_avi(self, etiqueta):
-        cabeceras = ["codigo_IATA", "asientos", "modelo"]
-        self.__fic_avi = FicheroCsv(self, etiqueta, cabeceras)
-
-    def get_fic_vue(self):
-        return self.__fic_vue.get_df()
-
-    def get_fic_avi(self):
-        return self.__fic_avi.get_df()
 
     def set_etiqueta_fichero(self, nombre_fichero, etiqueta):
         etiqueta.set_texto("Fichero: " + nombre_fichero)
-
-    def aplicar_etl(self):
-        if self.__controlador != None:
-            try:
-                test = self.get_fic_vue()
-            except:
-                showerror(
-                    "ERROR", "Falta introducir el fichero GESLOT", parent=self
-                )
-            else:
-                try:
-                    test = self.get_fic_avi()
-                except:
-                    showerror(
-                        "ERROR",
-                        "Falta introducir el fichero de aviones",
-                        parent=self,
-                    )
-                else:
-                    self.__controlador.aplicar_etl(
-                        self.get_fic_vue(), self.get_fic_avi()
-                    )

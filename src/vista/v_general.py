@@ -114,6 +114,7 @@ class Vista(Frame):
             vista_etl, self.__controlador_parametros, self.__controlador
         )
         vista_etl.set_controlador(self.__controlador_etl)
+        vista_etl.set_botones()
 
     def vista_planificar(self):
         vista_planificar = VistaPlanificar(self.app)

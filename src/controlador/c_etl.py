@@ -1,3 +1,4 @@
+from src.modelo.operaciones.lectura_fichero import FicheroCsv
 from src.modelo.m_etl import ModeloEtl
 from src.controlador.c_barra_progreso import BarraProgreso
 from src.librerias import *
@@ -14,15 +15,70 @@ class ControladorEtl:
 
         self.__vista_etl = vista_etl
         self.__controlador_general = controlador_general
+        self.__df_vuelos = pd.DataFrame()
+        self.__df_aviones = pd.DataFrame()
         self.__modelo_etl = ModeloEtl(controlador_parametros)
+
+    def set_fichero_vuelos(self, etiqueta):
+        cabeceras = [
+            "Unnamed: 0",
+            "Unnamed: 1",
+            "Destino",
+            "Codigo",
+            "Dia_semana",
+            "Opera_desde",
+            "Opera_hasta",
+            "Hora_Salida",
+            "Aeronave",
+            "Num_vuelo",
+            "Pais",
+            "Escala",
+            "Origen",
+        ]
+        self.__df_vuelos = FicheroCsv(
+            self.__vista_etl, etiqueta, cabeceras
+        ).get_df()
+
+    def set_fichero_aviones(self, etiqueta):
+        cabeceras = ["codigo_IATA", "asientos", "modelo"]
+        self.__df_aviones = FicheroCsv(
+            self.__vista_etl, etiqueta, cabeceras
+        ).get_df()
+
+    def get_fichero_vuelos(self):
+        return self.__df_vuelos
+
+    def get_fichero_aviones(self):
+        return self.__df_aviones
 
     def get_modelo_etl(self):
         return self.__modelo_etl
 
-    def aplicar_etl(self, df_vuelos, df_aviones):
+    def comprobar_etl(self):
+        try:
+            assert self.get_fichero_vuelos().empty == False
+        except:
+            showerror(
+                "ERROR",
+                "Falta introducir el fichero GESLOT",
+                parent=self.__vista_etl,
+            )
+        else:
+            try:
+                assert self.get_fichero_aviones().empty == False
+            except:
+                showerror(
+                    "ERROR",
+                    "Falta introducir el fichero de aviones",
+                    parent=self.__vista_etl,
+                )
+            else:
+                self.aplicar_etl()
 
-        self.__modelo_etl.set_df_vuelos(df_vuelos)
-        self.__modelo_etl.set_df_aviones(df_aviones)
+    def aplicar_etl(self):
+
+        self.__modelo_etl.set_df_vuelos(self.__df_vuelos)
+        self.__modelo_etl.set_df_aviones(self.__df_aviones)
 
         etl = Etl(
             self.__modelo_etl.get_df_vuelos(),
