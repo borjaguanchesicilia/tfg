@@ -102,7 +102,8 @@ class ControladorEtl:
                                 controlador_barra_progreso.aumentar_progreso(
                                     "100%: División"
                                 )
-                                etl.dividir()
+                                self.__modelo_etl.set_df(etl.get_df())
+                                self.__modelo_etl.guardar_df()
                             except:
                                 showerror(
                                     "ERROR",

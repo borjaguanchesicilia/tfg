@@ -67,7 +67,7 @@ class ControladorPlanificar:
 
                 for aer in origenes:
 
-                    df = pd.read_csv(aer + ".csv", sep=";")
+                    df = self.__controlador_etl.get_modelo_etl().get_df(aer)
                     aviones = (
                         self.__controlador_etl.get_modelo_etl().get_df_aviones()
                     )

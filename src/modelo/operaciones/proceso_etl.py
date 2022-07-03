@@ -5,9 +5,13 @@ class Etl:
     def __init__(self, df, aeropuertos, semana):
 
         self.__df_inicio_aux = df
+        self.__df = pd.DataFrame()
         self.__aeropuertos = aeropuertos
         self.__semana = semana
         self.__dias = []
+
+    def get_df(self):
+        return self.__df
 
     def eliminacion_columnas(self):
 
@@ -174,8 +178,8 @@ class Etl:
             "origen",
         ]
 
-        self.df = self.__df_dias_sueltos.append(df_aux, ignore_index=True)
-        self.df = self.df[
+        self.__df = self.__df_dias_sueltos.append(df_aux, ignore_index=True)
+        self.__df = self.__df[
             [
                 "num_vuelo",
                 "dia_sem",
@@ -189,7 +193,7 @@ class Etl:
                 "origen",
             ]
         ]
-        self.df = self.df.reset_index(drop=True)
+        self.__df = self.__df.reset_index(drop=True)
 
     def convertir_dias(self):
 
@@ -199,41 +203,31 @@ class Etl:
         while cont_dias <= max(self.__dias):
             # Lunes
             if dt_module.datetime.weekday(cont_dias) == 0:
-                self.df.loc[(self.df.dia_sem == 1), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 1), "dia_sem"] = cont_dias
             # Martes
             elif dt_module.datetime.weekday(cont_dias) == 1:
-                self.df.loc[(self.df.dia_sem == 2), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 2), "dia_sem"] = cont_dias
             # Miércoles
             elif dt_module.datetime.weekday(cont_dias) == 2:
-                self.df.loc[(self.df.dia_sem == 3), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 3), "dia_sem"] = cont_dias
             # Juevas
             elif dt_module.datetime.weekday(cont_dias) == 3:
-                self.df.loc[(self.df.dia_sem == 4), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 4), "dia_sem"] = cont_dias
             # Viernes
             elif dt_module.datetime.weekday(cont_dias) == 4:
-                self.df.loc[(self.df.dia_sem == 5), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 5), "dia_sem"] = cont_dias
             # Sábado
             elif dt_module.datetime.weekday(cont_dias) == 5:
-                self.df.loc[(self.df.dia_sem == 6), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 6), "dia_sem"] = cont_dias
             # Domingo
             elif dt_module.datetime.weekday(cont_dias) == 6:
-                self.df.loc[(self.df.dia_sem == 7), "dia_sem"] = cont_dias
+                self.__df.loc[(self.__df.dia_sem == 7), "dia_sem"] = cont_dias
 
             cont_dias = pd.to_datetime(
                 cont_dias + dt_module.timedelta(days=1), dayfirst=True
             )
 
         # Borrado de días sueltos
-        self.df = self.df[
-            self.df["dia_sem"].apply(lambda x: not isinstance(x, int))
+        self.__df = self.__df[
+            self.__df["dia_sem"].apply(lambda x: not isinstance(x, int))
         ]
-
-    def dividir(self):
-
-        self.df.to_csv(f"geslot_etl.csv", sep=";", columns=None, index=False)
-        self.df = self.df.drop(["opera_desde", "opera_hasta"], axis=1)
-        self.df["dia_sem"] = pd.to_datetime(self.df["dia_sem"], dayfirst=True)
-
-        for aeropuerto in self.__aeropuertos:
-            df2 = self.df[self.df["origen"] == aeropuerto]
-            df2.to_csv(f"{aeropuerto}.csv", sep=";", columns=None, index=False)
