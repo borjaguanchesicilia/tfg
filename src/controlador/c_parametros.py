@@ -1,16 +1,15 @@
+from src.modelo.m_parametros import ModeloParametros
+
+
 class ControladorParametros:
     def __init__(self, vista_parametros, controlador_general):
 
         self.__vista_parametros = vista_parametros
         self.__controlador_general = controlador_general
+        self.__modelo_parametros = ModeloParametros()
 
-        self.__semana = ""
-        self.__jornada = 0
-        self.__descanso = 0
-        self.__velocidad = 0
-        self.__ocupacion = 0
-        self.__exito = 0
-        self.__aeropuertos = []
+    def get_modelo_parametros(self):
+        return self.__modelo_parametros
 
     def guardar_parametros(
         self,
@@ -22,33 +21,12 @@ class ControladorParametros:
         exito,
         aeropuertos,
     ):
-        self.__dias = dias
-        self.__jornada = int(jornada)
-        self.__descanso = int(descanso)
-        self.__velocidad = float(velocidad)
-        self.__ocupacion = float(ocupacion / 100)
-        self.__exito = float(exito / 100)
-        self.__aeropuertos = aeropuertos
+        self.__modelo_parametros.set_dias(dias)
+        self.__modelo_parametros.set_jornada(jornada)
+        self.__modelo_parametros.set_descanso(descanso)
+        self.__modelo_parametros.set_velocidad(velocidad)
+        self.__modelo_parametros.set_ocupacion(ocupacion)
+        self.__modelo_parametros.set_exito(exito)
+        self.__modelo_parametros.set_aeropuertos(aeropuertos)
 
         self.__controlador_general.parametros_guardados()
-
-    def get_dias(self):
-        return self.__dias
-
-    def get_jornada(self):
-        return self.__jornada
-
-    def get_descanso(self):
-        return self.__descanso
-
-    def get_velocidad(self):
-        return self.__velocidad
-
-    def get_ocupacion(self):
-        return self.__ocupacion
-
-    def get_exito(self):
-        return self.__exito
-
-    def get_aeropuertos(self):
-        return self.__aeropuertos

@@ -1,5 +1,5 @@
 from src.librerias import *
-from src.modelo.lectura_fichero import FicheroCsv
+from src.modelo.operaciones.lectura_fichero import FicheroCsv
 from src.vista.v_parametros import *
 from src.vista.componentes_vistas.check_list import ChecklistBox
 

@@ -2,7 +2,7 @@ from src.modelo.funciones_aux import conversor_aeropueros
 from src.librerias import *
 from src.vista.v_barra_progreso import VistaBarraProgreso
 from src.controlador.c_barra_progreso import BarraProgreso
-from src.modelo.modelo_matematico import Modelo
+from src.modelo.operaciones.modelo_matematico import Modelo
 
 
 class ControladorPlanificar:
@@ -67,12 +67,12 @@ class ControladorPlanificar:
 
                     df = pd.read_csv(aer + ".csv", sep=";")
                     aviones = self.__controlador_etl.get_modelo_etl().get_df_aviones()
-                    jornada = self.__controlador_parametros.get_jornada()
+                    jornada = self.__controlador_parametros.get_modelo_parametros().get_jornada()
                     entrevistadores = 2
-                    descanso = self.__controlador_parametros.get_descanso()
-                    velocidad = self.__controlador_parametros.get_velocidad()
-                    ocupacion = self.__controlador_parametros.get_ocupacion()
-                    exito = self.__controlador_parametros.get_exito()
+                    descanso = self.__controlador_parametros.get_modelo_parametros().get_descanso()
+                    velocidad = self.__controlador_parametros.get_modelo_parametros().get_velocidad()
+                    ocupacion = self.__controlador_parametros.get_modelo_parametros().get_ocupacion()
+                    exito = self.__controlador_parametros.get_modelo_parametros().get_exito()
 
                     modelo = Modelo(
                         aer,
