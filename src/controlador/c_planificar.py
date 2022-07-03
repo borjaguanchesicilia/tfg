@@ -151,7 +151,7 @@ class ControladorPlanificar:
                                         parent=self.__v_planificar,
                                     )
                                 else:
-                                    #iniciar_crono = time()
+                                    # iniciar_crono = time()
                                     try:
                                         controlador_barra_progreso.aumentar_progreso(
                                             "84%: Resolviendo problema"
@@ -164,13 +164,19 @@ class ControladorPlanificar:
                                             parent=self.__v_planificar,
                                         )
                                     else:
-                                        
-                                        self.__tiempos = pd.concat([self.__tiempos, pd.DataFrame(
-                                            {
-                                                "origen": aer,
-                                                "tiempo": modelo._computo_total
-                                            }, index=[0]
-                                        )])
+
+                                        self.__tiempos = pd.concat(
+                                            [
+                                                self.__tiempos,
+                                                pd.DataFrame(
+                                                    {
+                                                        "origen": aer,
+                                                        "tiempo": modelo._computo_total,
+                                                    },
+                                                    index=[0],
+                                                ),
+                                            ]
+                                        )
                                         try:
                                             controlador_barra_progreso.aumentar_progreso(
                                                 "100%: Formateando solución"
@@ -194,4 +200,6 @@ class ControladorPlanificar:
                 df_solucion.to_csv("./solucion.csv", sep=";", index=False)
                 self.__v_planificar.destroy()
                 self.__controlador_general.planificaion_realizada()
-                self.__tiempos.to_csv("./tiempos_computo.csv", sep=";", index=False)
+                self.__tiempos.to_csv(
+                    "./tiempos_computo.csv", sep=";", index=False
+                )

@@ -191,7 +191,9 @@ class Modelo:
             self.__z[p] = LpVariable("z(" + str(p) + ")", 0, 1, LpBinary)
 
         # FUNCION OBJETIVO
-        self.__solver = LpProblem(f"Problema_FRONTUR_{self.__origen}", LpMaximize)
+        self.__solver = LpProblem(
+            f"Problema_FRONTUR_{self.__origen}", LpMaximize
+        )
 
         if self.__f_o == 0:
             self.__solver += lpSum(
@@ -295,7 +297,9 @@ class Modelo:
                             or hora_i - (consumo_i / 2) < hora_j - jorn
                         ):
                             # or hora_i - (consumo_i / 2) - desc + jorn < hora_j):
-                            self.__solver += self.__x[i, k] + self.__x[j, k] <= 1
+                            self.__solver += (
+                                self.__x[i, k] + self.__x[j, k] <= 1
+                            )
 
                         elif hora_i > hora_j - consumo_j - desc:
                             self.__solver += self.__x[i, k] + self.__x[
@@ -314,13 +318,11 @@ class Modelo:
 
         if self.__solucionador == 1:
             self.__solver.solve(GUROBI(msg=False))
-            self._computo_total = self.__solver.solutionTime
         else:
             self.__solver.solve()
-        
+
         self._computo_total = self.__solver.solutionTime
 
-        
     def formatear_solucion(self):
 
         origen = []

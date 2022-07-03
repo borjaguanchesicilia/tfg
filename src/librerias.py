@@ -16,4 +16,3 @@ from threading import Thread
 import subprocess
 from math import ceil
 from pulp import *
-import signal
