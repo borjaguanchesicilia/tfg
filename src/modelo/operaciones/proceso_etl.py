@@ -5,6 +5,7 @@ class Etl:
     def __init__(self, df, aeropuertos, semana):
 
         self.__df_inicio_aux = df
+        self.__df_inicio = pd.DataFrame()
         self.__df = pd.DataFrame()
         self.__aeropuertos = aeropuertos
         self.__semana = semana
@@ -13,14 +14,15 @@ class Etl:
     def get_df(self):
         return self.__df
 
+    def get_df_inicio(self):
+        return self.__df_inicio
+
     def eliminacion_columnas(self):
 
         self.__df_inicio_aux = self.__df_inicio_aux.drop(["Escala"], axis=1)
         self.__df_inicio_aux = self.__df_inicio_aux.drop(
             self.__df_inicio_aux.columns[[0, 1]], axis="columns"
         )
-
-        self.__df_inicio = pd.DataFrame()
 
         for aer in self.__aeropuertos:
             self.__df_inicio = pd.concat(
