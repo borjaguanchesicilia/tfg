@@ -22,10 +22,11 @@ class ControladorPlanificar:
         self.__modelo_planificar = ModeloPlanificar()
         self.__f_o = -1
         self.__solver = -1
-        self.__tiempos = pd.DataFrame()
 
     def comprobar_funcion_objetivo(self):
-        f_objetivo = self.__v_planificar.get_funcion_objetivo().get_valores()
+        f_objetivo = self.__v_planificar.get_funcion_objetivo()
+        if type(f_objetivo) != list:
+            f_objetivo = f_objetivo.get_valores()
         if len(f_objetivo) != 1:
             showerror(
                 "ERROR",
@@ -43,7 +44,9 @@ class ControladorPlanificar:
                 self.__f_o = 2
 
     def comprobar_solver(self):
-        solver = self.__v_planificar.get_solver().get_valores()
+        solver = self.__v_planificar.get_solver()
+        if type(solver) != list:
+            solver = solver.get_valores()
         if len(solver) != 1:
             showerror(
                 "ERROR",
@@ -55,6 +58,12 @@ class ControladorPlanificar:
                 self.__solver = 0
             else:  # Gurobi
                 self.__solver = 1
+
+    def get_funcion_objetivo(self):
+        return self.__f_o
+
+    def get_solver(self):
+        return self.__solver
 
     def planificar(self):
         self.comprobar_funcion_objetivo()

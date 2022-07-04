@@ -53,12 +53,16 @@ class VistaPlanificar(Toplevel):
         self.__controlador = controlador
 
     def get_funcion_objetivo(self):
-        # print(self.__checklist_fo)
         return self.__checklist_fo
 
     def get_solver(self):
-        # print(self.__checklist_solver)
         return self.__checklist_solver
+
+    def set_funcion_objetivo(self, f_objetivo):
+        self.__checklist_fo = f_objetivo
+
+    def set_solver(self, solver):
+        self.__checklist_solver = solver
 
     def invocar_planificador(self):
         self.__controlador.planificar()

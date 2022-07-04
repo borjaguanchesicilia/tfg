@@ -31,3 +31,8 @@ controlador_etl = ControladorEtl(
 )
 vista_etl.set_controlador(controlador_etl)
 vista_etl.set_botones()
+
+# Planificar
+vista_planificar = VistaPlanificar(app)
+controlador_planificar = ControladorPlanificar(vista_planificar, controlador_general, controlador_parametros, controlador_etl)
+vista_planificar.set_controlador(controlador_planificar)
