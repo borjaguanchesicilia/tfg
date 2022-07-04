@@ -2,9 +2,12 @@ from pruebas.configuracion_test import *
 
 
 def test_get_modelo():
-    assert type(controlador_parametros.get_modelo_parametros()) == ModeloParametros
+    assert (
+        type(controlador_parametros.get_modelo_parametros())
+        == ModeloParametros
+    )
 
-    
+
 def test_get_dias():
     assert controlador_parametros.get_modelo_parametros().get_dias() == [
         "01/03/2022",

@@ -18,7 +18,9 @@ class ControladorParametros:
             assert self.__vista_parametros.get_len_dias() > 0
         except:
             showerror(
-                "ERROR", "Debe introducir al menos 1 día", parent=self.__vista_parametros
+                "ERROR",
+                "Debe introducir al menos 1 día",
+                parent=self.__vista_parametros,
             )
         else:
             try:

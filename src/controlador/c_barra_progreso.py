@@ -17,4 +17,3 @@ class BarraProgreso(Thread):
             return True
         else:
             return False
-            
