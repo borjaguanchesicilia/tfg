@@ -107,6 +107,7 @@ class Vista(Frame):
             vista_parametros, self.__controlador
         )
         vista_parametros.set_controlador(self.__controlador_parametros)
+        vista_parametros.set_botones()
 
     def vista_etl(self):
         vista_etl = VistaEtl(self.app)

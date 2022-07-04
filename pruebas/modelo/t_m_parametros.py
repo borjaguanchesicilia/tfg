@@ -1,4 +1,3 @@
-from fcntl import F_DUPFD
 from pruebas.configuracion_test import *
 
 

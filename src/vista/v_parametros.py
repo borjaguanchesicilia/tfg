@@ -154,16 +154,6 @@ class VistaParametros(Toplevel):
             self.__f_calendario, "Ayuda", self.ayuda, 2, 0
         )
 
-        # Boton introducir parametros
-        self.__boton__intro_par = Boton(
-            self.__f_calendario,
-            "Introducir parámetros",
-            self.introducir_parametros,
-            3,
-            0,
-            20,
-        )
-
         self.__f_calendario.pack(padx=20, side=LEFT)
 
         self.__f_parametros.pack(padx=10, pady=20)
@@ -171,38 +161,16 @@ class VistaParametros(Toplevel):
     def set_controlador(self, controlador):
         self.__controlador = controlador
 
-    def introducir_parametros(self):
-        if self.__controlador != None:
-
-            try:
-                assert self.get_len_dias() > 0
-            except:
-                showerror(
-                    "ERROR", "Debe introducir al menos 1 día", parent=self
-                )
-            else:
-                try:
-                    # No se ha seleccionado ningún aeropuerto
-                    assert len(self.get_aeropuertos()) > 0
-                except:
-                    showerror(
-                        "ERROR",
-                        "Debe seleccionar al menos un aeropuerto",
-                        parent=self,
-                    )
-                else:
-                    self.__controlador.guardar_parametros(
-                        self.get_dias(),
-                        self.get_jornada_laboral(),
-                        self.get_descanso(),
-                        self.get_velocidad(),
-                        self.get_ocupacion(),
-                        self.get_exito(),
-                        self.get_aeropuertos(),
-                    )
-
-                    self.destroy()
-                    del self
+    def set_botones(self):
+        # Boton introducir parametros
+        self.__boton__intro_par = Boton(
+            self.__f_calendario,
+            "Introducir parámetros",
+            self.__controlador.introducir_parametros,
+            3,
+            0,
+            20,
+        )
 
     def set_frame_dias(self):
         self.__f_dias = Frame(self.__f_config)
@@ -210,16 +178,10 @@ class VistaParametros(Toplevel):
         self.__scroll_bar = ScrollBar(self.__f_dias)
         self.__scroll_bar.pack()
 
-    def get_scroll_bar(self):
-        return self.__scroll_bar.get_frame_scroll()
-
-    def obtener_dia(self):
-        return str(self.__calendario.get_date()).split("-")
-
     def introducir_dia(self):
         if self.get_len_dias() == 0:
             self.set_frame_dias()
-        fecha = self.obtener_dia()
+        fecha = self.get_dia()
         fecha = str(fecha[2]) + "/" + str(fecha[1]) + "/" + str(fecha[0])
         self.__dias.append(
             ParametroDia(self.get_scroll_bar(), self, fecha, len(self.__dias))
@@ -246,6 +208,12 @@ class VistaParametros(Toplevel):
 
     def ayuda(self):
         pass
+
+    def get_scroll_bar(self):
+        return self.__scroll_bar.get_frame_scroll()
+
+    def get_dia(self):
+        return str(self.__calendario.get_date()).split("-")
 
     def get_dias(self):
         lista_dias = [dia.get_dia() for dia in self.__dias]
