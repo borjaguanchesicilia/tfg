@@ -89,8 +89,6 @@ class Modelo:
             ] = encuestas
             self.__df.loc[(self.__df.aeronave == modelo), "consumo"] = consumo
 
-        self.__df.to_csv("./paso1modelo.csv", sep=";", index=False)
-
     def calculo_encuestas(self):
 
         df_estimacion_pasajeros = self.__df.groupby("pais")["ocupacion"].sum()
