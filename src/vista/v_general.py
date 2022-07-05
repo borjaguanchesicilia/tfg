@@ -70,27 +70,6 @@ class Vista(Frame):
             self.__f_menu, "Planificar", self.vista_planificar, 2, 2
         )
 
-        # Botones ocultos
-
-        # Botón "Ver parámetros"
-        self.boton_ver_parametros = Boton(
-            self.__f_menu, "Ver parámetros", self.vista_ver_parametros, 0, 4
-        )
-
-        # Botón "Ver fichero"
-        self.boton_ver_dataframes = Boton(
-            self.__f_menu, "Ver dataframes", self.vista_ver_dataframes, 1, 4
-        )
-
-        # Botón "Ver planificación"
-        self.boton_ver_planificacion = Boton(
-            self.__f_menu,
-            "Ver planificación",
-            self.vista_ver_planificacion,
-            2,
-            4,
-        )
-
         # Botón "Ayuda"
         self.boton_ayuda = Boton(
             self.__f_menu, "Ayuda", self.ayuda, 3, 2, columnspan=4
@@ -126,15 +105,6 @@ class Vista(Frame):
             self.__controlador_etl,
         )
         vista_planificar.set_controlador(controlador_planificar)
-
-    def vista_ver_parametros(self):
-        pass
-
-    def vista_ver_dataframes(self):
-        pass
-
-    def vista_ver_planificacion(self):
-        pass
 
     def ayuda(self):
         pass
