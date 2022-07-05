@@ -57,7 +57,7 @@ etl_mod.convertir_dias()
 
 
 modelo = Modelo(
-    aeropuertos, etl_mod.get_df(), aviones, 8, 2, 10, 0.5, 0.8, 0.6, 2, 1
+    aeropuertos, etl_mod.get_df(), aviones, 8, 2, 10, 0.5, 0.8, 0.6, 2, 0
 )
 
 
@@ -113,3 +113,9 @@ def test_get_destinos():
 
 def test_i_p():
     assert len(modelo.get_i_p()) == 3
+
+
+def test_resolver():
+    modelo.resolver()
+    solucion = modelo.formatear_solucion()
+    assert solucion[1] == ["DINAMARCA", "ESPANIA", "PORTUGAL"]
