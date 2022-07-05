@@ -89,6 +89,8 @@ class Modelo:
             ] = encuestas
             self.__df.loc[(self.__df.aeronave == modelo), "consumo"] = consumo
 
+        self.__df.to_csv("./paso1modelo.csv", sep=";", index=False)
+
     def calculo_encuestas(self):
 
         df_estimacion_pasajeros = self.__df.groupby("pais")["ocupacion"].sum()
@@ -159,6 +161,8 @@ class Modelo:
                 (self.__df.consumo == consumo), "consumo"
             ] = datetime.strptime(str(consumo), "%H:%M:%S").time()
 
+        return horas
+
     def calculos_destinos(self):
         self.__destinos = sorted((self.__df["pais"]).unique())
 
@@ -167,6 +171,24 @@ class Modelo:
             (self.__df.index[self.__df.pais == self.__destinos[p]]).tolist()
             for p in self.__P
         ]
+
+    def get_df(self):
+        return self.__df
+
+    def get_encuestas_minimas(self):
+        return self.__encuestas_minimas
+
+    def get_maximo_pasajeros(self):
+        return self.__maximo_pasajeros
+
+    def get_encuestas_maximas(self):
+        return self.__encuestas_maximas
+
+    def get_destinos(self):
+        return self.__destinos
+
+    def get_i_p(self):
+        return self.__i_p
 
     def resolver(self):
         # VARIABLES
@@ -413,6 +435,22 @@ class Modelo:
                 ),
             ]
         )
+
+        return [
+            origen,
+            regiones,
+            l_vuelos_encuestador_1,
+            l_vuelos_encuestador_2,
+            num_vuelos_encuestados,
+            l_encuestas_1,
+            l_encuestas_2,
+            pasajeros_encuestados,
+            pasajeros_total,
+            num_vuelos_total,
+            encuestas_minimas,
+            encuestas_maximas,
+            donaciones,
+        ]
 
     def get_solucion(self):
         return self.__df_solucion
