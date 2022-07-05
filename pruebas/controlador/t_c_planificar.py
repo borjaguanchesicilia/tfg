@@ -1,6 +1,15 @@
 from pruebas.configuracion_test import *
 
 
+def test_planificar():
+    assert controlador_planificar.planificar() == -1
+
+
+def test_planificar_2():
+    vista_planificar.set_funcion_objetivo(["Neutral"])
+    assert controlador_planificar.planificar() == -2
+
+
 def test_comprobar_funcion_objetivo_1():
     vista_planificar.set_funcion_objetivo(["Neutral"])
     controlador_planificar.comprobar_funcion_objetivo()

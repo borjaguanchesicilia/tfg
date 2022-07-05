@@ -33,6 +33,7 @@ class ControladorPlanificar:
                 "Debe seleccionar 1 solo tipo de función objetivo",
                 parent=self.__v_planificar,
             )
+            return False
         else:
             if len(f_objetivo[0]) == 7:  # Neutral
                 self.__f_o = 0
@@ -42,6 +43,7 @@ class ControladorPlanificar:
                 self.__f_o = 1
             else:  # Penalizar empleo de un encuestador
                 self.__f_o = 2
+            return True
 
     def comprobar_solver(self):
         solver = self.__v_planificar.get_solver()
@@ -53,11 +55,13 @@ class ControladorPlanificar:
                 "Debe seleccionar 1 solo solver",
                 parent=self.__v_planificar,
             )
+            return False
         else:
             if len(solver[0]) == 3:  # CBC
                 self.__solver = 0
             else:  # Gurobi
                 self.__solver = 1
+            return True
 
     def get_funcion_objetivo(self):
         return self.__f_o
@@ -66,10 +70,9 @@ class ControladorPlanificar:
         return self.__solver
 
     def planificar(self):
-        self.comprobar_funcion_objetivo()
-        if self.__f_o != -1:
-            self.comprobar_solver()
-            if self.__solver != -1:
+        if self.comprobar_funcion_objetivo() != False:
+
+            if self.comprobar_solver() != False:
                 origenes = (
                     self.__controlador_etl.get_modelo_etl().get_aeropuertos()
                 )
@@ -211,3 +214,7 @@ class ControladorPlanificar:
                 self.__controlador_general.planificaion_realizada()
                 self.__modelo_planificar.generar_fichero_solucion()
                 self.__modelo_planificar.generar_fichero_tiempos()
+            else:
+                return -2
+        else:
+            return -1
