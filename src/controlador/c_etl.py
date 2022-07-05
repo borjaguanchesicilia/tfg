@@ -74,6 +74,7 @@ class ControladorEtl:
                 )
             else:
                 self.aplicar_etl()
+                return True
 
     def aplicar_etl(self):
 

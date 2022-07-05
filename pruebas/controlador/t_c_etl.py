@@ -15,3 +15,7 @@ def test_get_fichero_aviones():
 
 def test_get_fichero_vuelos():
     assert controlador_etl.get_fichero_vuelos().empty == False
+
+
+def test_comprobar_etl():
+    assert controlador_etl.comprobar_etl() == True
