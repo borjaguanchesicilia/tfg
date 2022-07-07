@@ -207,7 +207,7 @@ class VistaParametros(Toplevel):
             ]
 
     def ayuda(self):
-        open_new(r'./ayuda.pdf')
+        open_new('https://github.com/borjaguanchesicilia/tfg/blob/master/README.md')
 
     def get_scroll_bar(self):
         return self.__scroll_bar.get_frame_scroll()

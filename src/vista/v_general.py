@@ -107,4 +107,4 @@ class Vista(Frame):
         vista_planificar.set_controlador(controlador_planificar)
 
     def ayuda(self):
-        open_new(r'./ayuda.pdf')
+        open_new('https://github.com/borjaguanchesicilia/tfg/blob/master/README.md')    
