@@ -16,4 +16,4 @@ from threading import Thread
 import subprocess
 from math import ceil
 from pulp import *
-from webbrowser import *
+import webbrowser

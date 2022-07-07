@@ -206,8 +206,8 @@ class VistaParametros(Toplevel):
                 for i in lista_aux
             ]
 
-    def ayuda(self):
-        open_new('https://github.com/borjaguanchesicilia/tfg/blob/master/README.md')
+    def ayuda(self): 
+        webbrowser.get('firefox').open('https://github.com/borjaguanchesicilia/tfg/blob/master/README.md')
 
     def get_scroll_bar(self):
         return self.__scroll_bar.get_frame_scroll()

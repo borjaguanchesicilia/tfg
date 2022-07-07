@@ -107,4 +107,5 @@ class Vista(Frame):
         vista_planificar.set_controlador(controlador_planificar)
 
     def ayuda(self):
-        open_new('https://github.com/borjaguanchesicilia/tfg/blob/master/README.md')    
+        webbrowser.get('firefox').open('https://github.com/borjaguanchesicilia/tfg/blob/master/README.md')
+        
