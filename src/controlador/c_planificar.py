@@ -7,6 +7,29 @@ from src.modelo.operaciones.modelo_matematico import Modelo
 
 
 class ControladorPlanificar:
+    """
+    Clase para representar el controlador de la vista para introducir las
+    configuraciones para el solucionador.
+
+    Atributes
+    ----------
+    v_planificar : VistaPlanificar
+        Toplevel widget para representar la ventana para introducir las
+        configuraciones para el solucionador.
+    
+    controlador_general : ControladorGeneral
+        Controlador para manipular la ventana principal.
+
+    controlador_parametros : ControladorGeneral
+            Controlador para manipular la ventana de los parametros.
+
+    controlador_etl : ControladorEtl
+            Controlador para manipular la ventana encargada del proceso ETL.
+
+    modelo_planificar : ModeloPlanificar
+        Modelo para almacenar las soluciones del solucionador.
+    """
+
     def __init__(
         self,
         vista_planificar,
@@ -14,6 +37,22 @@ class ControladorPlanificar:
         controlador_parametros,
         controlador_etl,
     ):
+        """
+        Parameters
+        ----------
+        v_planificar : VistaPlanificar
+            Toplevel widget para representar la ventana para introducir las
+            configuraciones para el solucionador.
+    
+        controlador_general : ControladorGeneral
+            Controlador para manipular la ventana principal.
+
+        controlador_parametros : ControladorGeneral
+                Controlador para manipular la ventana de los parametros.
+
+        controlador_etl : ControladorEtl
+                Controlador para manipular la ventana encargada del proceso ETL.
+        """
 
         self.__v_planificar = vista_planificar
         self.__controlador_general = controlador_general
@@ -24,6 +63,11 @@ class ControladorPlanificar:
         self.__solver = -1
 
     def comprobar_funcion_objetivo(self):
+        """
+        Se comprueba si se ha introducido una sola función objetivo. Además,
+        se identifica qué función objetivo ha seleccionado el usuario.
+        """
+        
         f_objetivo = self.__v_planificar.get_funcion_objetivo()
         if type(f_objetivo) != list:
             f_objetivo = f_objetivo.get_valores()
@@ -46,6 +90,11 @@ class ControladorPlanificar:
             return True
 
     def comprobar_solver(self):
+        """
+        Se comprueba si se ha introducido uno solo solucionador. Además,
+        se identifica qué solucionador ha seleccionado el usuario.
+        """
+        
         solver = self.__v_planificar.get_solver()
         if type(solver) != list:
             solver = solver.get_valores()
@@ -64,12 +113,26 @@ class ControladorPlanificar:
             return True
 
     def get_funcion_objetivo(self):
+        """Método getter para obtener la función objetivo que ha introducido el
+        el usuario.
+        """
+
         return self.__f_o
 
     def get_solver(self):
+        """Método getter para obtener el solucionador que ha introducido el
+        el usuario.
+        """
+
         return self.__solver
 
     def planificar(self):
+        """
+        Se comprueban si el usuario ha configurado correctamente los parámetros
+        del solucionador y en caso afirmativo, se realizan una serie de pasos
+        para preparar el solucionador y obtener la solución del problema.
+        """
+
         if self.comprobar_funcion_objetivo() != False:
 
             if self.comprobar_solver() != False:

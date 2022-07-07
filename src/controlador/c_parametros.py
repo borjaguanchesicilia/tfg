@@ -4,16 +4,54 @@ from src.librerias import *
 
 
 class ControladorParametros:
+    """
+    Clase para representar el controlador de la vista para introducir los
+    parámetros.
+
+    Atributes
+    ----------
+    vista_parametros : VistaParametros
+        Toplevel widget para representar la ventana para introducir los
+        parámetros.
+    
+    controlador_general : ControladorGeneral
+        Controlador para manipular la ventana principal.
+
+    modelo_parametros : ModeloParametros
+        Modelo para almacenar y realizar operaciones sobre los datos de los
+        parámetros que introduce el usuario.
+    """
+
     def __init__(self, vista_parametros, controlador_general):
+        """
+        Parameters
+        ----------
+        vista_parametros : VistaParametros
+            Toplevel widget para representar la ventana para introducir los
+            parámetros.
+
+        controlador_general : ControladorGeneral
+            Controlador para manipular la ventana principal.
+        """
 
         self.__vista_parametros = vista_parametros
         self.__controlador_general = controlador_general
         self.__modelo_parametros = ModeloParametros()
 
     def get_modelo_parametros(self):
+        """Método getter para obtener el modelo donde se almacena los
+        parámetros introducidos por el usuario.
+        """
+
         return self.__modelo_parametros
 
     def introducir_parametros(self):
+        """
+        Se comprueban si los parámetros que ha introducido el usuario son
+        correctos y en caso afirmativo, se invoca al método para almacenar
+        dichos parámetros en el modelo.
+        """
+        
         try:
             assert self.__vista_parametros.get_len_dias() > 0
         except:
@@ -56,6 +94,11 @@ class ControladorParametros:
         exito,
         aeropuertos,
     ):
+        """
+        Método para almacenar en el modelos los parámetros introducidos por el
+        usuario. 
+        """
+
         self.__modelo_parametros.set_dias(dias)
         self.__modelo_parametros.set_jornada(jornada)
         self.__modelo_parametros.set_descanso(descanso)
