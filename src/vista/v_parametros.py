@@ -207,7 +207,7 @@ class VistaParametros(Toplevel):
             ]
 
     def ayuda(self):
-        pass
+        open_new(r'./ayuda.pdf')
 
     def get_scroll_bar(self):
         return self.__scroll_bar.get_frame_scroll()

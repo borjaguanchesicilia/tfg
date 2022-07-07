@@ -107,4 +107,4 @@ class Vista(Frame):
         vista_planificar.set_controlador(controlador_planificar)
 
     def ayuda(self):
-        pass
+        open_new(r'./ayuda.pdf')
